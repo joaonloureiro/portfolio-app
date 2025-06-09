@@ -52,8 +52,17 @@
     "form_email": "Your Email",
     "form_message": "Your Message",
     "submit_button": "Send Message",
-    "success_message": "Thank you! Your message has been sent successfully.",
-    "error_message": "Oops! Something went wrong. Please try again later."
+    "status_sending": "Sending your message...",
+    "status_success": "Message sent successfully. Thank you!",
+    "status_error_failed": "Failed to send message. Please try again.",
+    "status_error_all_fields": "All fields are required.",
+    "status_error_invalid_email": "Please enter a valid email address.",
+    "status_error_generic": "An unexpected error occurred. Please try again later.",
+    "server_unexpected_error": "An unexpected server error occurred. Please try again later.",
+    "smtp_auth_failed": "Authentication with the mail server failed.",
+    "smtp_connection_failed": "Could not connect to the mail server.",
+    "smtp_invalid_recipient": "Invalid recipient email address.",
+    "smtp_generic_error": "A mail-sending error occurred."
   },
   "footer": {
     "copyright": "All rights reserved.",

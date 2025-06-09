@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 @theme {
-  --color-background: #0A0A0A;
+  --color-background: #161616;
   --color-card: #121212;
-  --color-primary: #0ea5e9;
-  --color-text-primary: #F4F4F5;
-  --color-text-secondary: #A1A1AA;
+  --color-primary: #636B97;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #EAE3DB;
   --color-border: #27272A;
 }
 
