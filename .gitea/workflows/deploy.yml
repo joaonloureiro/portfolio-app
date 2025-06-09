@@ -67,8 +67,5 @@ jobs:
         env:
           DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
         run: |
-          echo "Restarting applications with PM2..."
-          pm2 startOrRestart backend/ecosystem.config.js --update-env
-          pm2 startOrRestart frontend/ecosystem.config.js
-          echo "Deployment successful!"
+          restart-application
 
