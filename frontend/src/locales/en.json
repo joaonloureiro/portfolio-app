@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "home_title": "Home | João Loureiro - Software Developer",
+    "home_description": "Welcome to the portfolio of João Loureiro, a passionate software developer specializing in modern web technologies.",
+    "projects_title": "Projects | João Loureiro",
+    "projects_description": "Explore a selection of projects built by João Loureiro, showcasing skills in front-end and back-end development.",
+    "about_title": "About Me | João Loureiro",
+    "about_description": "Learn more about João Loureiro's journey into software development, his technical philosophy, and personal interests."
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "tech": "Technologies",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Hello, I'm João Loureiro.",
+    "title": "Software Developer & Web Enthusiast",
+    "subtitle": "I build modern, responsive, and user-friendly web applications from front-end to back-end.",
+    "cta_button": "See My Work"
+  },
+  "about": {
+    "title": "About Me",
+    "paragraph1": "Driven by a passion for creating elegant solutions to complex problems, my journey in software development began with a deep curiosity for how things work. I thrive on turning ideas into reality through clean, efficient, and scalable code.",
+    "paragraph2": "I specialize in the JavaScript ecosystem, with a strong focus on technologies like React, Next.js, and Node.js. I'm a lifelong learner, always eager to explore new frameworks and programming paradigms to stay at the forefront of technology.",
+    "paragraph3": "When I'm not at my keyboard, I enjoy exploring the outdoors, reading about new tech trends, and contributing to open-source projects. I believe the best products are built at the intersection of great technology and human-centric design."
+  },
+  "skills": {
+    "title": "My Tech Stack",
+    "languages": "Languages",
+    "frameworks": "Frameworks & Libraries",
+    "tools": "Developer Tools",
+    "databases": "Databases"
+  },
+  "projects": {
+    "title": "Projects I've Built",
+    "project_1_title": "E-commerce Platform 'ShopNext'",
+    "project_1_description": "A full-featured e-commerce website built with Next.js, featuring product catalogs, a shopping cart, user authentication, and a Stripe integration for payments.",
+    "project_2_title": "Real-time Chat Application 'Converse'",
+    "project_2_description": "A web-based chat app using Socket.IO and Node.js, allowing users to join rooms and exchange messages in real-time. Features include typing indicators and user presence.",
+    "project_3_title": "Personal Portfolio & Blog",
+    "project_3_description": "The very site you are on now! Built with Next.js and Tailwind CSS, statically exported for maximum performance. Includes a blog powered by MDX.",
+    "tech_used": "Technologies Used:",
+    "live_link": "Live Demo",
+    "repo_link": "View Code"
+  },
+  "contact": {
+    "title": "Let's Connect",
+    "subtitle": "Have a project in mind or just want to say hello? My inbox is always open. Fill out the form below or find me on social media.",
+    "form_name": "Your Name",
+    "form_email": "Your Email",
+    "form_message": "Your Message",
+    "submit_button": "Send Message",
+    "success_message": "Thank you! Your message has been sent successfully.",
+    "error_message": "Oops! Something went wrong. Please try again later."
+  },
+  "footer": {
+    "copyright": "All rights reserved.",
+    "socials_title": "Find me on"
+  }
+}
