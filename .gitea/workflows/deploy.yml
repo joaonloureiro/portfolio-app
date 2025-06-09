@@ -1,0 +1,62 @@
+name: Build and Deploy to Production
+run-name: Deploying commit ${{ gitea.sha_short }} by @${{ gitea.actor }}
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: node-pm2-runner
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Create Backend .env file
+        run: |
+          echo "Creating backend .env file..."
+          cd backend
+          # Using both Gitea Variables (vars) and Secrets (secrets)
+          echo "BACKEND_PORT=${{ vars.BACKEND_PORT }}" >> .env
+          echo "FRONTEND_URL=${{ vars.FRONTEND_URL }}" >> .env
+          echo "SMTP_HOST=${{ vars.SMTP_HOST }}" >> .env
+          echo "SMTP_PORT=${{ vars.SMTP_PORT }}" >> .env
+          echo "SMTP_SECURE=${{ vars.SMTP_SECURE }}" >> .env
+          echo "YOUR_RECEIVING_EMAIL=${{ vars.YOUR_RECEIVING_EMAIL }}" >> .env
+          echo "SMTP_FROM_EMAIL=${{ vars.SMTP_FROM_EMAIL }}" >> .env
+
+          # Secrets should be used for sensitive data
+          echo "SMTP_USER=${{ secrets.SMTP_USER }}" >> .env
+          echo "SMTP_PASS=${{ secrets.SMTP_PASS }}" >> .env
+
+
+      - name: Create Frontend .env.local file
+        run: |
+          echo "Creating frontend .env.local file..."
+          cd frontend
+          # The BACKEND_URL is not needed because Traefik will handle routing /api
+          echo "NEXT_PUBLIC_GITHUB_URL=${{ vars.NEXT_PUBLIC_GITHUB_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_LINKEDIN_URL=${{ vars.NEXT_PUBLIC_LINKEDIN_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_TWITTER_URL=${{ vars.NEXT_PUBLIC_TWITTER_URL }}" >> .env.local
+
+      - name: Install Dependencies and Build
+        run: |
+          echo "Installing backend dependencies..."
+          cd backend && npm install && cd ..
+          echo "Installing frontend dependencies..."
+          cd frontend && npm install
+          echo "Building frontend application..."
+          npm run build
+
+      - name: Restart Applications with PM2
+        run: |
+          echo "Restarting applications with PM2..."
+          pm2 startOrRestart backend/ecosystem.config.js --update-env
+          pm2 startOrRestart frontend/ecosystem.config.js
+          echo "Deployment successful!"

@@ -8,7 +8,6 @@ export default function Contact() {
   const t = useTranslations('contact');
   const [formData, setFormData] = useState<{ name: string; email: string; message: string }>({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({...formData, [e.target.name]: e.target.value });
@@ -31,7 +30,7 @@ export default function Contact() {
 
     const submissionPromise = async () => {
       try {
-        const response = await fetch(`${backendUrl}/api/email/send`, {
+        const response = await fetch(`/api/email/send`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData),
