@@ -2,7 +2,7 @@
 
 import {useTranslations} from 'next-intl';
 import { FormEvent, useState } from 'react';
-import toast from 'react-hot-toast'; // <-- Import toast
+import toast from 'react-hot-toast';
 
 export default function Contact() {
   const t = useTranslations('contact');
@@ -29,8 +29,9 @@ export default function Contact() {
     }
 
     const submissionPromise = async () => {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       try {
-        const response = await fetch(`/api/email/send`, {
+        const response = await fetch(`${backendUrl}/api/email/send`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData),
@@ -47,7 +48,10 @@ export default function Contact() {
         if (error instanceof TypeError) {
           throw new Error('status_error_generic');
         }
-        throw error;
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error('server_unexpected_error');
       }
     };
 
