@@ -36,9 +36,8 @@ jobs:
           echo "Creating frontend .env.local file..."
           cd frontend
           # The BACKEND_URL is not needed because Traefik will handle routing /api
-          echo "NEXT_PUBLIC_GITHUB_URL=${{ vars.NEXT_PUBLIC_GITHUB_URL }}" >> .env.local
-          echo "NEXT_PUBLIC_LINKEDIN_URL=${{ vars.NEXT_PUBLIC_LINKEDIN_URL }}" >> .env.local
-          echo "NEXT_PUBLIC_TWITTER_URL=${{ vars.NEXT_PUBLIC_TWITTER_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_GITHUB_URL=${{ vars.NEXT_PUBLIC_GITHUB_URL }}" >> .env
+          echo "NEXT_PUBLIC_LINKEDIN_URL=${{ vars.NEXT_PUBLIC_LINKEDIN_URL }}" >> .env
 
       - name: Install Dependencies and Build
         run: |

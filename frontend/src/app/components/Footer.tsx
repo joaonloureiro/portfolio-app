@@ -7,7 +7,6 @@ export default function Footer() {
 
   const githubUrl = process.env.NEXT_PUBLIC_GITHUB_URL || '#';
   const linkedinUrl = process.env.NEXT_PUBLIC_LINKEDIN_URL || '#';
-  const twitterUrl = process.env.NEXT_PUBLIC_TWITTER_URL || '#';
 
   return (
     <footer className="border-t border-[var(--color-border)] py-8 text-[var(--color-text-secondary)]">
@@ -19,9 +18,6 @@ export default function Footer() {
           </Link>
           <Link href={linkedinUrl} aria-label="LinkedIn" target="_blank" className="hover:text-[var(--color-primary)] transition-colors">
             <FaLinkedin size={20} />
-          </Link>
-          <Link href={twitterUrl} aria-label="Twitter" target="_blank" className="hover:text-[var(--color-primary)] transition-colors">
-            <FaTwitter size={20} />
           </Link>
         </div>
       </div>
