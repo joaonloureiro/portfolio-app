@@ -7,7 +7,7 @@ import { useTransition } from 'react';
 export default function LanguageSwitcher() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const pathname = usePathname().replaceAll(/^\/(pt|en)/g, ''); // Remove locale prefix from pathname
+  const pathname = usePathname().replaceAll(/^\/(pt|en)/g, '');
   const locale = useLocale();
   
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
