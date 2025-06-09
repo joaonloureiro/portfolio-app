@@ -29,9 +29,8 @@ export default function Contact() {
     }
 
     const submissionPromise = async () => {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       try {
-        const response = await fetch(`${backendUrl}/api/email/send`, {
+        const response = await fetch('/api/email/send', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData),
