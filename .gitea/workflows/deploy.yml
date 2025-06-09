@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: node-pm2-runner
+    runs-on: website-deploy-runner
 
     steps:
       - name: Checkout Code
