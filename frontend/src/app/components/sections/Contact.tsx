@@ -43,7 +43,7 @@ export default function Contact() {
 
         return await response.json();
 
-      } catch (error: any) {
+      } catch (error: unknown) {
         if (error instanceof TypeError) {
           throw new Error('status_error_generic');
         }
@@ -58,9 +58,12 @@ export default function Contact() {
         setIsSubmitting(false);
         return t('status_success');
       },
-      error: (err: Error) => {
+      error: (err: unknown) => {
         setIsSubmitting(false);
-        return t(err.message as any);
+        if (err instanceof Error) {
+            return t(err.message as string) || t('status_error_generic');
+        }
+        return t('server_unexpected_error');
       },
     });
   };
@@ -88,8 +91,8 @@ export default function Contact() {
             className="bg-[var(--color-card)] border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-lg focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] block w-full p-2.5"></textarea>
         </div>
         <div className="text-center">
-          <button type="submit" className="bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-bold py-3 px-8 rounded-full transition-colors">
-            {t('submit_button')}
+          <button type="submit" className="bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-bold py-3 px-8 rounded-full transition-colors" disabled={isSubmitting}>
+            {isSubmitting ? t('status_sending') : t('submit_button')}
           </button>
         </div>
       </form>
