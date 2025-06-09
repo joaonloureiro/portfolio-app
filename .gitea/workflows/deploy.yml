@@ -67,5 +67,5 @@ jobs:
         env:
           DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
         run: |
-          restart-application
+          restart-portfolio
 
