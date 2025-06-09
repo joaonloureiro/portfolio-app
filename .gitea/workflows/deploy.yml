@@ -5,6 +5,8 @@ on:
     branches:
       - main
 
+
+
 jobs:
   deploy:
     runs-on: website-deploy-runner
@@ -39,6 +41,17 @@ jobs:
           echo "NEXT_PUBLIC_GITHUB_URL=${{ vars.NEXT_PUBLIC_GITHUB_URL }}" >> .env
           echo "NEXT_PUBLIC_LINKEDIN_URL=${{ vars.NEXT_PUBLIC_LINKEDIN_URL }}" >> .env
 
+      - name: Cache Node Modules and Next.js Build
+        # Caching node_modules and Next.js build cache to speed up subsequent builds
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ${{ gitea.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
       - name: Install Dependencies and Build
         run: |
           echo "Installing backend dependencies..."
@@ -58,3 +71,4 @@ jobs:
           pm2 startOrRestart backend/ecosystem.config.js --update-env
           pm2 startOrRestart frontend/ecosystem.config.js
           echo "Deployment successful!"
+
