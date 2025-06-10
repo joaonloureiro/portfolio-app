@@ -1,29 +1,142 @@
 @import "tailwindcss";
-@import "tailwindcss";
 @tailwind utilities;
 
-@theme {
-  --color-background: #161616;
-  --color-card: #121212;
-  --color-primary: #636B97;
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #EAE3DB;
-  --color-border: #27272A;
+/* --- Indigo Dream | Light Theme (Default) --- */
+:root {
+  --color-background: #ffffff;
+  --color-card: #f7f7f7;
+  --color-primary: #3b82f6; /* A vibrant, modern blue */
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-border: #e5e7eb;
+  --header-height: 4.6rem;
+}
+
+/* --- Modern Gradient | Dark Theme --- */
+.dark {
+  --color-background: #030712; /* A very deep, neutral blue-gray */
+  --color-card: #111827;
+  --color-primary: #3b82f6; /* Blue remains vibrant on the dark background */
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #9ca3af;
+  --color-border: #374151;
 }
 
 body {
-  color: var(--color-text-primary);
+  /* Apply the IBM Plex Sans font variable to the body */
+  font-family: var(--font-quantico);
   background-color: var(--color-background);
-  font-family: Inter, sans-serif; /* Adicione sua fonte preferida */
+  color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
+  /* Apply the Poppins font variable to all headings */
+  font-family: var(--font-quantico), sans-serif;
   font-weight: 700;
   line-height: 1.2;
 }
 
+
 h1 { font-size: 2.5rem; }
 h2 { font-size: 2rem; }
 h3 { font-size: 1.75rem; }
+
+/* --- Hero Section Styling --- */
+#home {
+  /* Re-added your background image underneath the gradient */
+  background:
+    linear-gradient(125deg, rgba(5, 7, 21, 0.85) 0%, rgba(23, 33, 84, 0.85) 50%, rgba(67, 61, 125, 0.85) 100%),
+    url("/pattern-randomized (3).svg");
+  background-position: center;
+  background-size: cover;
+  background-blend-mode: normal;
+}
+
+/* Adds a subtle glow to your name in the hero section */
+.hero-name-accent {
+  color: var(--color-primary);
+  text-shadow: 0 0 12px rgba(var(--color-primary-rgb), 0.5);
+}
+
+/* Adds a subtle shadow to hero text for better readability on the gradient */
+#home h1, #home p {
+  text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* --- Scroll Mouse Animation --- */
+.mouse {
+  width: 25px;
+  height: 40px;
+  /* Always white to be visible on the dark hero gradient */
+  border: 2px solid #ffffff; 
+  border-radius: 60px;
+  position: relative;
+  overflow: hidden;
+}
+.mouse::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  border-radius: 50%;
+  opacity: 1;
+  animation: wheel 1.5s infinite;
+  -webkit-animation: wheel 1.5s infinite;
+}
+
+@keyframes wheel {
+  to {
+    opacity: 0;
+    top: 27px;
+  }
+}
+
+@-webkit-keyframes wheel {
+  to {
+    opacity: 0;
+    top: 27px;
+  }
+}
+
+/* --- Language Switcher Dropdown --- */
+.lang-switcher-options {
+  transform-origin: top right;
+  animation: scale-in 0.1s ease-out forwards;
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* For the accent line under headings */
+.heading-underline {
+  position: relative;
+  padding-bottom: 1.5rem;
+  margin-bottom: 3rem !important; /* Ensure spacing */
+}
+
+.heading-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5rem;
+  height: 4px;
+  background-color: var(--color-primary);
+  border-radius: 9999px;
+}

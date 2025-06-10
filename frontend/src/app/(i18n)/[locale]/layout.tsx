@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import Header from "@/app/components/Header"; // Usando o Header que forneci
 import Footer from "@/app/components/Footer";
 import "@/app/globals.css"; // Importando o CSS global
@@ -11,8 +11,18 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import { ReactNode } from "react";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import FloatingSocials from "@/app/components/FloatingSocials";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: '--font-inter',
+});
+
+const space_grotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ['300', '400', '500', '700'],
+  variable: '--font-space-grotesk',
+});
 
 type Props = {
   children: ReactNode;
@@ -42,13 +52,13 @@ export default async function RootLayout({children, params}: Props) {
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className="scroll-smooth">
+    <html lang={locale} className={`${inter.variable} ${space_grotesk.variable} scroll-smooth`}>
       <body className={`${inter.className} bg-background text-text-primary`}>
         <ThemeProvider>
           <NextIntlClientProvider locale={locale}>
-            
+            <FloatingSocials />
             <Header />
-            <main className="flex flex-col items-center">
+            <main className="flex flex-col">
               {children}
             </main>
             <Footer />

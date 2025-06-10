@@ -15,8 +15,11 @@
     "contact": "Contact"
   },
   "hero": {
-    "greeting": "Hello, I'm João Loureiro.",
+    "greeting": "Hello, I'm",
     "title": "Software Developer & Web Enthusiast",
+    "sequence_1": "Full-Stack Software Developer",
+    "sequence_2": ".NET & Cloud Enthusiast",
+    "sequence_3": "Passionate about Technology",
     "subtitle": "I build modern, responsive, and user-friendly web applications from front-end to back-end.",
     "cta_button": "See My Work"
   },
@@ -27,11 +30,11 @@
     "paragraph3": "When I'm not at my keyboard, I enjoy exploring the outdoors, reading about new tech trends, and contributing to open-source projects. I believe the best products are built at the intersection of great technology and human-centric design."
   },
   "skills": {
-    "title": "My Tech Stack",
-    "languages": "Languages",
-    "frameworks": "Frameworks & Libraries",
-    "tools": "Developer Tools",
-    "databases": "Databases"
+    "title": "Minhas Tecnologias",
+    "backend": "Backend & Linguagens",
+    "frontend": "Frontend",
+    "databases": "Bancos de Dados & Dados",
+    "cloud": "Cloud & DevOps"
   },
   "projects": {
     "title": "Projects I've Built",

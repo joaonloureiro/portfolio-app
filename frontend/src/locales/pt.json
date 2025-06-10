@@ -15,8 +15,11 @@
     "contact": "Contato"
   },
   "hero": {
-    "greeting": "Olá, eu sou o João Loureiro.",
+    "greeting": "Olá, eu sou o",
     "title": "Desenvolvedor de Software & Entusiasta Web",
+    "sequence_1": "Desenvolvedor de Software Full-Stack",
+    "sequence_2": "Entusiasta em .NET & Cloud",
+    "sequence_3": "Apaixonado por Tecnologia",
     "subtitle": "Eu construo aplicações web modernas, responsivas e fáceis de usar, do front-end ao back-end.",
     "cta_button": "Veja Meus Projetos"
   },
@@ -27,11 +30,11 @@
     "paragraph3": "Quando não estou no meu teclado, gosto de explorar a natureza, ler sobre novas tendências tecnológicas e contribuir para projetos de código aberto. Acredito que os melhores produtos são construídos na interseção de ótima tecnologia e design centrado no ser humano."
   },
   "skills": {
-    "title": "Minhas Tecnologias",
-    "languages": "Linguagens",
-    "frameworks": "Frameworks & Bibliotecas",
-    "tools": "Ferramentas de Dev",
-    "databases": "Bancos de Dados"
+    "title": "My Tech Stack",
+    "backend": "Backend & Languages",
+    "frontend": "Frontend",
+    "databases": "Databases & Data",
+    "cloud": "Cloud & DevOps"
   },
   "projects": {
     "title": "Projetos que Construí",
