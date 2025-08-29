@@ -4,7 +4,7 @@ Welcome to my personal portfolio project! This repository contains the complete 
 
 [![Portfolio](https://img.shields.io/badge/Live_Demo-joaoloureiro.dev.br-blue?style=for-the-badge&logo=icloud)](https://joaoloureiro.dev.br)
 
-![Deploy badge](https://gitea.joaoloureiro.dev.br/JoaoLoureiro/portfolio-app/actions/workflows/deploy.yml/badge.svg)
+![Deploy badge](https://gitea.joaoloureiro.dev.br/joaoloureiro/portfolio-app/actions/workflows/deploy.yml/badge.svg?branch=main)
 
  ## 🏛️ Project Architecture
 The project is organized into two main components in a monorepo-style structure:

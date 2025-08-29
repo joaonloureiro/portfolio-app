@@ -4,9 +4,9 @@ import ProjectCard from '../ProjectCard';
 import { motion } from 'framer-motion';
 
 const projectsData = [
-  { id: 1, tech: ["Next.js", "Tailwind CSS", "TypeScript", "Framer Motion"], imageUrl: "/Portfolio.png", repoUrl: "https://github.com/joaonloureiro/portfolio-app" },
+  { id: 1, tech: ["Next.js", "Tailwind CSS", "TypeScript", "Framer Motion"], imageUrl: "/Portfolio.png", repoUrl: "https://gitea.joaoloureiro.dev.br/joaoloureiro/portfolio-app" },
   { id: 2, tech: ["Traefik", "Docker", "Linux", "Homelab"], imageUrl: "/ProxmoxServer.png" },
-  { id: 3, tech: ["React", "TypeScript", "Styled-Components"], imageUrl: "/Happy.png", repoUrl: "https://github.com/joaonloureiro/happy-app", liveUrl: "https://happy.joaoloureiro.dev.br/" }
+  { id: 3, tech: ["React", "TypeScript", "Styled-Components"], imageUrl: "/Happy.png", repoUrl: "https://gitea.joaoloureiro.dev.br/joaoloureiro/happy-app", liveUrl: "https://happy.joaoloureiro.dev.br/" }
 ];
 
 const containerVariants = {
