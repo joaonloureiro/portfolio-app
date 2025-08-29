@@ -19,7 +19,7 @@ export default function FloatingSocials() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={link.label}
-                        className="p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-background)] rounded-md transition-colors"
+                        className="p-2 text-[var(--color-text-primary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-background)] rounded-md transition-colors"
                     >
                         <div className="h-4 w-4">{link.icon}</div>
                     </Link>

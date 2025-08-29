@@ -1,10 +1,9 @@
 import { Inter, Space_Grotesk } from "next/font/google";
-import Header from "@/app/components/Header"; // Usando o Header que forneci
+import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import "@/app/globals.css"; // Importando o CSS global
+import "@/app/globals.css";
 import { Toaster } from 'react-hot-toast'; 
 
-// Importações importantes do next-intl
 import {hasLocale, Locale, NextIntlClientProvider} from 'next-intl';
 import { ThemeProvider } from "@/configuration/ThemeContext";
 import {getTranslations, setRequestLocale} from 'next-intl/server';
@@ -16,12 +15,6 @@ import FloatingSocials from "@/app/components/FloatingSocials";
 const inter = Inter({ 
   subsets: ["latin"],
   variable: '--font-inter',
-});
-
-const space_grotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ['300', '400', '500', '700'],
-  variable: '--font-space-grotesk',
 });
 
 type Props = {
@@ -52,37 +45,34 @@ export default async function RootLayout({children, params}: Props) {
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={`${inter.variable} ${space_grotesk.variable} scroll-smooth`}>
-      <body className={`${inter.className} bg-background text-text-primary`}>
+    <html lang={locale} className={`${inter.variable} scroll-smooth`}>
+      <body className={`${inter.className} bg-background text-primary flex flex-col min-h-screen`}>
         <ThemeProvider>
           <NextIntlClientProvider locale={locale}>
             <FloatingSocials />
             <Header />
-            <main className="flex flex-col">
+            <main className="flex flex-col flex-grow">
               {children}
             </main>
             <Footer />
             <Toaster
               position="bottom-right"
               toastOptions={{
-                // General styles for all toasts
                 style: {
-                  background: 'var(--color-card)', //
-                  color: 'var(--color-text-primary)', //
-                  border: '1px solid var(--color-border)', //
+                  background: 'var(--color-card)',
+                  color: 'var(--color-text-primary)',
+                  border: '1px solid var(--color-border)',
                 },
-                // Specific styles for success toasts
                 success: {
                   iconTheme: {
-                    primary: 'var(--color-primary)', //
-                    secondary: 'var(--color-card)', //
+                    primary: 'var(--color-primary)',
+                    secondary: 'var(--color-card)',
                   },
                 },
-                // Specific styles for error toasts
                 error: {
                   iconTheme: {
-                    primary: '#ef4444', // A standard red color for errors
-                    secondary: 'var(--color-card)', //
+                    primary: '#ef4444',
+                    secondary: 'var(--color-card)',
                   },
                 },
               }}

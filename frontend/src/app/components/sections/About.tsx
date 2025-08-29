@@ -2,11 +2,10 @@
 import {useTranslations} from 'next-intl';
 import { motion } from 'framer-motion';
 
-// Updated skills based on your professional experience
 const skillsData = {
-  backend: [".NET (Framework, Core, 6+)", "C#", "Node.js", "Entity Framework"],
+  backend: [".NET (Framework, Core)", "C#", "Node.js", "Entity Framework"],
   frontend: ["Angular", "TypeScript", "Next.js", "React", "HTML5 & CSS3"],
-  databases: ["Oracle", "PostgreSQL", "Elasticsearch", "SQL"],
+  databases: ["Oracle", "SQL Server", "Elasticsearch", "Redis"],
   cloud: ["Azure", "Docker", "RabbitMQ", "Git", "Kibana"]
 };
 
@@ -32,14 +31,12 @@ export default function AboutAndSkills() {
       <h2 className="text-3xl md:text-4xl font-bold text-center text-[var(--color-text-primary)] heading-underline">{tAbout('title')}</h2>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-        {/* About Me Column */}
         <div className="space-y-4 text-lg text-left text-[var(--color-text-secondary)]">
           <p>{tAbout('paragraph1')}</p>
           <p>{tAbout('paragraph2')}</p>
           <p>{tAbout('paragraph3')}</p>
         </div>
 
-        {/* Skills Column - Updated with new categories */}
         <div className="space-y-6">
           <div>
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-3">{tSkills('backend')}</h3>

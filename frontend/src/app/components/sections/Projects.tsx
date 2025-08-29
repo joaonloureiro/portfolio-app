@@ -4,9 +4,9 @@ import ProjectCard from '../ProjectCard';
 import { motion } from 'framer-motion';
 
 const projectsData = [
-  { id: 1, tech: ["Next.js", "Stripe", "Tailwind CSS", "Prisma"], imageUrl: "/project1.jpg" },
-  { id: 2, tech: ["Socket.IO", "Node.js", "React", "Express"], imageUrl: "/project2.jpg" },
-  { id: 3, tech: ["Next.js", "MDX", "Tailwind CSS", "Vercel"], imageUrl: "/project3.jpg" }
+  { id: 1, tech: ["Next.js", "Tailwind CSS", "TypeScript", "Framer Motion"], imageUrl: "/Portfolio.png", repoUrl: "https://github.com/joaonloureiro/portfolio-app" },
+  { id: 2, tech: ["Traefik", "Docker", "Linux", "Homelab"], imageUrl: "/ProxmoxServer.png" },
+  { id: 3, tech: ["React", "TypeScript", "Styled-Components"], imageUrl: "/Happy.png", repoUrl: "https://github.com/joaonloureiro/happy-app", liveUrl: "https://happy.joaoloureiro.dev.br/" }
 ];
 
 const containerVariants = {
@@ -46,10 +46,13 @@ export default function Projects() {
           {projectsData.map(project => (
             <motion.div key={project.id} variants={cardVariants}>
               <ProjectCard
+                id={project.id}
                 title={t(`project_${project.id}_title`)}
                 description={t(`project_${project.id}_description`)}
                 tech={project.tech}
                 imageUrl={project.imageUrl}
+                liveUrl={project.liveUrl}
+                repoUrl={project.repoUrl}
               />
             </motion.div>
           ))}

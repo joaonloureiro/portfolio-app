@@ -1,7 +1,6 @@
 'use client';
 import {useTranslations} from 'next-intl';
 import Link from 'next/link';
-import { TypeAnimation } from 'react-type-animation';
 
 export default function Hero() {
   const t = useTranslations('hero');
@@ -12,20 +11,6 @@ export default function Hero() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
                 {t('greeting')} <span className="text-[var(--color-primary)]">João Loureiro</span>
             </h1>
-            <TypeAnimation
-              sequence={[
-                t('sequence_1'),
-                1500,
-                t('sequence_2'),
-                1500,
-                t('sequence_3'),
-                1500,
-              ]}
-              wrapper="p"
-              speed={50}
-              className="text-xl md:text-2xl lg:text-3xl font-medium text-slate-300 max-w-3xl mx-auto mt-6 mb-8"
-              repeat={Infinity}
-            />
             <p className="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto mt-6 mb-8">
                 {t('subtitle')}
             </p>

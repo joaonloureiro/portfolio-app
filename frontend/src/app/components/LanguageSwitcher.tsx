@@ -4,6 +4,7 @@ import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useTransition, useRef, useEffect } from 'react';
 import { FaChevronDown } from 'react-icons/fa6';
+import ReactCountryFlag from 'react-country-flag';
 
 export default function LanguageSwitcher() {
   const [isPending, startTransition] = useTransition();
@@ -32,9 +33,9 @@ export default function LanguageSwitcher() {
     return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, []);
 
-  const languages: { [key: string]: { flag: string; label: string } } = {
-    en: { flag: '🇺🇸', label: 'English' },
-    pt: { flag: '🇧🇷', label: 'Português' },
+  const languages: { [key: string]: { label: string; countryCode: string } } = {
+    en: { label: 'English', countryCode: 'US' }, 
+    pt: { label: 'Português', countryCode: 'BR' }, 
   };
 
   return (
@@ -43,10 +44,9 @@ export default function LanguageSwitcher() {
         type="button"
         disabled={isPending}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-[var(--color-text-secondary)] bg-[var(--color-card)] border border-[var(--color-border)] rounded-md hover:bg-[var(--color-border)]/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--color-background)] focus:ring-[var(--color-primary)] transition-colors"
+        className="flex items-center justify-center w-10 h-10 text-sm font-medium text-[var(--color-text-secondary)] bg-[var(--color-card)] border border-[var(--color-border)] rounded-md hover:bg-[var(--color-border)]/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--color-background)] focus:ring-[var(--color-primary)] transition-colors"
       >
-        <span>{languages[locale].flag} {languages[locale].label}</span>
-        <FaChevronDown className={`ml-2 h-4 w-4 transition-transform ${isOpen ? 'transform rotate-180' : ''}`} />
+        <ReactCountryFlag countryCode={languages[locale].countryCode} svg style={{ width: '24px', height: '24px', borderRadius: '20%' }} /> 
       </button>
 
       {isOpen && (
@@ -58,7 +58,7 @@ export default function LanguageSwitcher() {
                   onClick={() => onSelectChange(langCode)}
                   className="flex items-center w-full px-4 py-2 text-sm text-left text-[var(--color-text-secondary)] hover:bg-[var(--color-border)]/50"
                 >
-                  <span className="mr-2">{languages[langCode].flag}</span>
+                  <ReactCountryFlag countryCode={languages[langCode].countryCode} svg style={{ width: '20px', height: '20px', marginRight: '8px', borderRadius: '20%' }} />
                   {languages[langCode].label}
                 </button>
               </li>

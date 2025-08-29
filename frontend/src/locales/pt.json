@@ -38,15 +38,17 @@
   },
   "projects": {
     "title": "Projetos que Construí",
-    "project_1_title": "Plataforma de E-commerce 'ShopNext'",
-    "project_1_description": "Um site de e-commerce completo construído com Next.js, com catálogos de produtos, carrinho de compras, autenticação de usuários e integração com Stripe para pagamentos.",
-    "project_2_title": "Aplicação de Chat em Tempo Real 'Converse'",
-    "project_2_description": "Um aplicativo de chat baseado na web usando Socket.IO e Node.js, permitindo que usuários entrem em salas e troquem mensagens em tempo real. Inclui indicadores de digitação e presença de usuário.",
-    "project_3_title": "Portfólio Pessoal & Blog",
-    "project_3_description": "O próprio site em que você está agora! Construído com Next.js e Tailwind CSS, exportado estaticamente para máxima performance. Inclui um blog com tecnologia MDX.",
+    "project_1_title": "Portfólio",
+    "project_1_description": "O próprio site em que você está agora! Construído com Next.js e Tailwind CSS, exportado estaticamente para máxima performance.",
+    "project_2_title": "Homelab",
+    "project_2_description": "Meu homelab pessoal, rodando em um Raspberry Pi com Docker e Traefik. Eu hospedo vários serviços, incluindo este portfólio.",
+    "project_3_title": "Happy",
+    "project_3_description": "Um site para encontrar orfanatos para visitar. Construído com React, TypeScript e Styled-Components.",
     "tech_used": "Tecnologias Utilizadas:",
     "live_link": "Ver ao Vivo",
-    "repo_link": "Ver Código"
+    "repo_link": "Ver Código",
+    "back_to_projects": "Voltar para Projetos",
+    "about_project": "Sobre este Projeto"
   },
   "contact": {
     "title": "Vamos Conversar",

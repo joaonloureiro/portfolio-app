@@ -17,9 +17,9 @@ export default function Header() {
           <Image src="/logo.png" alt="João Loureiro Logo" width={40} height={40} priority />
         </Link>
         <div className="hidden md:flex items-center space-x-12 text-[var(--color-text-secondary)]">
-          <Link href="#about" className="hover:text-[var(--color-primary)] transition-colors">{t('about')}</Link>
-          <Link href="#projects" className="hover:text-[var(--color-primary)] transition-colors">{t('projects')}</Link>
-          <Link href="#contact" className="hover:text-[var(--color-primary)] transition-colors">{t('contact')}</Link>
+          <Link href="#about" className="text-[var(--color-text-primary)] hover:text-[var(--color-primary)] transition-colors">{t('about')}</Link>
+          <Link href="#projects" className="text-[var(--color-text-primary)] hover:text-[var(--color-primary)] transition-colors">{t('projects')}</Link>
+          <Link href="#contact" className="text-[var(--color-text-primary)] hover:text-[var(--color-primary)] transition-colors">{t('contact')}</Link>
         </div>
 
 
