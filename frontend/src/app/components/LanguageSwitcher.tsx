@@ -34,8 +34,8 @@ export default function LanguageSwitcher() {
   }, []);
 
   const languages: { [key: string]: { label: string; countryCode: string } } = {
-    en: { label: 'English', countryCode: 'US' }, 
-    pt: { label: 'Português', countryCode: 'BR' }, 
+    pt: { label: 'Português', countryCode: 'BR' },
+    en: { label: 'English', countryCode: 'US' }
   };
 
   return (
