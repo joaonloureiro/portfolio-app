@@ -14,7 +14,7 @@ export default function Hero() {
             <p className="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto mt-6 mb-8">
                 {t('subtitle')}
             </p>
-            <Link href="#contact" className="bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-bold py-3 px-8 rounded-full transition-colors">
+            <Link href="#projects" className="bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-bold py-3 px-8 rounded-full transition-colors">
                 {t('cta_button')}
             </Link>
         </div>

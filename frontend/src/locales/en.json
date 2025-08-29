@@ -17,34 +17,58 @@
   "hero": {
     "greeting": "Hello, I'm",
     "title": "Software Developer & Web Enthusiast",
-    "sequence_1": "Full-Stack Software Developer",
-    "sequence_2": ".NET & Cloud Enthusiast",
-    "sequence_3": "Passionate about Technology",
     "subtitle": "I build modern, responsive, and user-friendly web applications from front-end to back-end.",
     "cta_button": "See My Work"
   },
   "about": {
     "title": "About Me",
-    "paragraph1": "Driven by a passion for creating elegant solutions to complex problems, my journey in software development began with a deep curiosity for how things work. I thrive on turning ideas into reality through clean, efficient, and scalable code.",
-    "paragraph2": "I specialize in the JavaScript ecosystem, with a strong focus on technologies like React, Next.js, and Node.js. I'm a lifelong learner, always eager to explore new frameworks and programming paradigms to stay at the forefront of technology.",
-    "paragraph3": "When I'm not at my keyboard, I enjoy exploring the outdoors, reading about new tech trends, and contributing to open-source projects. I believe the best products are built at the intersection of great technology and human-centric design."
+    "paragraph1": "I am a Full Stack Developer driven by a passion for building, automating, and scaling robust applications. My journey into technology began with a desire to understand how complex systems work, and it has evolved into a career dedicated to crafting elegant, high-performance solutions.",
+    "paragraph2": "With a strong foundation in the .NET and JavaScript ecosystems, I specialize in creating modern web applications using technologies like Next.js, React, and Node.js. However, my curiosity extends beyond code. As you can see from my Homelab project, I am deeply engaged with the full development lifecycle, including CI/CD, containerization with Docker, and infrastructure management.",
+    "paragraph3": "I thrive on challenges and am constantly exploring new technologies, from database administration with MariaDB and Redis to workflow automation with N8N and message queuing with RabbitMQ. This hands-on approach to DevOps and self-hosting allows me to build not just features, but resilient and scalable systems."
   },
   "skills": {
-    "title": "Minhas Tecnologias",
-    "backend": "Backend & Linguagens",
+    "title": "My Tech Stack",
+    "backend": "Backend & Languages",
     "frontend": "Frontend",
-    "databases": "Bancos de Dados & Dados",
+    "databases": "Databases & Data",
     "cloud": "Cloud & DevOps"
   },
   "projects": {
     "title": "Projects I've Built",
-    "project_1_title": "Portfolio",
-    "project_1_description": "The very site you are on now! Built with Next.js and Tailwind CSS, statically exported for maximum performance.",
-    "project_2_title": "Homelab",
-    "project_2_description": "My personal homelab, running on a Raspberry Pi with Docker and Traefik. I host several services, including this portfolio.",
+    "project_1_title": "Personal Portfolio",
+    "project_1_description": "The very site you are on now! A full-stack application built with Next.js, Tailwind CSS, and a Node.js backend to showcase my work and skills.",
+    "project_1_details": "This portfolio is a full-stack application designed to showcase my skills and projects. It features a modern, decoupled architecture with a Next.js frontend and a Node.js backend. The project is automatically deployed via Gitea Actions, with PM2 managing the processes on the server for zero-downtime restarts.",
+    "project_1_features_title": "Key Features:",
+    "project_1_features": [
+      "**Internationalization (i18n):** Fully translated in English and Portuguese with `next-intl`.",
+      "**Responsive Design:** Optimized for all devices using Tailwind CSS.",
+      "**Interactive UI:** Includes a theme switcher (dark/light mode) and toast notifications.",
+      "**Robust Backend:** An Express.js server handles contact form submissions securely using Nodemailer."
+    ],
+    "project_2_title": "Homelab & DevOps Playground",
+    "project_2_description": "A self-hosted infrastructure running on Proxmox, showcasing a wide range of DevOps and backend services.",
+    "project_2_details": "This project is my personal Homelab, a self-hosted cloud environment that serves as a practical playground for exploring DevOps concepts and hosting production-level services. It demonstrates my ability to manage a full-stack ecosystem, from networking and security to CI/CD and automation.",
+    "project_2_features_title": "Hosted Services & Skills:",
+    "project_2_features": [
+      "**CI/CD & Version Control:** Self-hosted **Gitea** for source code management and continuous integration.",
+      "**Containerization & Orchestration:** **Docker** for containerizing applications, managed within a **Proxmox** virtualized environment.",
+      "**Networking & Security:** **Traefik** as a reverse proxy for routing traffic, with **Authelia** for single sign-on (SSO) and **Cloudflare Tunnels** for secure external access.",
+      "**Databases:** Hosting and management of **MariaDB** and **Redis** for various applications.",
+      "**Monitoring & Observability:** A full monitoring stack with **Prometheus** for data collection, **Grafana** for visualization, and **Pi-hole** for network-wide ad blocking.",
+      "**Automation & Messaging:** **N8N** for workflow automation and **RabbitMQ** for message queuing between services.",
+      "**AI & Machine Learning:** Self-hosted **Ollama** for experimenting with large language models locally."
+    ],
     "project_3_title": "Happy",
-    "project_3_description": "A site to find orphanages to visit. Built with React, TypeScript and Styled-Components.",
-    "tech_used": "Technologies Used:",
+    "project_3_description": "A full-stack application to connect people with orphanages, built with React, Node.js, and a self-hosted MariaDB.",
+    "project_3_details": "Happy is a full-stack web application designed to connect people with orphanages, making it easier to schedule visits. Developed as part of Rocketseat's Next Level Week, this project showcases a complete technology stack, from a modern frontend to a robust backend and database.",
+    "project_3_features_title": "Core Functionalities:",
+    "project_3_features": [
+      "**Interactive Map:** Users can view registered orphanages on a dynamic Google Map.",
+      "**Detailed Information:** Each orphanage has a dedicated page with photos and visiting hours.",
+      "**User Contributions:** A complete form allows users to register new orphanages.",
+      "**Modern Stack:** Built with **React 18** for a fast, responsive UI and a **Node.js/Express** backend connected to a self-hosted **MariaDB**."
+    ],
+    "tech_used": "Technologies Used",
     "page_link": "See Details",
     "live_link": "Live Demo",
     "repo_link": "View Code",
@@ -57,18 +81,7 @@
     "form_name": "Your Name",
     "form_email": "Your Email",
     "form_message": "Your Message",
-    "submit_button": "Send Message",
-    "status_sending": "Sending your message...",
-    "status_success": "Message sent successfully. Thank you!",
-    "status_error_failed": "Failed to send message. Please try again.",
-    "status_error_all_fields": "All fields are required.",
-    "status_error_invalid_email": "Please enter a valid email address.",
-    "status_error_generic": "An unexpected error occurred. Please try again later.",
-    "server_unexpected_error": "An unexpected server error occurred. Please try again later.",
-    "smtp_auth_failed": "Authentication with the mail server failed.",
-    "smtp_connection_failed": "Could not connect to the mail server.",
-    "smtp_invalid_recipient": "Invalid recipient email address.",
-    "smtp_generic_error": "A mail-sending error occurred."
+    "submit_button": "Send Message"
   },
   "footer": {
     "copyright": "All rights reserved.",

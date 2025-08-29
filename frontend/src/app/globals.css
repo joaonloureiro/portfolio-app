@@ -83,6 +83,10 @@ h3 { font-size: 1.75rem; }
   -webkit-animation: wheel 1.5s infinite;
 }
 
+section[id] {
+  scroll-margin-top: var(--header-height);
+}
+
 @keyframes wheel {
   to {
     opacity: 0;

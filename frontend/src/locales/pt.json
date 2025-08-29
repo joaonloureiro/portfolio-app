@@ -17,34 +17,58 @@
   "hero": {
     "greeting": "Olá, eu sou o",
     "title": "Desenvolvedor de Software & Entusiasta Web",
-    "sequence_1": "Desenvolvedor de Software Full-Stack",
-    "sequence_2": "Entusiasta em .NET & Cloud",
-    "sequence_3": "Apaixonado por Tecnologia",
     "subtitle": "Eu construo aplicações web modernas, responsivas e fáceis de usar, do front-end ao back-end.",
     "cta_button": "Veja Meus Projetos"
   },
   "about": {
     "title": "Sobre Mim",
-    "paragraph1": "Movido pela paixão de criar soluções elegantes para problemas complexos, minha jornada no desenvolvimento de software começou com uma profunda curiosidade sobre como as coisas funcionam. Adoro transformar ideias em realidade através de código limpo, eficiente e escalável.",
-    "paragraph2": "Sou especialista no ecossistema JavaScript, com forte foco em tecnologias como React, Next.js e Node.js. Estou em constante aprendizado, sempre ansioso para explorar novos frameworks e paradigmas de programação para me manter na vanguarda da tecnologia.",
-    "paragraph3": "Quando não estou no meu teclado, gosto de explorar a natureza, ler sobre novas tendências tecnológicas e contribuir para projetos de código aberto. Acredito que os melhores produtos são construídos na interseção de ótima tecnologia e design centrado no ser humano."
+    "paragraph1": "Sou um Desenvolvedor Full Stack movido pela paixão de construir, automatizar e escalar aplicações robustas. Minha jornada na tecnologia começou com o desejo de entender como sistemas complexos funcionam e evoluiu para uma carreira dedicada a criar soluções elegantes e de alta performance.",
+    "paragraph2": "Com uma base sólida nos ecossistemas .NET e JavaScript, minha especialidade é a criação de aplicações web modernas utilizando tecnologias como Next.js, React e Node.js. No entanto, minha curiosidade vai além do código. Como você pode ver no meu projeto de Homelab, estou profundamente envolvido com todo o ciclo de vida de desenvolvimento, incluindo CI/CD, conteinerização com Docker e gerenciamento de infraestrutura.",
+    "paragraph3": "Eu prospero em desafios e estou constantemente explorando novas tecnologias, desde a administração de bancos de dados com MariaDB e Redis até a automação de fluxos de trabalho com N8N e filas de mensagens com RabbitMQ. Essa abordagem prática em DevOps e auto-hospedagem me permite construir não apenas funcionalidades, mas sistemas resilientes e escaláveis."
   },
   "skills": {
-    "title": "My Tech Stack",
-    "backend": "Backend & Languages",
+    "title": "Minhas Tecnologias",
+    "backend": "Backend & Linguagens",
     "frontend": "Frontend",
-    "databases": "Databases & Data",
+    "databases": "Bancos de Dados & Dados",
     "cloud": "Cloud & DevOps"
   },
   "projects": {
     "title": "Projetos que Construí",
-    "project_1_title": "Portfólio",
-    "project_1_description": "O próprio site em que você está agora! Construído com Next.js e Tailwind CSS, exportado estaticamente para máxima performance.",
-    "project_2_title": "Homelab",
-    "project_2_description": "Meu homelab pessoal, rodando em um Raspberry Pi com Docker e Traefik. Eu hospedo vários serviços, incluindo este portfólio.",
+    "project_1_title": "Portfólio Pessoal",
+    "project_1_description": "O próprio site em que você está agora! Uma aplicação full-stack construída com Next.js, Tailwind CSS e um backend Node.js para exibir meu trabalho e habilidades.",
+    "project_1_details": "Este portfólio é uma aplicação full-stack projetada para mostrar minhas habilidades e projetos. Possui uma arquitetura moderna e desacoplada, com um frontend em Next.js e um backend em Node.js. O projeto é implantado automaticamente via Gitea Actions, com o PM2 gerenciando os processos no servidor para reinicializações sem tempo de inatividade.",
+    "project_1_features_title": "Principais Características:",
+    "project_1_features": [
+      "**Internacionalização (i18n):** Totalmente traduzido para inglês e português com `next-intl`.",
+      "**Design Responsivo:** Otimizado para todos os dispositivos usando Tailwind CSS.",
+      "**UI Interativa:** Inclui um seletor de tema (modo claro/escuro) e notificações para feedback de formulários.",
+      "**Backend Robusto:** Um servidor Express.js lida com os envios do formulário de contato de forma segura usando o Nodemailer."
+    ],
+    "project_2_title": "Homelab & Playground DevOps",
+    "project_2_description": "Uma infraestrutura auto-hospedada rodando em Proxmox, demonstrando uma vasta gama de serviços de DevOps e backend.",
+    "project_2_details": "Este projeto é o meu Homelab pessoal, um ambiente de nuvem auto-hospedado que serve como um playground prático para explorar conceitos de DevOps e hospedar serviços de nível de produção. Ele demonstra minha capacidade de gerenciar um ecossistema full-stack, desde redes e segurança até CI/CD e automação.",
+    "project_2_features_title": "Serviços Hospedados & Habilidades:",
+    "project_2_features": [
+      "**CI/CD & Controle de Versão:** **Gitea** auto-hospedado para gerenciamento de código-fonte e integração contínua.",
+      "**Conteinerização & Orquestração:** **Docker** para conteinerizar aplicações, gerenciado em um ambiente virtualizado **Proxmox**.",
+      "**Redes & Segurança:** **Traefik** como proxy reverso para roteamento de tráfego, com **Authelia** para single sign-on (SSO) e **Cloudflare Tunnels** para acesso externo seguro.",
+      "**Bancos de Dados:** Hospedagem e gerenciamento de **MariaDB** e **Redis** para diversas aplicações.",
+      "**Monitoramento & Observabilidade:** Uma stack completa de monitoramento com **Prometheus** para coleta de dados, **Grafana** para visualização e **Pi-hole** para bloqueio de anúncios em toda a rede.",
+      "**Automação & Mensageria:** **N8N** para automação de fluxos de trabalho e **RabbitMQ** para enfileiramento de mensagens entre serviços.",
+      "**IA & Machine Learning:** **Ollama** auto-hospedado para experimentar com grandes modelos de linguagem localmente."
+    ],
     "project_3_title": "Happy",
-    "project_3_description": "Um site para encontrar orfanatos para visitar. Construído com React, TypeScript e Styled-Components.",
-    "tech_used": "Tecnologias Utilizadas:",
+    "project_3_description": "Uma aplicação full-stack para conectar pessoas a orfanatos, construída com React, Node.js e um MariaDB auto-hospedado.",
+    "project_3_details": "Happy é uma aplicação web full-stack projetada para conectar pessoas a orfanatos, facilitando o agendamento de visitas. Desenvolvido como parte da Next Level Week da Rocketseat, este projeto exibe uma stack de tecnologia completa, desde um frontend moderno até um backend e banco de dados robustos.",
+    "project_3_features_title": "Funcionalidades Principais:",
+    "project_3_features": [
+        "**Mapa Interativo:** Os usuários podem visualizar orfanatos cadastrados em um mapa dinâmico do Google.",
+        "**Informações Detalhadas:** Cada orfanato possui uma página dedicada com fotos e horários de visita.",
+        "**Contribuições de Usuários:** Um formulário completo permite que os usuários cadastrem novos orfanatos.",
+        "**Stack Moderna:** Construído com **React 18** para uma UI rápida e responsiva, e um backend **Node.js/Express** conectado a um **MariaDB** auto-hospedado."
+    ],
+    "tech_used": "Tecnologias Utilizadas",
     "page_link": "Ver Detalhes",
     "live_link": "Ver ao Vivo",
     "repo_link": "Ver Código",
@@ -57,18 +81,7 @@
     "form_name": "Seu Nome",
     "form_email": "Seu Email",
     "form_message": "Sua Mensagem",
-    "submit_button": "Enviar Mensagem",
-    "status_sending": "Enviando sua mensagem...",
-    "status_success": "Mensagem enviada com sucesso. Obrigado!",
-    "status_error_failed": "Falha ao enviar a mensagem. Por favor, tente novamente.",
-    "status_error_all_fields": "Todos os campos são obrigatórios.",
-    "status_error_invalid_email": "Por favor, insira um email válido.",
-    "status_error_generic": "Ocorreu um erro inesperado. Tente novamente mais tarde.",
-    "server_unexpected_error": "Ocorreu um erro inesperado no servidor. Por favor, tente novamente mais tarde.",
-    "smtp_auth_failed": "Falha na autenticação com o servidor de email.",
-    "smtp_connection_failed": "Não foi possível conectar ao servidor de email.",
-    "smtp_invalid_recipient": "Endereço de email do destinatário inválido.",
-    "smtp_generic_error": "Ocorreu um erro ao enviar o email."
+    "submit_button": "Enviar Mensagem"
   },
   "footer": {
     "copyright": "Todos os direitos reservados.",
