@@ -3,10 +3,10 @@ import {useTranslations} from 'next-intl';
 import { motion } from 'framer-motion';
 
 const skillsData = {
-  backend: [".NET (Framework, Core)", "C#", "Node.js", "Entity Framework"],
-  frontend: ["Angular", "TypeScript", "Next.js", "React", "HTML5 & CSS3"],
-  databases: ["Oracle", "SQL Server", "Elasticsearch", "Redis"],
-  cloud: ["Azure", "Docker", "RabbitMQ", "Git", "Kibana"]
+  backend: [".NET (Framework, Core)", "C#", "Node.js", "Express.js", "Entity Framework"],
+  frontend: ["React", "Next.js", "Angular", "TypeScript", "HTML5 & CSS3"],
+  databases: ["SQL Server", "Oracle", "MariaDB", "Redis", "Elasticsearch"],
+  cloud: ["Azure", "Docker", "RabbitMQ", "Git", "Gitea", "Traefik", "Prometheus", "Grafana", "N8N"]
 };
 
 const SkillPill = ({ skill }: { skill: string }) => (
