@@ -81,7 +81,18 @@
     "form_name": "Seu Nome",
     "form_email": "Seu Email",
     "form_message": "Sua Mensagem",
-    "submit_button": "Enviar Mensagem"
+    "submit_button": "Enviar Mensagem",
+    "status_sending": "Enviando sua mensagem...",
+    "status_success": "Mensagem enviada com sucesso. Obrigado!",
+    "status_error_failed": "Falha ao enviar a mensagem. Por favor, tente novamente.",
+    "status_error_all_fields": "Todos os campos são obrigatórios.",
+    "status_error_invalid_email": "Por favor, insira um email válido.",
+    "status_error_generic": "Ocorreu um erro inesperado. Tente novamente mais tarde.",
+    "server_unexpected_error": "Ocorreu um erro inesperado no servidor. Por favor, tente novamente mais tarde.",
+    "smtp_auth_failed": "Falha na autenticação com o servidor de email.",
+    "smtp_connection_failed": "Não foi possível conectar ao servidor de email.",
+    "smtp_invalid_recipient": "Endereço de email do destinatário inválido.",
+    "smtp_generic_error": "Ocorreu um erro ao enviar o email."
   },
   "footer": {
     "copyright": "Todos os direitos reservados.",
