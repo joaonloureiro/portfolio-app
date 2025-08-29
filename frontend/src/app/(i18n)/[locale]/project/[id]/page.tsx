@@ -51,7 +51,7 @@ export default function ProjectPage() {
     try {
       const features = t.raw(`project_${id}_features`);
       return Array.isArray(features) ? features : [];
-    } catch (error) {
+    } catch {
       return [];
     }
   };
