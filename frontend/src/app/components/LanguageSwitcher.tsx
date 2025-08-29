@@ -3,7 +3,6 @@
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useTransition, useRef, useEffect } from 'react';
-import { FaChevronDown } from 'react-icons/fa6';
 import ReactCountryFlag from 'react-country-flag';
 
 export default function LanguageSwitcher() {

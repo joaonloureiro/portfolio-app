@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { FaArrowLeft } from 'react-icons/fa6';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const projectsData = [
   { id: 1, tech: ["Next.js", "Tailwind CSS", "TypeScript", "Framer Motion"], imageUrl: "/project1.jpg", repoUrl: "https://github.com/joaoloureiro/portfolio-app" },
@@ -31,7 +32,7 @@ export default function ProjectPage() {
         <h1 className="text-3xl md:text-4xl font-bold text-center text-[var(--color-text-primary)] heading-underline">{t(`project_${project.id}_title`)}</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
           <div>
-            <img src={project.imageUrl} alt={t(`project_${project.id}_title`)} className="rounded-lg" />
+            <Image src={project.imageUrl} alt={t(`project_${project.id}_title`)} className="rounded-lg" />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-[var(--color-text-primary)] mb-4">{t('about_project')}</h2>
