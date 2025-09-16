@@ -81,7 +81,7 @@ export default function Contact() {
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="container mx-auto px-4">
-        <div className="text-justify max-w-2xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] heading-underline">{t('title')}</h2>
           <p className="text-[var(--color-text-secondary)] mb-10">{t('subtitle')}</p>
         </div>
