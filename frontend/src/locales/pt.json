@@ -23,7 +23,7 @@
   "about": {
     "title": "Sobre Mim",
     "paragraph1": "Sou um Desenvolvedor Full Stack movido pela paixão de construir, automatizar e escalar aplicações robustas. Minha jornada na tecnologia começou com o desejo de entender como sistemas complexos funcionam e evoluiu para uma carreira dedicada a criar soluções elegantes e de alta performance.",
-    "paragraph2": "Com uma base sólida nos ecossistemas .NET e JavaScript, minha especialidade é a criação de aplicações web modernas utilizando tecnologias como Next.js, React e Node.js. No entanto, minha curiosidade vai além do código. Como você pode ver no meu projeto de Homelab, estou profundamente envolvido com todo o ciclo de vida de desenvolvimento, incluindo CI/CD, conteinerização com Docker e gerenciamento de infraestrutura.",
+    "paragraph2": "Com uma base sólida nos ecossistemas .NET e JavaScript, minha especialidade é a criação de aplicações web modernas utilizando tecnologias como .NET, Angular, Next.js, React e Node.js. No entanto, minha curiosidade vai além do código. Como você pode ver no meu projeto de Homelab, estou profundamente envolvido com todo o ciclo de vida de desenvolvimento, incluindo CI/CD, conteinerização com Docker e gerenciamento de infraestrutura.",
     "paragraph3": "Eu prospero em desafios e estou constantemente explorando novas tecnologias, desde a administração de bancos de dados com MariaDB e Redis até a automação de fluxos de trabalho com N8N e filas de mensagens com RabbitMQ. Essa abordagem prática em DevOps e auto-hospedagem me permite construir não apenas funcionalidades, mas sistemas resilientes e escaláveis."
   },
   "skills": {
