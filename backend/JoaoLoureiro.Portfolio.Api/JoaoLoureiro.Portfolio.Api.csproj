@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>13f24551-c620-43ab-9c94-073e5617c79d</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,5 +31,4 @@
     <ProjectReference Include="..\JoaoLoureiro.Portfolio.Application\JoaoLoureiro.Portfolio.Core.csproj" />
     <ProjectReference Include="..\JoaoLoureiro.Portfolio.Infrastructure\JoaoLoureiro.Portfolio.Infrastructure.csproj" />
   </ItemGroup>
-
 </Project>
