@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="JoaoLoureiro.Portfolio.Api/JoaoLoureiro.Portfolio.Api.csproj" />
+  <Project Path="JoaoLoureiro.Portfolio.Application/JoaoLoureiro.Portfolio.Core.csproj" />
+  <Project Path="JoaoLoureiro.Portfolio.Infrastructure/JoaoLoureiro.Portfolio.Infrastructure.csproj" />
+</Solution>

@@ -1,0 +1,6 @@
+@JoaoLoureiro.Portfolio.Api_HostAddress = http://localhost:5125
+
+GET {{JoaoLoureiro.Portfolio.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

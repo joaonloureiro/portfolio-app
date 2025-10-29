@@ -13,59 +13,77 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Create Backend .env file
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Create Backend appsettings.Production.json
         run: |
-          echo "Creating backend .env file..."
-          cd backend
-          # Using both Gitea Variables (vars) and Secrets (secrets)
-          echo "BACKEND_PORT=${{ vars.BACKEND_PORT }}" >> .env
-          echo "FRONTEND_URL=${{ vars.FRONTEND_URL }}" >> .env
-          echo "SMTP_HOST=${{ vars.SMTP_HOST }}" >> .env
-          echo "SMTP_PORT=${{ vars.SMTP_PORT }}" >> .env
-          echo "SMTP_SECURE=${{ vars.SMTP_SECURE }}" >> .env
-          echo "YOUR_RECEIVING_EMAIL=${{ vars.YOUR_RECEIVING_EMAIL }}" >> .env
-          echo "SMTP_FROM_EMAIL=${{ vars.SMTP_FROM_EMAIL }}" >> .env
-
-          # Secrets should be used for sensitive data
-          echo "SMTP_USER=${{ secrets.SMTP_USER }}" >> .env
-          echo "SMTP_PASS=${{ secrets.SMTP_PASS }}" >> .env
-
+          echo "Creating backend appsettings.Production.json file..."
+          # This creates the JSON file by mapping your Gitea secrets/vars
+          # to the structure you provided.
+          cat <<EOF > backend/appsettings.Production.json
+          {
+            "SmtpSettings": {
+              "Host": "${{ vars.SMTP_HOST }}",
+              "Port": ${{ vars.SMTP_PORT }},
+              "User": "${{ secrets.SMTP_USER }}",
+              "Pass": "${{ secrets.SMTP_PASS }}",
+              "FromEmail": "${{ vars.SMTP_FROM_EMAIL }}",
+              "ReceivingEmail": "${{ vars.YOUR_RECEIVING_EMAIL }}"
+            },
+            "CorsOrigins": "${{ vars.FRONTEND_URL }}"
+          }
+          EOF
 
       - name: Create Frontend .env.local file
         run: |
           echo "Creating frontend .env.local file..."
           cd frontend
-          # The BACKEND_URL is not needed because Traefik will handle routing /api
           echo "NEXT_PUBLIC_GITHUB_URL=${{ vars.NEXT_PUBLIC_GITHUB_URL }}" >> .env.local
           echo "NEXT_PUBLIC_LINKEDIN_URL=${{ vars.NEXT_PUBLIC_LINKEDIN_URL }}" >> .env.local
 
-      - name: Cache Dependencies and Build Artifacts
+      - name: Cache Dependencies
         uses: actions/cache@v4
         with:
           path: |
-            backend/node_modules
+            ~/.nuget/packages
             frontend/node_modules
             frontend/.next/cache
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/*.csproj') }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-
 
       - name: Install Dependencies and Build
         run: |
-          echo "Installing backend dependencies..."
-          cd backend && npm install && cd ..
+          echo "Restoring backend NuGet packages..."
+          dotnet restore backend
+
+          echo "Building and publishing backend..."
+          # This compiles the app and places the output in the 'publish' folder
+          dotnet publish backend --configuration Release --output ./publish
+
           echo "Installing frontend dependencies..."
           cd frontend && npm install
+
           echo "Building frontend application..."
           npm run build
 
       - name: Sync Files to Production Directory
         run: |
-          rsync -a --delete --exclude 'frontend/.next/cache/' --exclude '.git/' ./ /var/www/website.joaoloureiro.dev.br/
+          # Sync the published backend from the './publish' directory
+          rsync -a --delete ./publish/ /var/www/website.joaoloureiro.dev.br/
+
+          # Sync the built frontend from the 'frontend' directory
+          rsync -a --delete ./frontend/.next /var/www/website.joaoloureiro.dev.br/
+          rsync -a --delete ./frontend/public /var/www/website.joaoloureiro.dev.br/
+          rsync -a ./frontend/package.json /var/www/website.joaoloureiro.dev.br/
+          rsync -a ./frontend/ecosystem.config.js /var/www/website.joaoloureiro.dev.br/
 
       - name: Restart Applications with PM2
-        env:
-          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
         run: |
+          # This command on your server should handle restarting both processes
+          # Ensure your PM2 ecosystem file now has entries for both the .NET app
+          # and the Next.js app.
           restart-portfolio
-

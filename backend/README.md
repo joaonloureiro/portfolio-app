@@ -1,96 +1,74 @@
-# Portfolio API Backend
+# JoaoLoureiro.Portfolio Backend
 
-This is a simple and efficient backend server built with Node.js and Express. Its primary purpose is to handle the contact form submissions from the portfolio frontend, sending emails via SMTP using Nodemailer.
+This is the backend for my portfolio application. It is a simple .NET 8 API that handles sending contact messages from the frontend.
 
-## ✨ Features
+## Technologies
 
-* **Email Service**: Securely sends emails from the contact form.
-* **Input Validation**: Ensures required fields (`name`, `email`, `message`) are present and the email format is valid.
-* **CORS Enabled**: Configured with CORS to only accept requests from the frontend application.
-* **Specific Error Handling**: Returns structured error keys for different SMTP and server issues, allowing the frontend to display translated, user-friendly messages.
-* **Health Check**: Includes a `/api/health` endpoint to easily verify if the server is running.
+*   .NET 8
+*   ASP.NET Core
+*   Docker
+*   Serilog for logging
+*   FluentValidation for request validation
+*   AutoMapper for object mapping
 
-## 🛠️ Tech Stack
+## Project Structure
 
-* **Runtime**: [Node.js](https://nodejs.org/)
-* **Framework**: [Express.js](https://expressjs.com/)
-* **Email**: [Nodemailer](https://nodemailer.com/)
-* **Environment Variables**: [Dotenv](https://github.com/motdotla/dotenv)
-* **Cross-Origin Requests**: [CORS](https://github.com/expressjs/cors)
+The solution follows a clean architecture pattern:
 
-## 🚀 Getting Started
+*   `JoaoLoureiro.Portfolio.Api`: The main API project, containing the endpoint for sending emails.
+*   `JoaoLoureiro.Portfolio.Application`: Contains the core business logic and interfaces.
+*   `JoaoLoureiro.Portfolio.Domain`: Contains the domain entities.
+*   `JoaoLoureiro.Portfolio.Infrastructure`: Contains the implementation of services, such as the email sender.
+
+## Getting Started
 
 ### Prerequisites
 
-* Node.js (v18 or later)
-* npm
+*   .NET 8 SDK
+*   An SMTP server for sending emails.
 
-### Installation & Setup
+### Running the application
 
-1.  **Navigate to the backend directory:**
+1.  Clone the repository.
+2.  Navigate to the `backend` directory.
+3.  Configure the `SmtpSettings` in `JoaoLoureiro.Portfolio.Api/appsettings.json`.
+4.  Run the application using the following command:
+
     ```bash
-    cd backend
+    dotnet run --project JoaoLoureiro.Portfolio.Api
     ```
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+## API Endpoints
 
-3.  **Create an environment file:**
-    Create a file named `.env` in the `backend` directory and populate it with your credentials. **Do not commit this file to version control.**
+### POST /api/email/send
 
-    **.env.example**
-    ```env
-    # The port for the backend server
-    BACKEND_PORT=3001
+This endpoint accepts a contact form submission and sends it as an email.
 
-    # Your frontend URL for CORS
-    FRONTEND_URL=http://localhost:3000
+**Request Body:**
 
-    # Nodemailer SMTP Configuration
-    SMTP_HOST=smtp.example.com
-    SMTP_PORT=587
-    SMTP_SECURE=false
-    SMTP_USER=your-email@example.com
-    SMTP_PASS=your-email-password
-    YOUR_RECEIVING_EMAIL=your-personal-email@example.com
-    ```
+```json
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "message": "Hello, I would like to get in touch with you."
+}
+```
 
-4.  **Run the server:**
-    ```bash
-    npm start
-    ```
-    The server will start on the port defined in your `.env` file (e.g., `3001`).
+**Responses:**
 
-## 📝 API Endpoints
+*   `200 OK`: If the message was sent successfully.
+*   `400 Bad Request`: If the request is invalid.
+*   `500 Internal Server Error`: If an unexpected error occurs.
 
-### Health Check
+### GET /health
 
-* **GET** `/api/health`
-    * **Description**: Checks the server status.
-    * **Success Response (200)**:
-        ```json
-        { "status": "UP", "message": "Backend is running" }
-        ```
+This endpoint returns the health of the application, including the status of the SMTP connection.
 
-### Send Email
+## Configuration
 
-* **POST** `/api/email/send`
-    * **Description**: Processes and sends a contact form submission.
-    * **Request Body**:
-        ```json
-        {
-          "name": "string",
-          "email": "string",
-          "message": "string"
-        }
-        ```
-    * **Success Response (200)**:
-        ```json
-        { "message": "Message sent successfully!" }
-        ```
-    * **Error Responses (4xx/5xx)**: Returns a JSON object with an `errorKey` for the frontend to translate.
-        ```json
-        { "errorKey": "smtp_auth_failed" }
-        ```
+The application is configured using the `appsettings.json` file in the `JoaoLoureiro.Portfolio.Api` project.
+
+*   `SmtpSettings`: Configuration for the SMTP server.
+*   `CorsOrigins`: A comma-separated list of allowed origins for CORS.
+*   `ProxyIP`: The IP address of a trusted proxy.
+*   `Serilog`: Configuration for logging.

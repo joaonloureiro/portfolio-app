@@ -1,12 +1,13 @@
 {
   "apps": [{
     "name": "portfolio-backend",
-    "script": "server.js",
+    "script": "dotnet",
+    "args": "JoaoLoureiro.Portfolio.Api/bin/Release/net8.0/JoaoLoureiro.Portfolio.Api.dll",
     "instances": 1,
     "autorestart": true,
     "watch": false,
     "env": {
-      "NODE_ENV": "production"
+      "ASPNETCORE_ENVIRONMENT": "Production"
     }
   }]
 }
