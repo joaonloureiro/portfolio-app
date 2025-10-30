@@ -2,7 +2,8 @@
   "apps": [{
     "name": "portfolio-backend",
     "script": "dotnet",
-    "args": "JoaoLoureiro.Portfolio.Api/bin/Release/net8.0/JoaoLoureiro.Portfolio.Api.dll",
+    "args": "JoaoLoureiro.Portfolio.Api.dll",
+    "cwd": "/var/www/website.joaoloureiro.dev.br/backend",
     "instances": 1,
     "autorestart": true,
     "watch": false,

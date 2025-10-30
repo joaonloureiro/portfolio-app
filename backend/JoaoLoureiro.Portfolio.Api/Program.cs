@@ -15,6 +15,11 @@ using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (builder.Configuration["BACKEND_PORT"] is { Length: > 0 } port && ushort.TryParse(port, out _))
+{
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
+
 builder.Host.UseSerilog((context, config) => config.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddProblemDetails();
