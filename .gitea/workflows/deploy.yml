@@ -71,6 +71,13 @@ jobs:
           echo "Building and publishing backend..."
           dotnet publish backend/JoaoLoureiro.Portfolio.Api/JoaoLoureiro.Portfolio.Api.csproj --configuration Release --output ./publish
 
+          echo "Copying backend appsettings to published output..."
+          # ensure the production appsettings travels with the published output so the deployed app reads it
+          if [ -f backend/appsettings.Production.json ]; then
+            mkdir -p ./publish
+            cp backend/appsettings.Production.json ./publish/
+          fi
+
           echo "Installing frontend dependencies..."
           cd frontend && npm install
 
@@ -84,7 +91,9 @@ jobs:
           rsync -a --delete ./frontend/.next/ /var/www/website.joaoloureiro.dev.br/frontend/
           rsync -a --delete ./frontend/public/ /var/www/website.joaoloureiro.dev.br/frontend/
           rsync -a ./frontend/package.json /var/www/website.joaoloureiro.dev.br/frontend/
+          # copy both frontend and backend ecosystem files into the deployment root so PM2 can find them
           rsync -a ./frontend/ecosystem.config.json /var/www/website.joaoloureiro.dev.br/frontend/
+          rsync -a ./backend/ecosystem.config.json /var/www/website.joaoloureiro.dev.br/backend/
 
       - name: Restart Applications with PM2
         run: |
