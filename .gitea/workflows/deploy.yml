@@ -87,13 +87,24 @@ jobs:
       - name: Sync Files to Production Directory
         run: |
           echo "Syncing files to production directory..."
-          rsync -a --delete ./publish/ /var/www/website.joaoloureiro.dev.br/backend/
-          rsync -a --delete ./frontend/.next/ /var/www/website.joaoloureiro.dev.br/frontend/
-          rsync -a --delete ./frontend/public/ /var/www/website.joaoloureiro.dev.br/frontend/
-          rsync -a ./frontend/package.json /var/www/website.joaoloureiro.dev.br/frontend/
+          rsync -av --itemize-changes --progress --delete ./publish/ /var/www/website.joaoloureiro.dev.br/backend/
+          echo "rsync publish exit: $?"
+
+          rsync -av --itemize-changes --progress --delete ./frontend/.next/ /var/www/website.joaoloureiro.dev.br/frontend/
+          echo "rsync .next exit: $?"
+
+          rsync -av --itemize-changes --progress --delete ./frontend/public/ /var/www/website.joaoloureiro.dev.br/frontend/
+          echo "rsync public exit: $?"
+
+          rsync -av --itemize-changes --progress ./frontend/package.json /var/www/website.joaoloureiro.dev.br/frontend/
+          echo "rsync package.json exit: $?"
+
           # copy both frontend and backend ecosystem files into the deployment root so PM2 can find them
-          rsync -a ./frontend/ecosystem.config.json /var/www/website.joaoloureiro.dev.br/frontend/
-          rsync -a ./backend/ecosystem.config.json /var/www/website.joaoloureiro.dev.br/backend/
+          rsync -av --itemize-changes --progress ./frontend/ecosystem.config.json /var/www/website.joaoloureiro.dev.br/frontend/
+          echo "rsync frontend ecosystem exit: $?"
+
+          rsync -av --itemize-changes --progress ./backend/ecosystem.config.json /var/www/website.joaoloureiro.dev.br/backend/
+          echo "rsync backend ecosystem exit: $?"
 
       - name: Restart Applications with PM2
         run: |
