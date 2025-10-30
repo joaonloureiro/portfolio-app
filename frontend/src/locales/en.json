@@ -23,7 +23,7 @@
   "about": {
     "title": "About Me",
     "paragraph1": "I am a Full Stack Developer driven by a passion for building, automating, and scaling robust applications. My journey into technology began with a desire to understand how complex systems work, and it has evolved into a career dedicated to crafting elegant, high-performance solutions.",
-    "paragraph2": "With a strong foundation in the .NET and JavaScript ecosystems, I specialize in creating modern web applications using technologies like .NET, Angular, Next.js, React, and Node.js. However, my curiosity extends beyond code. As you can see from my Homelab project, I am deeply engaged with the full development lifecycle, including CI/CD, containerization with Docker, and infrastructure management.",
+    "paragraph2": "With a strong foundation in the .NET and JavaScript ecosystems, I specialize in creating modern web applications using technologies like .NET, Angular, Next.js, and React. However, my curiosity extends beyond code. As you can see from my Homelab project, I am deeply engaged with the full development lifecycle, including CI/CD, containerization with Docker, and infrastructure management.",
     "paragraph3": "I thrive on challenges and am constantly exploring new technologies, from database administration with MariaDB and Redis to workflow automation with N8N and message queuing with RabbitMQ. This hands-on approach to DevOps and self-hosting allows me to build not just features, but resilient and scalable systems."
   },
   "skills": {
@@ -36,14 +36,14 @@
   "projects": {
     "title": "Projects I've Built",
     "project_1_title": "Personal Portfolio",
-    "project_1_description": "The very site you are on now! A full-stack application built with Next.js, Tailwind CSS, and a Node.js backend to showcase my work and skills.",
-    "project_1_details": "This portfolio is a full-stack application designed to showcase my skills and projects. It features a modern, decoupled architecture with a Next.js frontend and a Node.js backend. The project is automatically deployed via Gitea Actions, with PM2 managing the processes on the server for zero-downtime restarts.",
+    "project_1_description": "The very site you are on now! A full-stack application built with Next.js, Tailwind CSS, and a .NET 8 backend to showcase my work and skills.",
+    "project_1_details": "This portfolio is a full-stack application designed to showcase my skills and projects. It features a modern, decoupled architecture with a Next.js frontend and a .NET 8 backend. The project is automatically deployed via Gitea Actions, with PM2 managing the processes on the server for zero-downtime restarts.",
     "project_1_features_title": "Key Features:",
     "project_1_features": [
       "**Internationalization (i18n):** Fully translated in English and Portuguese with `next-intl`.",
       "**Responsive Design:** Optimized for all devices using Tailwind CSS.",
       "**Interactive UI:** Includes a theme switcher (dark/light mode) and toast notifications.",
-      "**Robust Backend:** An Express.js server handles contact form submissions securely using Nodemailer."
+      "**Robust Backend:** A .NET 8 API handles contact form submissions securely."
     ],
     "project_2_title": "Homelab & DevOps Playground",
     "project_2_description": "A self-hosted infrastructure running on Proxmox, showcasing a wide range of DevOps and backend services.",
