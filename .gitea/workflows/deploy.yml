@@ -19,14 +19,27 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-          cache: true
-          dotnet-solution: 'backend/JoaoLoureiro.Portfolio.slnx'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v4
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Create Backend appsettings.Production.json
         run: |
           echo "Creating backend appsettings.Production.json file..."
-          # This creates the JSON file by mapping your Gitea secrets/vars
-          # to the structure you provided.
+          mkdir -p backend
           cat <<EOF > backend/appsettings.Production.json
           {
             "SmtpSettings": {
@@ -44,20 +57,11 @@ jobs:
       - name: Create Frontend .env.local file
         run: |
           echo "Creating frontend .env.local file..."
-          cd frontend
-          echo "NEXT_PUBLIC_GITHUB_URL=${{ vars.NEXT_PUBLIC_GITHUB_URL }}" >> .env.local
-          echo "NEXT_PUBLIC_LINKEDIN_URL=${{ vars.NEXT_PUBLIC_LINKEDIN_URL }}" >> .env.local
-
-      - name: Cache Dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.nuget/packages
-            frontend/node_modules
-            frontend/.next/cache
-          key: ${{ runner.os }}-${{ hashFiles('**/*.csproj') }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-
+          mkdir -p frontend
+          cat <<EOF > frontend/.env.local
+          NEXT_PUBLIC_GITHUB_URL=${{ vars.NEXT_PUBLIC_GITHUB_URL }}
+          NEXT_PUBLIC_LINKEDIN_URL=${{ vars.NEXT_PUBLIC_LINKEDIN_URL }}
+          EOF
 
       - name: Install Dependencies and Build
         run: |
@@ -65,7 +69,6 @@ jobs:
           dotnet restore backend
 
           echo "Building and publishing backend..."
-          # This compiles the app and places the output in the 'publish' folder
           dotnet publish backend --configuration Release --output ./publish
 
           echo "Installing frontend dependencies..."
@@ -76,18 +79,14 @@ jobs:
 
       - name: Sync Files to Production Directory
         run: |
-          # Sync the published backend from the './publish' directory
+          echo "Syncing files to production directory..."
           rsync -a --delete ./publish/ /var/www/website.joaoloureiro.dev.br/
-
-          # Sync the built frontend from the 'frontend' directory
-          rsync -a --delete ./frontend/.next /var/www/website.joaoloureiro.dev.br/
-          rsync -a --delete ./frontend/public /var/www/website.joaoloureiro.dev.br/
+          rsync -a --delete ./frontend/.next/ /var/www/website.joaoloureiro.dev.br/
+          rsync -a --delete ./frontend/public/ /var/www/website.joaoloureiro.dev.br/
           rsync -a ./frontend/package.json /var/www/website.joaoloureiro.dev.br/
           rsync -a ./frontend/ecosystem.config.js /var/www/website.joaoloureiro.dev.br/
 
       - name: Restart Applications with PM2
         run: |
-          # This command on your server should handle restarting both processes
-          # Ensure your PM2 ecosystem file now has entries for both the .NET app
-          # and the Next.js app.
+          echo "Restarting applications with PM2..."
           restart-portfolio
