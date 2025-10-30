@@ -87,13 +87,13 @@ jobs:
       - name: Sync Files to Production Directory
         run: |
           echo "Syncing files to production directory..."
-          rsync -av --itemize-changes --progress --delete ./publish/ /var/www/website.joaoloureiro.dev.br/backend/
+          rsync -auv --itemize-changes --progress ./publish/ /var/www/website.joaoloureiro.dev.br/backend/
           echo "rsync publish exit: $?"
 
-          rsync -av --itemize-changes --progress --delete ./frontend/.next/ /var/www/website.joaoloureiro.dev.br/frontend/
+          rsync -auv --itemize-changes --progress ./frontend/.next/ /var/www/website.joaoloureiro.dev.br/frontend/.next/
           echo "rsync .next exit: $?"
 
-          rsync -av --itemize-changes --progress --delete ./frontend/public/ /var/www/website.joaoloureiro.dev.br/frontend/
+          rsync -auv --itemize-changes --progress ./frontend/public/ /var/www/website.joaoloureiro.dev.br/frontend/public/
           echo "rsync public exit: $?"
 
           rsync -av --itemize-changes --progress ./frontend/package.json /var/www/website.joaoloureiro.dev.br/frontend/
