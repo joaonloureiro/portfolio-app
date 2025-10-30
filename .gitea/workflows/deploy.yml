@@ -66,10 +66,10 @@ jobs:
       - name: Install Dependencies and Build
         run: |
           echo "Restoring backend NuGet packages..."
-          dotnet restore backend/JoaoLoureiro.Portfolio.slnx
+          dotnet restore backend/JoaoLoureiro.Portfolio.Api/JoaoLoureiro.Portfolio.Api.csproj
 
           echo "Building and publishing backend..."
-          dotnet publish backend/JoaoLoureiro.Portfolio.slnx --configuration Release --output ./publish
+          dotnet publish backend/JoaoLoureiro.Portfolio.Api/JoaoLoureiro.Portfolio.Api.csproj --configuration Release --output ./publish
 
           echo "Installing frontend dependencies..."
           cd frontend && npm install
