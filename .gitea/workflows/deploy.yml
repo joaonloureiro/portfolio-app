@@ -80,11 +80,11 @@ jobs:
       - name: Sync Files to Production Directory
         run: |
           echo "Syncing files to production directory..."
-          rsync -a --delete ./publish/ /var/www/website.joaoloureiro.dev.br/
-          rsync -a --delete ./frontend/.next/ /var/www/website.joaoloureiro.dev.br/
-          rsync -a --delete ./frontend/public/ /var/www/website.joaoloureiro.dev.br/
-          rsync -a ./frontend/package.json /var/www/website.joaoloureiro.dev.br/
-          rsync -a ./frontend/ecosystem.config.js /var/www/website.joaoloureiro.dev.br/
+          rsync -a --delete ./publish/ /var/www/website.joaoloureiro.dev.br/backend/
+          rsync -a --delete ./frontend/.next/ /var/www/website.joaoloureiro.dev.br/frontend/
+          rsync -a --delete ./frontend/public/ /var/www/website.joaoloureiro.dev.br/frontend/
+          rsync -a ./frontend/package.json /var/www/website.joaoloureiro.dev.br/frontend/
+          rsync -a ./frontend/ecosystem.config.json /var/www/website.joaoloureiro.dev.br/frontend/
 
       - name: Restart Applications with PM2
         run: |
