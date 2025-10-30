@@ -15,7 +15,7 @@ using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
-if (builder.Configuration["BACKEND_PORT"] is { Length: > 0 } port && ushort.TryParse(port, out _))
+if (builder.Configuration["BackendPort"] is { Length: > 0 } port && ushort.TryParse(port, out _))
 {
     builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 }
