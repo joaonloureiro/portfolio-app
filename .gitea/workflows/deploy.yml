@@ -10,6 +10,7 @@ jobs:
     runs-on: website-deploy-runner
     env:
       DOTNET_INSTALL_DIR: "$HOME/.dotnet"
+      NEXT_TELEMETRY_DISABLED: '1'
 
     steps:
       - name: Checkout Code
@@ -35,6 +36,14 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
+      - name: Cache Next.js build cache
+        uses: actions/cache@v4
+        with:
+          path: frontend/.next/cache
+          key: ${{ runner.os }}-next-cache-${{ hashFiles('frontend/package-lock.json') }}-${{ env.NODE_VERSION || 'node' }}
+          restore-keys: |
+            ${{ runner.os }}-next-cache-
 
       - name: Create Backend appsettings.Production.json
         run: |
@@ -107,6 +116,8 @@ jobs:
           echo "rsync backend ecosystem exit: $?"
 
       - name: Restart Applications with PM2
+        env:
+          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
         run: |
           echo "Restarting applications with PM2..."
           restart-portfolio
