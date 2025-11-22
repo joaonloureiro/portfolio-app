@@ -1,3 +1,4 @@
+# Ignore common files that shouldn't be in the container
 **/.classpath
 **/.dockerignore
 **/.env
@@ -13,16 +14,23 @@
 **/*.jfm
 **/azds.yaml
 **/bin
+**/obj
 **/charts
 **/docker-compose*
 **/Dockerfile*
 **/node_modules
 **/npm-debug.log
-**/obj
-**/secrets.dev.yaml
-**/values.dev.yaml
-LICENSE
-README.md
+**/.idea
+**/.vs
+**/.vscode
+**/*.user
+**/*.suo
+**/*.userosscache
+**/*.sln.docstates
+
+# Include all .csproj files - they are needed for the build
+!**/*.csproj
+!**/*.sln
 !**/.gitignore
 !.git/HEAD
 !.git/config

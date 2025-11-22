@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: portfolio-backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portfolio-backend.rule=Host(`api.yourdomain.com`)"
+      - "traefik.http.routers.portfolio-backend.entrypoints=websecure"
+      - "traefik.http.services.portfolio-backend.loadbalancer.server.port=80"
+      - "traefik.docker.network=traefik_network"
+      - "traefik.http.routers.portfolio-backend.tls.certresolver=le"
+      - "traefik.http.routers.portfolio-backend.middlewares=auth@docker"
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: portfolio-frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=https://api.yourdomain.com
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portfolio-frontend.rule=Host(`yourdomain.com`, `www.yourdomain.com`)"
+      - "traefik.http.routers.portfolio-frontend.entrypoints=websecure"
+      - "traefik.http.services.portfolio-frontend.loadbalancer.server.port=3000"
+      - "traefik.docker.network=traefik_network"
+      - "traefik.http.routers.portfolio-frontend.tls.certresolver=le"
+      - "traefik.http.routers.portfolio-frontend.middlewares=auth@docker"
+
+networks:
+  traefik_network:
+    external: true  # Using your existing Traefik network
