@@ -1,124 +1,56 @@
-name: Build and Deploy to Production
-run-name: Deploying commit ${{ gitea.sha_short }} by @${{ gitea.actor }}
+name: Build and Push Docker Images
+
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+    tags: [ "v*" ]
 
 jobs:
-  deploy:
+  build-and-push:
     runs-on: website-deploy-runner
-    env:
-      DOTNET_INSTALL_DIR: "$HOME/.dotnet"
-      NEXT_TELEMETRY_DISABLED: '1'
-
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Setup .NET 8 SDK
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
+    - name: Log in to Gitea Registry
+      uses: docker/login-action@v3
+      with:
+        registry: gitea.joaoloureiro.dev.br
+        username: ${{ secrets.GITEA_USER }}
+        password: ${{ secrets.GITEA_TOKEN }}
 
-      - name: Cache NuGet packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
+    - name: Extract metadata (tags, labels) for Backend
+      id: meta-backend
+      uses: docker/metadata-action@v5
+      with:
+        images: gitea.joaoloureiro.dev.br/joaonloureiro/portfolio-backend
+        tags: |
+          type=semver,pattern={{version}}
+          type=ref,event=branch
+          type=raw,value=latest,enable={{is_default_branch}}
 
-      - name: Cache Node.js modules
-        uses: actions/cache@v4
-        with:
-          path: frontend/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+    - name: Extract metadata (tags, labels) for Frontend
+      id: meta-frontend
+      uses: docker/metadata-action@v5
+      with:
+        images: gitea.joaoloureiro.dev.br/joaonloureiro/portfolio-frontend
+        tags: |
+          type=semver,pattern={{version}}
+          type=ref,event=branch
+          type=raw,value=latest,enable={{is_default_branch}}
 
-      - name: Cache Next.js build cache
-        uses: actions/cache@v4
-        with:
-          path: frontend/.next/cache
-          key: ${{ runner.os }}-next-cache-${{ hashFiles('frontend/package-lock.json') }}-${{ env.NODE_VERSION || 'node' }}
-          restore-keys: |
-            ${{ runner.os }}-next-cache-
+    - name: Build and push Backend
+      uses: docker/build-push-action@v5
+      with:
+        context: ./backend
+        push: true
+        tags: ${{ steps.meta-backend.outputs.tags }}
+        labels: ${{ steps.meta-backend.outputs.labels }}
 
-      - name: Create Backend appsettings.Production.json
-        run: |
-          echo "Creating backend appsettings.Production.json file..."
-          mkdir -p backend
-          cat <<EOF > backend/appsettings.Production.json
-          {
-            "SmtpSettings": {
-              "Host": "${{ vars.SMTP_HOST }}",
-              "Port": ${{ vars.SMTP_PORT }},
-              "User": "${{ secrets.SMTP_USER }}",
-              "Pass": "${{ secrets.SMTP_PASS }}",
-              "FromEmail": "${{ vars.SMTP_FROM_EMAIL }}",
-              "ReceivingEmail": "${{ vars.YOUR_RECEIVING_EMAIL }}"
-            },
-            "CorsOrigins": "${{ vars.FRONTEND_URL }}",
-            "BackendPort": "${{ vars.BACKEND_PORT }}"
-          }
-          EOF
-
-      - name: Create Frontend .env.local file
-        run: |
-          echo "Creating frontend .env.local file..."
-          mkdir -p frontend
-          cat <<EOF > frontend/.env.local
-          NEXT_PUBLIC_GITHUB_URL=${{ vars.NEXT_PUBLIC_GITHUB_URL }}
-          NEXT_PUBLIC_LINKEDIN_URL=${{ vars.NEXT_PUBLIC_LINKEDIN_URL }}
-          EOF
-
-      - name: Install Dependencies and Build
-        run: |
-          echo "Restoring backend NuGet packages..."
-          dotnet restore backend/JoaoLoureiro.Portfolio.Api/JoaoLoureiro.Portfolio.Api.csproj
-
-          echo "Building and publishing backend..."
-          dotnet publish backend/JoaoLoureiro.Portfolio.Api/JoaoLoureiro.Portfolio.Api.csproj --configuration Release --output ./publish
-
-          echo "Copying backend appsettings to published output..."
-          # ensure the production appsettings travels with the published output so the deployed app reads it
-          if [ -f backend/appsettings.Production.json ]; then
-            mkdir -p ./publish
-            cp backend/appsettings.Production.json ./publish/
-          fi
-
-          echo "Installing frontend dependencies..."
-          cd frontend && npm install
-
-          echo "Building frontend application..."
-          npm run build
-
-      - name: Sync Files to Production Directory
-        run: |
-          echo "Syncing files to production directory..."
-          rsync -auv --itemize-changes --progress ./publish/ /var/www/website.joaoloureiro.dev.br/backend/
-          echo "rsync publish exit: $?"
-
-          rsync -auv --itemize-changes --progress ./frontend/.next/ /var/www/website.joaoloureiro.dev.br/frontend/.next/
-          echo "rsync .next exit: $?"
-
-          rsync -auv --itemize-changes --progress ./frontend/public/ /var/www/website.joaoloureiro.dev.br/frontend/public/
-          echo "rsync public exit: $?"
-
-          rsync -av --itemize-changes --progress ./frontend/package.json /var/www/website.joaoloureiro.dev.br/frontend/
-          echo "rsync package.json exit: $?"
-
-          # copy both frontend and backend ecosystem files into the deployment root so PM2 can find them
-          rsync -av --itemize-changes --progress ./frontend/ecosystem.config.json /var/www/website.joaoloureiro.dev.br/frontend/
-          echo "rsync frontend ecosystem exit: $?"
-
-          rsync -av --itemize-changes --progress ./backend/ecosystem.config.json /var/www/website.joaoloureiro.dev.br/backend/
-          echo "rsync backend ecosystem exit: $?"
-
-      - name: Restart Applications with PM2
-        env:
-          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
-        run: |
-          echo "Restarting applications with PM2..."
-          restart-portfolio
+    - name: Build and push Frontend
+      uses: docker/build-push-action@v5
+      with:
+        context: ./frontend
+        push: true
+        tags: ${{ steps.meta-frontend.outputs.tags }}
+        labels: ${{ steps.meta-frontend.outputs.labels }}
