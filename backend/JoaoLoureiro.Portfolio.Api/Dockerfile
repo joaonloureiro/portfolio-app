@@ -1,36 +1,38 @@
-# Stage 1: Build the application
-# Use the .NET SDK image which contains all the tools to build and publish
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+# syntax=docker/dockerfile:1.7
+
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+ARG BUILD_CONFIGURATION=Release
+
 WORKDIR /src
 
-# Copy all .csproj files and the .sln file first. This is a key optimization.
-# Docker will cache this layer, and will only re-run `dotnet restore` if a project file changes.
-COPY ["JoaoLoureiro.Portfolio.Core/JoaoLoureiro.Portfolio.Core.csproj", "JoaoLoureiro.Portfolio.Core/"]
-COPY ["JoaoLoureiro.Portfolio.Infrastructure/JoaoLoureiro.Portfolio.Infrastructure.csproj", "JoaoLoureiro.Portfolio.Infrastructure/"]
+# Copy project files first so dependency restore stays cacheable.
+COPY ["global.json", "."]
 COPY ["JoaoLoureiro.Portfolio.Api/JoaoLoureiro.Portfolio.Api.csproj", "JoaoLoureiro.Portfolio.Api/"]
-COPY ["JoaoLoureiro.Portfolio.sln", "."]
+COPY ["JoaoLoureiro.Portfolio.Application/JoaoLoureiro.Portfolio.Core.csproj", "JoaoLoureiro.Portfolio.Application/"]
+COPY ["JoaoLoureiro.Portfolio.Infrastructure/JoaoLoureiro.Portfolio.Infrastructure.csproj", "JoaoLoureiro.Portfolio.Infrastructure/"]
 
-# Restore all NuGet packages for the entire solution
-RUN dotnet restore "JoaoLoureiro.Portfolio.sln"
+RUN dotnet restore "JoaoLoureiro.Portfolio.Api/JoaoLoureiro.Portfolio.Api.csproj"
 
-# Copy the rest of the source code
 COPY . .
 
-# Publish the API project, creating the release-ready artifacts
-WORKDIR "JoaoLoureiro.Portfolio.Api"
-RUN dotnet publish "JoaoLoureiro.Portfolio.Api.csproj" -c Release -o /app/publish --no-restore
+RUN dotnet publish "JoaoLoureiro.Portfolio.Api/JoaoLoureiro.Portfolio.Api.csproj" \
+    --configuration "$BUILD_CONFIGURATION" \
+    --output /app/publish \
+    --no-restore \
+    -p:UseAppHost=false
 
-# Stage 2: Create the final, minimal runtime image
-# Use the lightweight ASP.NET runtime image, which is much smaller than the SDK
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+
 WORKDIR /app
 
-# The new .NET 8 images run as a non-root 'app' user by default for better security.
-# We expose port 8080, as the default internal port 80 is often a privileged port.
+ENV ASPNETCORE_HTTP_PORTS=8080 \
+    DOTNET_EnableDiagnostics=0
+
 EXPOSE 8080
 
-# Copy the published output from the build stage
 COPY --from=build /app/publish .
 
-# Set the entrypoint for the container
+# The .NET 8 runtime image provides the non-root app user.
+USER $APP_UID
+
 ENTRYPOINT ["dotnet", "JoaoLoureiro.Portfolio.Api.dll"]
