@@ -1,4 +1,4 @@
-# Full-Stack Portfolio Website
+Full-Stack Portfolio Website
 
 Welcome to my personal portfolio project! This repository contains the complete source code for my website, built as a full-stack application with a modern, decoupled architecture.
 
@@ -73,7 +73,7 @@ npm run dev
 
 ### ⚙️ Deployment
 
-This project is configured for automated deployment using Gitea Actions. A workflow file at `.gitea/workflows/deploy.yml` orchestrates the build and deployment process. 
+This project is configured for automated deployment using Github Actions. A workflow file at `.gihub/workflows/deploy.yml` orchestrates the build and deployment process. 
 
 On the server, PM2 is used as a process manager to keep both the frontend and backend applications online and to enable zero-downtime restarts.
 

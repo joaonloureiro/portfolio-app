@@ -1,92 +1,179 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+
+import {useEffect, useRef, useState} from 'react';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
-import { useTheme } from '@/configuration/ThemeContext';
-import { SunIcon, MoonIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
-import LanguageSwitcher from "@/app/components/LanguageSwitcher";
+import {useLocale, useTranslations} from 'next-intl';
+import {Bars3Icon, MoonIcon, SunIcon, XMarkIcon} from '@heroicons/react/24/outline';
+import {FaGithub, FaLinkedin} from 'react-icons/fa';
+import {HiOutlineMail} from 'react-icons/hi';
+import {useTheme} from '@/configuration/ThemeContext';
+import LanguageSwitcher from '@/app/components/LanguageSwitcher';
+
+const primaryLinks = [
+  {href: '#projects', key: 'projects'},
+  {href: '#about', key: 'about'},
+  {href: '#contact', key: 'contact'}
+] as const;
 
 export default function Header() {
   const t = useTranslations('navigation');
-  const { theme, toggleTheme } = useTheme();
+  const locale = useLocale();
+  const {theme, toggleTheme} = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement>(null);
 
-  // Close the menu when a link is clicked
-  const handleLinkClick = () => {
-    setIsMenuOpen(false);
-  };
+  const closeMenu = () => setIsMenuOpen(false);
 
-  // Effect to handle closing menu on outside click
   useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
+    const handlePointerDown = (event: MouseEvent) => {
       if (isMenuOpen && headerRef.current && !headerRef.current.contains(event.target as Node)) {
-        setIsMenuOpen(false);
+        closeMenu();
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeMenu();
       }
     };
 
-    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isMenuOpen]);
 
-  // Prevent background scrolling when the mobile menu is open
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    const updateActiveSection = () => {
+      const marker = window.innerHeight * 0.35;
+      let nextSection: string | null = null;
+
+      for (const item of primaryLinks) {
+        const section = document.getElementById(item.key);
+        if (!section) continue;
+
+        const bounds = section.getBoundingClientRect();
+        if (bounds.top <= marker && bounds.bottom > marker) {
+          nextSection = item.key;
+          break;
+        }
+      }
+
+      setActiveSection((currentSection) => currentSection === nextSection ? currentSection : nextSection);
+    };
+
+    updateActiveSection();
+    window.addEventListener('scroll', updateActiveSection, {passive: true});
+    window.addEventListener('resize', updateActiveSection);
+
+    return () => {
+      window.removeEventListener('scroll', updateActiveSection);
+      window.removeEventListener('resize', updateActiveSection);
+    };
+  }, []);
+
+  const themeLabel = theme === 'dark' ? t('switch_to_light') : t('switch_to_dark');
+  const githubUrl = process.env.NEXT_PUBLIC_GITHUB_URL || '#';
+  const linkedinUrl = process.env.NEXT_PUBLIC_LINKEDIN_URL || '#';
+
   return (
-    <header ref={headerRef} className="sticky top-0 z-50 bg-[var(--color-background)]/90 backdrop-blur-sm border-b border-[var(--color-border)]">
-      <nav className="container mx-auto flex items-center justify-between py-4 px-4 sm:px-6 lg:px-8">
-        <Link href="/" onClick={handleLinkClick}>
-          <Image src="/logo.png" alt="João Loureiro Logo" width={40} height={40} priority />
+    <header ref={headerRef} className="site-header">
+      <div className="identity-rail">
+        <Link href={`/${locale}`} className="identity-lockup" aria-label={t('home')}>
+          <span className="identity-name">João Loureiro</span>
         </Link>
-        
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-8">
-          <Link href="#about" className="text-sm font-medium text-[var(--color-text-primary)] hover:text-[var(--color-primary)] transition-colors">{t('about')}</Link>
-          <Link href="#projects" className="text-sm font-medium text-[var(--color-text-primary)] hover:text-[var(--color-primary)] transition-colors">{t('projects')}</Link>
-          <Link href="#contact" className="text-sm font-medium text-[var(--color-text-primary)] hover:text-[var(--color-primary)] transition-colors">{t('contact')}</Link>
-        </div>
 
-        <div className="hidden md:flex items-center space-x-4">
-          <LanguageSwitcher />
-          <button onClick={toggleTheme} aria-label="Toggle theme" className="flex items-center justify-center w-10 h-10 text-sm font-medium text-[var(--color-text-secondary)] bg-[var(--color-card)] border border-[var(--color-border)] rounded-md hover:bg-[var(--color-border)]/50">
-            {theme === 'dark' ? <SunIcon className="h-5 w-5 text-yellow-400" /> : <MoonIcon className="h-5 w-5 text-gray-600" />}
-          </button>
-        </div>
+        <nav className="atlas-nav" aria-label={t('primary_label')}>
+          <ol>
+            {primaryLinks.map((item, index) => (
+              <li key={item.key} data-active={activeSection === item.key}>
+                <Link
+                  href={`/${locale}${item.href}`}
+                  aria-current={activeSection === item.key ? 'location' : undefined}
+                  data-active={activeSection === item.key}
+                >
+                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  {t(item.key)}
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </nav>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-md" aria-label="Toggle menu">
-            {isMenuOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
-          </button>
-        </div>
-      </nav>
+        <Link href={`/${locale}`} className="identity-monogram" aria-hidden="true" tabIndex={-1}>
+          <svg viewBox="0 0 112 132" aria-hidden="true">
+            <path d="M 38 0 V 68 C 38 82, 28 92, 16 92 C 5 92, 0 85, 0 76 C 0 66, 7 58, 17 58 H 28" />
+            <path d="M 56 0 V 68 C 56 89, 40 108, 18 108 C 4 108, -16 98, -16 74 C -14 54, -4 42, 20 42 H 28" />
+            <path d="M 56 0 V 108 H 112 V 92" />
+            <path d="M 56 25 H 75 V 91 H 112" />
+          </svg>
+        </Link>
 
-      {/* Mobile Menu Panel */}
-      {isMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-[var(--color-background)] shadow-lg border-t border-[var(--color-border)]">
-          <div className="flex flex-col items-center space-y-4 p-6">
-            <Link href="#about" className="text-lg" onClick={handleLinkClick}>{t('about')}</Link>
-            <Link href="#projects" className="text-lg" onClick={handleLinkClick}>{t('projects')}</Link>
-            <Link href="#contact" className="text-lg" onClick={handleLinkClick}>{t('contact')}</Link>
-            
-            <div className="flex items-center space-x-6 pt-6 mt-4 border-t border-[var(--color-border)] w-full justify-center">
-              <LanguageSwitcher />
-              <button onClick={toggleTheme} aria-label="Toggle theme" className="p-2 rounded-md">
-                {theme === 'dark' ? <SunIcon className="h-6 w-6 text-yellow-400" /> : <MoonIcon className="h-6 w-6 text-gray-600" />}
-              </button>
-            </div>
+        <div className="rail-footer">
+          <div className="rail-controls">
+            <LanguageSwitcher idPrefix="rail" />
+            <button type="button" className="rail-icon-button" onClick={toggleTheme} aria-label={themeLabel} title={themeLabel}>
+              {theme === 'dark' ? <SunIcon aria-hidden="true" /> : <MoonIcon aria-hidden="true" />}
+            </button>
+          </div>
+
+          <div className="rail-socials" aria-label={t('social_label')}>
+            <Link href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub"><FaGithub aria-hidden="true" /></Link>
+            <Link href="mailto:me@joaoloureiro.dev.br" aria-label="Email"><HiOutlineMail aria-hidden="true" /></Link>
+            <Link href={linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><FaLinkedin aria-hidden="true" /></Link>
           </div>
         </div>
-      )}
+      </div>
+
+      <div className="mobile-bar">
+        <Link href={`/${locale}`} className="mobile-brand" onClick={closeMenu}>JL / FULL STACK</Link>
+        <div className="mobile-actions">
+          <LanguageSwitcher compact idPrefix="mobile" />
+          <button
+            type="button"
+            className="mobile-menu-button"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-navigation"
+            aria-label={isMenuOpen ? t('close_menu') : t('open_menu')}
+          >
+            {isMenuOpen ? <XMarkIcon aria-hidden="true" /> : <Bars3Icon aria-hidden="true" />}
+          </button>
+        </div>
+      </div>
+
+      <div id="mobile-navigation" className="mobile-navigation" data-open={isMenuOpen} aria-hidden={!isMenuOpen}>
+        <nav aria-label={t('primary_label')}>
+          {primaryLinks.map((item, index) => (
+            <Link
+              key={item.key}
+              href={`/${locale}${item.href}`}
+              onClick={closeMenu}
+              tabIndex={isMenuOpen ? 0 : -1}
+              aria-current={activeSection === item.key ? 'location' : undefined}
+              data-active={activeSection === item.key}
+            >
+              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              {t(item.key)}
+            </Link>
+          ))}
+        </nav>
+        <div className="mobile-navigation-footer">
+          <button type="button" onClick={toggleTheme} tabIndex={isMenuOpen ? 0 : -1}>
+            {themeLabel}
+          </button>
+          <a href="mailto:me@joaoloureiro.dev.br" tabIndex={isMenuOpen ? 0 : -1}>me@joaoloureiro.dev.br</a>
+        </div>
+      </div>
     </header>
   );
 }

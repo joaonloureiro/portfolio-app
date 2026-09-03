@@ -1,21 +1,27 @@
-import Hero from "@/app/components/sections/Hero";
-import About from "@/app/components/sections/About";
-import Projects from "@/app/components/sections/Projects";
-import Contact from "@/app/components/sections/Contact";
-import { Locale } from "next-intl";
-import { use } from "react";
-import { setRequestLocale } from "next-intl/server";
+import {Locale} from 'next-intl';
+import {setRequestLocale} from 'next-intl/server';
+import Hero from '@/app/components/sections/Hero';
+import FieldNotes from '@/app/components/sections/FieldNotes';
+import Projects from '@/app/components/sections/Projects';
+import About from '@/app/components/sections/About';
+import Contact from '@/app/components/sections/Contact';
 
-export default function Home({params}: {
+type HomeProps = {
   params: Promise<{locale: Locale}>;
-}) {
-  setRequestLocale(use(params).locale);
+};
+
+export default async function Home({params}: HomeProps) {
+  const {locale} = await params;
+  setRequestLocale(locale);
 
   return (
     <>
       <Hero />
+      <div className="work-index">
+        <FieldNotes />
+        <Projects />
+      </div>
       <About />
-      <Projects />
       <Contact />
     </>
   );

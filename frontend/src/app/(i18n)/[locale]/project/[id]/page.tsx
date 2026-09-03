@@ -1,131 +1,131 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import { useParams } from 'next/navigation';
-import { FaArrowLeft, FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import {Fragment, ReactNode} from 'react';
+import {useLocale, useTranslations} from 'next-intl';
+import {useParams} from 'next/navigation';
 
 const projectsData = [
   {
     id: 1,
-    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js", "Express"],
-    imageUrl: "/Portfolio.png",
-    repoUrl: "https://github.com/joaonloureiro/portfolio-app",
-    liveUrl: "https://joaoloureiro.dev.br"
+    tech: ['Next.js', '.NET 8', 'TypeScript', 'Tailwind CSS'],
+    imageUrl: '/Portfolio.png',
+    repoUrl: 'https://github.com/joaonloureiro/portfolio-app',
+    liveUrl: 'https://joaoloureiro.dev.br'
   },
   {
     id: 2,
-    tech: ["Docker", "Proxmox", "Traefik", "Gitea", "MariaDB", "RabbitMQ", "Prometheus", "Grafana", "N8N"],
-    imageUrl: "/ProxmoxServer.png",
+    tech: ['Proxmox', 'Docker', 'Traefik', 'Observability'],
+    imageUrl: '/ProxmoxServer.png'
   },
   {
     id: 3,
-    tech: ["React", "TypeScript", "Styled-Components", "Node.js", "Express", "MariaDB"],
-    imageUrl: "/Happy.png",
-    repoUrl: "https://github.com/joaonloureiro/happy-app",
-    liveUrl: "https://happy.joaoloureiro.dev.br/"
+    tech: ['React', 'Node.js', 'TypeScript', 'MariaDB'],
+    imageUrl: '/Happy.png',
+    repoUrl: 'https://github.com/joaonloureiro/happy-app',
+    liveUrl: 'https://happy.joaoloureiro.dev.br/'
   }
-];
+] as const;
+
+const Arrow = ({direction = 'right'}: {direction?: 'left' | 'right' | 'external'}) => (
+  <svg viewBox="0 0 24 18" aria-hidden="true">
+    {direction === 'left' && <path d="M 22 9 H 3 M 9 2 L 2 9 L 9 16" />}
+    {direction === 'right' && <path d="M 2 9 H 21 M 15 2 L 22 9 L 15 16" />}
+    {direction === 'external' && <path d="M 8 4 H 20 V 16 M 20 4 L 6 18 M 17 12 V 20 H 4 V 7 H 12" />}
+  </svg>
+);
+
+function formatFeature(feature: string): ReactNode[] {
+  return feature.split(/(\*\*.*?\*\*)/g).filter(Boolean).map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={`${part}-${index}`}>{part.slice(2, -2)}</strong>;
+    }
+
+    return <Fragment key={`${part}-${index}`}>{part.replaceAll('`', '')}</Fragment>;
+  });
+}
 
 export default function ProjectPage() {
   const t = useTranslations('projects');
-  const { id } = useParams();
-  const projectId = parseInt(id as string, 10);
-  const project = projectsData.find(p => p.id === projectId);
+  const locale = useLocale();
+  const {id} = useParams<{id: string}>();
+  const projectId = Number.parseInt(id, 10);
+  const project = projectsData.find((item) => item.id === projectId);
+  const backHref = `/${locale}#projects`;
 
   if (!project) {
     return (
-      <div className="container mx-auto px-4 py-12 md:py-20 text-center">
-        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Project Not Found</h1>
-        <Link href="/#projects" className="mt-4 inline-flex items-center gap-2 text-[var(--color-primary)] hover:underline">
-          <FaArrowLeft />
-          {t('back_to_projects')}
-        </Link>
-      </div>
+      <section className="project-missing" aria-labelledby="project-missing-title">
+        <span aria-hidden="true">404 / 03</span>
+        <h1 id="project-missing-title">{t('not_found')}</h1>
+        <Link href={backHref} className="project-back-link"><Arrow direction="left" />{t('back_to_projects')}</Link>
+      </section>
     );
   }
 
-  // Helper function to safely get the features array from translations
-  const getProjectFeatures = (id: number): string[] => {
-    try {
-      const features = t.raw(`project_${id}_features`);
-      return Array.isArray(features) ? features : [];
-    } catch {
-      return [];
-    }
-  };
-
-  const projectFeatures = getProjectFeatures(project.id);
+  const rawFeatures = t.raw(`project_${project.id}_features`);
+  const projectFeatures = Array.isArray(rawFeatures) ? rawFeatures.filter((feature): feature is string => typeof feature === 'string') : [];
+  const index = String(project.id).padStart(2, '0');
 
   return (
-    <section className="bg-[var(--color-card)] py-12 md:py-20">
-      <div className="container mx-auto px-4">
-        <Link href="/#projects" className="flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors mb-8 text-sm font-medium">
-          <FaArrowLeft />
-          {t('back_to_projects')}
-        </Link>
-        
-        <div className="bg-[var(--color-background)] rounded-lg shadow-xl overflow-hidden">
-          <div className="relative w-full h-64 md:h-96">
-            <Image 
-              src={project.imageUrl} 
-              alt={t(`project_${project.id}_title`)} 
-              layout="fill" 
-              objectFit="cover" 
-              className="opacity-90"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-            <h1 className="absolute bottom-6 left-6 text-3xl md:text-5xl font-bold text-white tracking-tight">
-              {t(`project_${project.id}_title`)}
-            </h1>
-          </div>
-          
-          <div className="p-6 md:p-10">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 text-[var(--color-text-secondary)]">
-                <h2 className="text-2xl font-bold text-[var(--color-text-primary)] mb-4 border-b border-[var(--color-border)] pb-2">{t('about_project')}</h2>
-                <p className="text-lg mb-4">{t(`project_${project.id}_details`)}</p>
-
-                <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-2">{t(`project_${project.id}_features_title`)}</h3>
-                <ul className="list-disc list-inside mb-4 space-y-2">
-                  {projectFeatures.map((feature, index) => (
-                    <li key={index} dangerouslySetInnerHTML={{ __html: feature.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
-                  ))}
-                </ul>
-              </div>
-              
-              <aside className="space-y-6">
-                <div>
-                  <h3 className="text-xl font-bold text-[var(--color-text-primary)] mb-3">{t('tech_used')}</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map(techItem => (
-                      <span key={techItem} className="bg-[var(--color-border)]/50 text-[var(--color-text-secondary)] text-xs font-semibold px-3 py-1.5 rounded-full">
-                        {techItem}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex flex-col space-y-3 pt-4 border-t border-[var(--color-border)]">
-                  {project.liveUrl && (
-                    <Link href={project.liveUrl} target="_blank" className="flex items-center gap-3 text-sm text-[var(--color-text-primary)] hover:text-[var(--color-primary)] transition-colors font-semibold">
-                      <FaExternalLinkAlt />
-                      {t('live_link')}
-                    </Link>
-                  )}
-                  {project.repoUrl && (
-                    <Link href={project.repoUrl} target="_blank" className="flex items-center gap-3 text-sm text-[var(--color-text-primary)] hover:text-[var(--color-primary)] transition-colors font-semibold">
-                      <FaGithub />
-                      {t('repo_link')}
-                    </Link>
-                  )}
-                </div>
-              </aside>
-            </div>
-          </div>
+    <article className="project-detail">
+      <header className="project-detail-hero">
+        <div className="project-detail-copy">
+          <Link href={backHref} className="project-back-link"><Arrow direction="left" />{t('back_to_projects')}</Link>
+          <span className="project-detail-index" aria-hidden="true">{index} / 03</span>
+          <h1>{t(`project_${project.id}_title`)}</h1>
+          <p>{t(`project_${project.id}_description`)}</p>
         </div>
+
+        <figure className="project-detail-visual">
+          <Image
+            src={project.imageUrl}
+            alt={t(`project_${project.id}_title`)}
+            fill
+            priority
+            sizes="(min-width: 981px) 50vw, 100vw"
+          />
+          <figcaption aria-hidden="true">PROJECT / {index}</figcaption>
+        </figure>
+      </header>
+
+      <div className="project-detail-body">
+        <section className="project-detail-story" aria-labelledby="project-about-title">
+          <h2 id="project-about-title">{t('about_project')}</h2>
+          <p>{t(`project_${project.id}_details`)}</p>
+        </section>
+
+        <aside className="project-detail-meta" aria-labelledby="project-tech-title">
+          <h2 id="project-tech-title">{t('tech_used')}</h2>
+          <ul>
+            {project.tech.map((tech) => <li key={tech}>{tech}</li>)}
+          </ul>
+          <div className="project-detail-links">
+            {'liveUrl' in project && project.liveUrl && (
+              <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">{t('live_link')}<Arrow direction="external" /></Link>
+            )}
+            {'repoUrl' in project && project.repoUrl && (
+              <Link href={project.repoUrl} target="_blank" rel="noopener noreferrer">{t('repo_link')}<Arrow direction="external" /></Link>
+            )}
+          </div>
+        </aside>
       </div>
-    </section>
+
+      <section className="project-features" aria-labelledby="project-features-title">
+        <header>
+          <span aria-hidden="true">{index} / SYSTEM NOTES</span>
+          <h2 id="project-features-title">{t(`project_${project.id}_features_title`)}</h2>
+        </header>
+        <ol>
+          {projectFeatures.map((feature, featureIndex) => (
+            <li key={`${feature}-${featureIndex}`}>
+              <span aria-hidden="true">{String(featureIndex + 1).padStart(2, '0')}</span>
+              <p>{formatFeature(feature)}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </article>
   );
 }

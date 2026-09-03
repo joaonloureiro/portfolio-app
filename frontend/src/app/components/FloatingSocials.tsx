@@ -3,7 +3,7 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { HiOutlineMail } from 'react-icons/hi';
 
 const socialLinks = [
-    { href: 'mailto:contato@joaoloureiro.dev.br', icon: <HiOutlineMail/>, label: 'Email' },
+    { href: 'mailto:me@joaoloureiro.dev.br', icon: <HiOutlineMail/>, label: 'Email' },
     { href: process.env.NEXT_PUBLIC_GITHUB_URL || '#', icon: <FaGithub/>, label: 'GitHub' },
     { href: process.env.NEXT_PUBLIC_LINKEDIN_URL || '#', icon: <FaLinkedin/>, label: 'LinkedIn' },
 ];

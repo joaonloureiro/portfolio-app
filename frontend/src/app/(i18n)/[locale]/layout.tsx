@@ -1,21 +1,38 @@
-import { Inter } from "next/font/google";
-import Header from "@/app/components/Header";
-import Footer from "@/app/components/Footer";
-import "@/app/globals.css";
-import { Toaster } from 'react-hot-toast'; 
+import {Barlow, Oswald} from 'next/font/google';
+import Header from '@/app/components/Header';
+import Footer from '@/app/components/Footer';
+import PortfolioToaster from '@/app/components/PortfolioToaster';
+import '@/app/globals.css';
 
 import {hasLocale, Locale, NextIntlClientProvider} from 'next-intl';
-import { ThemeProvider } from "@/configuration/ThemeContext";
+import {ThemeProvider} from '@/configuration/ThemeContext';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
-import { ReactNode } from "react";
-import { routing } from "@/i18n/routing";
-import { notFound } from "next/navigation";
-import FloatingSocials from "@/app/components/FloatingSocials";
+import {ReactNode} from 'react';
+import {routing} from '@/i18n/routing';
+import {notFound} from 'next/navigation';
 
-const inter = Inter({ 
-  subsets: ["latin"],
-  variable: '--font-inter',
+const bodyFont = Barlow({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-body',
+  display: 'swap'
 });
+
+const displayFont = Oswald({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-display',
+  display: 'swap'
+});
+
+const directionContract = `
+THESIS: Engineering breadth is presented as one complete system; this surface refuses the generic card-grid portfolio.
+OWN-WORLD: Near-black identity rail, a responsive illustrated systems atlas, cream paper chapters, restrained apricot signals, and condensed editorial type.
+STORY: Visitors see end-to-end craft, inspect real work without inflated claims, discover the future field-notes space, and contact João.
+FIRST VIEWPORT: A 13rem identity rail anchors a full-bleed illustrated systems atlas with live localized copy and one clear project action.
+FORM: Living Atlas, first-ranked C-family direction, seed 5ad2562d.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+`.trim();
 
 type Props = {
   children: ReactNode;
@@ -43,40 +60,22 @@ export default async function RootLayout({children, params}: Props) {
   }
 
   setRequestLocale(locale);
+  const contractScript = `document.body.prepend(document.createComment(${JSON.stringify(directionContract)}));`;
 
   return (
-    <html lang={locale} className={`${inter.variable} scroll-smooth`}>
-      <body className={`${inter.className} bg-background text-primary flex flex-col min-h-screen`}>
+    <html
+      lang={locale}
+      className={`${bodyFont.variable} ${displayFont.variable} scroll-smooth`}
+      suppressHydrationWarning
+    >
+      <body>
+        <script dangerouslySetInnerHTML={{__html: contractScript}} />
         <ThemeProvider>
           <NextIntlClientProvider locale={locale}>
-            <FloatingSocials />
             <Header />
-            <main className="flex flex-col flex-grow">
-              {children}
-            </main>
+            <main className="site-main">{children}</main>
             <Footer />
-            <Toaster
-              position="bottom-right"
-              toastOptions={{
-                style: {
-                  background: 'var(--color-card)',
-                  color: 'var(--color-text-primary)',
-                  border: '1px solid var(--color-border)',
-                },
-                success: {
-                  iconTheme: {
-                    primary: 'var(--color-primary)',
-                    secondary: 'var(--color-card)',
-                  },
-                },
-                error: {
-                  iconTheme: {
-                    primary: '#ef4444',
-                    secondary: 'var(--color-card)',
-                  },
-                },
-              }}
-            />
+            <PortfolioToaster />
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

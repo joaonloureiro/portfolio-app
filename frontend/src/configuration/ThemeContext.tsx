@@ -9,15 +9,16 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<string>('dark'); // Default to dark mode
+  const [theme, setTheme] = useState<string>('dark');
 
   useEffect(() => {
     const storedTheme = localStorage.getItem('theme');
-    if (storedTheme) {
+    if (storedTheme === 'light' || storedTheme === 'dark') {
       setTheme(storedTheme);
     }
-    // Apply theme to HTML element for Tailwind's 'class' strategy
     document.documentElement.classList.toggle('dark', theme === 'dark');
+    document.documentElement.classList.toggle('light', theme === 'light');
+    document.documentElement.style.colorScheme = theme;
   }, [theme]);
 
   const toggleTheme = () => {
@@ -25,6 +26,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
     document.documentElement.classList.toggle('dark', newTheme === 'dark');
+    document.documentElement.classList.toggle('light', newTheme === 'light');
+    document.documentElement.style.colorScheme = newTheme;
   };
 
   return (

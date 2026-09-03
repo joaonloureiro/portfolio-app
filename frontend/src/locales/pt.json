@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "home_title": "Início | João Loureiro - Desenvolvedor de Software",
-    "home_description": "Bem-vindo ao portfólio de João Loureiro, um desenvolvedor de software apaixonado e especializado em tecnologias web modernas.",
+    "home_title": "João Loureiro | Desenvolvedor Full Stack",
+    "home_description": "Portfólio de João Loureiro: interfaces, serviços, automação e infraestrutura reunidos em sistemas completos.",
     "projects_title": "Projetos | João Loureiro",
     "projects_description": "Explore uma seleção de projetos construídos por João Loureiro, demonstrando habilidades em desenvolvimento front-end e back-end.",
     "about_title": "Sobre Mim | João Loureiro",
@@ -9,32 +9,85 @@
   },
   "navigation": {
     "home": "Início",
+    "overview": "Visão geral",
+    "interfaces": "Interfaces",
+    "services": "Serviços",
+    "automation": "Automação",
+    "infrastructure": "Infraestrutura",
     "about": "Sobre",
     "tech": "Tecnologias",
     "projects": "Projetos",
-    "contact": "Contato"
+    "notes": "Notas",
+    "contact": "Contato",
+    "atlas_label": "Camadas do sistema",
+    "primary_label": "Navegação principal",
+    "secondary_label": "Atalhos da página",
+    "social_label": "Redes e contato",
+    "language": "Alterar idioma",
+    "switch_to_light": "Usar tema claro",
+    "switch_to_dark": "Usar tema escuro",
+    "open_menu": "Abrir menu",
+    "close_menu": "Fechar menu"
   },
   "hero": {
     "greeting": "Olá, eu sou o",
     "title": "Desenvolvedor de Software & Entusiasta Web",
     "subtitle": "Eu construo aplicações web modernas, responsivas e fáceis de usar, do front-end ao back-end.",
-    "cta_button": "Veja Meus Projetos"
+    "role": "Desenvolvedor Full Stack",
+    "rail_intro": "Construo sistemas completos — da interface à infraestrutura.",
+    "manifesto_label": "Manifesto",
+    "headline": "Eu construo sistemas completos — da interface à infraestrutura.",
+    "manifesto": "Clareza no código. Disciplina nos processos. Confiança no resultado.",
+    "cta_button": "Explorar o trabalho"
+  },
+  "atlas": {
+    "interfaces": {
+      "title": "Interfaces — experiências claras",
+      "points": ["Rotas", "Componentes", "Estados", "Acessibilidade", "Performance"]
+    },
+    "services": {
+      "title": "Serviços — regras e integrações",
+      "points": ["Autenticação", "Validação", "Regras de negócio", "Integrações", "Domínio claro"]
+    },
+    "automation": {
+      "title": "Automação — fluxos e processos",
+      "points": ["Eventos", "Orquestração", "Agendamentos", "Idempotência", "Rastreabilidade"]
+    },
+    "infrastructure": {
+      "title": "Infraestrutura — deploy e observabilidade",
+      "points": ["Containers", "CI/CD", "Logs e métricas", "Alertas", "Operação"]
+    }
+  },
+  "notes": {
+    "title": "Notas de campo",
+    "status": "Em breve",
+    "description": "Reflexões sobre software, infraestrutura e o ofício de construir sistemas.",
+    "purpose_title": "Próximo capítulo",
+    "purpose": "Um arquivo editorial preparado para artigos, decisões técnicas e aprendizados de projeto."
   },
   "about": {
     "title": "Sobre Mim",
+    "statement": "Amplitude técnica com responsabilidade de ponta a ponta.",
     "paragraph1": "Sou um Desenvolvedor Full Stack movido pela paixão de construir, automatizar e escalar aplicações robustas. Minha jornada na tecnologia começou com o desejo de entender como sistemas complexos funcionam e evoluiu para uma carreira dedicada a criar soluções elegantes e de alta performance.",
     "paragraph2": "Com uma base sólida nos ecossistemas .NET e JavaScript, minha especialidade é a criação de aplicações web modernas utilizando tecnologias como .NET, Angular, Next.js e React. No entanto, minha curiosidade vai além do código. Como você pode ver no meu projeto de Homelab, estou profundamente envolvido com todo o ciclo de vida de desenvolvimento, incluindo CI/CD, conteinerização com Docker e gerenciamento de infraestrutura.",
-    "paragraph3": "Eu prospero em desafios e estou constantemente explorando novas tecnologias, desde a administração de bancos de dados com MariaDB e Redis até a automação de fluxos de trabalho com N8N e filas de mensagens com RabbitMQ. Essa abordagem prática em DevOps e auto-hospedagem me permite construir não apenas funcionalidades, mas sistemas resilientes e escaláveis."
+    "paragraph3": "Eu prospero em desafios e estou constantemente explorando novas tecnologias, desde a administração de bancos de dados com MariaDB e Redis até a automação de fluxos de trabalho com N8N e filas de mensagens com RabbitMQ. Essa abordagem prática em DevOps e auto-hospedagem me permite construir não apenas funcionalidades, mas sistemas resilientes e escaláveis.",
+    "principles": [
+      {"title": "Clareza antes da complexidade", "description": "Arquitetura e código devem tornar decisões visíveis, não escondê-las."},
+      {"title": "Sistema, não só funcionalidade", "description": "Interface, serviço, automação e operação fazem parte do mesmo resultado."},
+      {"title": "Evolução com evidência", "description": "Medição, observabilidade e aprendizado orientam o próximo passo."}
+    ]
   },
   "skills": {
-    "title": "Minhas Tecnologias",
+    "title": "Campo técnico",
     "backend": "Backend & Linguagens",
     "frontend": "Frontend",
     "databases": "Bancos de Dados & Dados",
     "cloud": "Cloud & DevOps"
   },
   "projects": {
-    "title": "Projetos que Construí",
+    "title": "Explorações selecionadas",
+    "intro": "Trabalhos apresentados com contexto, decisões e aprendizados — sem transformar experimentos em resultados que ainda não são.",
+    "entry_label": "Projeto",
     "project_1_title": "Portfólio Pessoal",
     "project_1_description": "O próprio site em que você está agora! Uma aplicação full-stack construída com Next.js, Tailwind CSS e um backend .NET 8 para exibir meu trabalho e habilidades.",
     "project_1_details": "Este portfólio é uma aplicação full-stack projetada para mostrar minhas habilidades e projetos. Possui uma arquitetura moderna e desacoplada, com um frontend em Next.js e um backend em .NET 8. O projeto é implantado automaticamente via Gitea Actions, com o PM2 gerenciando os processos no servidor para reinicializações sem tempo de inatividade.",
@@ -73,14 +126,18 @@
     "live_link": "Ver ao Vivo",
     "repo_link": "Ver Código",
     "back_to_projects": "Voltar para Projetos",
-    "about_project": "Sobre este Projeto"
+    "about_project": "Sobre este Projeto",
+    "not_found": "Projeto não encontrado"
   },
   "contact": {
-    "title": "Vamos Conversar",
-    "subtitle": "Tem um projeto em mente ou só quer dizer um oi? Minha caixa de entrada está sempre aberta. Preencha o formulário abaixo ou me encontre nas redes sociais.",
+    "title": "Vamos construir algo inteiro.",
+    "subtitle": "Se você procura alguém que conecte produto, código e operação, conte o que precisa resolver.",
+    "direct_label": "Contato direto",
     "form_name": "Seu Nome",
     "form_email": "Seu Email",
     "form_message": "Sua Mensagem",
+    "field_required": "Este campo é obrigatório.",
+    "privacy_note": "Seus dados serão usados apenas para responder a esta mensagem.",
     "submit_button": "Enviar Mensagem",
     "status_sending": "Enviando sua mensagem...",
     "status_success": "Mensagem enviada com sucesso. Obrigado!",
@@ -94,8 +151,17 @@
     "smtp_invalid_recipient": "Endereço de email do destinatário inválido.",
     "smtp_generic_error": "Ocorreu um erro ao enviar o email."
   },
+  "notifications": {
+    "context": "Mensagem de contato",
+    "success": "Enviada",
+    "error": "Requer atenção",
+    "loading": "Enviando",
+    "update": "Atualização",
+    "dismiss": "Dispensar notificação"
+  },
   "footer": {
     "copyright": "Todos os direitos reservados.",
-    "socials_title": "Me encontre em"
+    "socials_title": "Me encontre em",
+    "credit": "Projetado e desenvolvido por João Loureiro."
   }
 }

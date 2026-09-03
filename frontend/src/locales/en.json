@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "home_title": "Home | João Loureiro - Software Developer",
-    "home_description": "Welcome to the portfolio of João Loureiro, a passionate software developer specializing in modern web technologies.",
+    "home_title": "João Loureiro | Full Stack Developer",
+    "home_description": "João Loureiro's portfolio: interfaces, services, automation, and infrastructure brought together as complete systems.",
     "projects_title": "Projects | João Loureiro",
     "projects_description": "Explore a selection of projects built by João Loureiro, showcasing skills in front-end and back-end development.",
     "about_title": "About Me | João Loureiro",
@@ -9,32 +9,85 @@
   },
   "navigation": {
     "home": "Home",
+    "overview": "Overview",
+    "interfaces": "Interfaces",
+    "services": "Services",
+    "automation": "Automation",
+    "infrastructure": "Infrastructure",
     "about": "About",
     "tech": "Technologies",
     "projects": "Projects",
-    "contact": "Contact"
+    "notes": "Notes",
+    "contact": "Contact",
+    "atlas_label": "System layers",
+    "primary_label": "Primary navigation",
+    "secondary_label": "Page shortcuts",
+    "social_label": "Social links and contact",
+    "language": "Change language",
+    "switch_to_light": "Use light theme",
+    "switch_to_dark": "Use dark theme",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu"
   },
   "hero": {
     "greeting": "Hello, I'm",
     "title": "Software Developer & Web Enthusiast",
     "subtitle": "I build modern, responsive, and user-friendly web applications from front-end to back-end.",
-    "cta_button": "See My Work"
+    "role": "Full Stack Developer",
+    "rail_intro": "I build complete systems — from interface to infrastructure.",
+    "manifesto_label": "Manifesto",
+    "headline": "I build complete systems — from interface to infrastructure.",
+    "manifesto": "Clarity in code. Discipline in process. Confidence in the result.",
+    "cta_button": "Explore the work"
+  },
+  "atlas": {
+    "interfaces": {
+      "title": "Interfaces — clear experiences",
+      "points": ["Routes", "Components", "States", "Accessibility", "Performance"]
+    },
+    "services": {
+      "title": "Services — rules and integrations",
+      "points": ["Authentication", "Validation", "Business rules", "Integrations", "Clear domain"]
+    },
+    "automation": {
+      "title": "Automation — flows and processes",
+      "points": ["Events", "Orchestration", "Schedules", "Idempotency", "Traceability"]
+    },
+    "infrastructure": {
+      "title": "Infrastructure — delivery and observability",
+      "points": ["Containers", "CI/CD", "Logs and metrics", "Alerts", "Operations"]
+    }
+  },
+  "notes": {
+    "title": "Field notes",
+    "status": "Coming soon",
+    "description": "Reflections on software, infrastructure, and the craft of building systems.",
+    "purpose_title": "Next chapter",
+    "purpose": "An editorial archive prepared for articles, technical decisions, and project lessons."
   },
   "about": {
     "title": "About Me",
+    "statement": "Technical breadth with end-to-end responsibility.",
     "paragraph1": "I am a Full Stack Developer driven by a passion for building, automating, and scaling robust applications. My journey into technology began with a desire to understand how complex systems work, and it has evolved into a career dedicated to crafting elegant, high-performance solutions.",
     "paragraph2": "With a strong foundation in the .NET and JavaScript ecosystems, I specialize in creating modern web applications using technologies like .NET, Angular, Next.js, and React. However, my curiosity extends beyond code. As you can see from my Homelab project, I am deeply engaged with the full development lifecycle, including CI/CD, containerization with Docker, and infrastructure management.",
-    "paragraph3": "I thrive on challenges and am constantly exploring new technologies, from database administration with MariaDB and Redis to workflow automation with N8N and message queuing with RabbitMQ. This hands-on approach to DevOps and self-hosting allows me to build not just features, but resilient and scalable systems."
+    "paragraph3": "I thrive on challenges and am constantly exploring new technologies, from database administration with MariaDB and Redis to workflow automation with N8N and message queuing with RabbitMQ. This hands-on approach to DevOps and self-hosting allows me to build not just features, but resilient and scalable systems.",
+    "principles": [
+      {"title": "Clarity before complexity", "description": "Architecture and code should make decisions visible, not hide them."},
+      {"title": "Systems, not isolated features", "description": "Interface, service, automation, and operations are part of the same outcome."},
+      {"title": "Evidence-led evolution", "description": "Measurement, observability, and learning guide the next step."}
+    ]
   },
   "skills": {
-    "title": "My Tech Stack",
+    "title": "Technical field",
     "backend": "Backend & Languages",
     "frontend": "Frontend",
     "databases": "Databases & Data",
     "cloud": "Cloud & DevOps"
   },
   "projects": {
-    "title": "Projects I've Built",
+    "title": "Selected explorations",
+    "intro": "Work presented with context, decisions, and lessons — without turning experiments into outcomes they have not earned.",
+    "entry_label": "Project",
     "project_1_title": "Personal Portfolio",
     "project_1_description": "The very site you are on now! A full-stack application built with Next.js, Tailwind CSS, and a .NET 8 backend to showcase my work and skills.",
     "project_1_details": "This portfolio is a full-stack application designed to showcase my skills and projects. It features a modern, decoupled architecture with a Next.js frontend and a .NET 8 backend. The project is automatically deployed via Gitea Actions, with PM2 managing the processes on the server for zero-downtime restarts.",
@@ -73,14 +126,18 @@
     "live_link": "Live Demo",
     "repo_link": "View Code",
     "back_to_projects": "Back to Projects",
-    "about_project": "About this Project"
+    "about_project": "About this Project",
+    "not_found": "Project not found"
   },
   "contact": {
-    "title": "Let's Connect",
-    "subtitle": "Have a project in mind or just want to say hello? My inbox is always open. Fill out the form below or find me on social media.",
+    "title": "Let's build something whole.",
+    "subtitle": "If you need someone who connects product, code, and operations, tell me what you need to solve.",
+    "direct_label": "Direct contact",
     "form_name": "Your Name",
     "form_email": "Your Email",
     "form_message": "Your Message",
+    "field_required": "This field is required.",
+    "privacy_note": "Your details will only be used to reply to this message.",
     "submit_button": "Send Message",
     "status_sending": "Sending your message...",
     "status_success": "Message sent successfully. Thank you!",
@@ -94,8 +151,17 @@
     "smtp_invalid_recipient": "Invalid recipient email address.",
     "smtp_generic_error": "A mail-sending error occurred."
   },
+  "notifications": {
+    "context": "Contact message",
+    "success": "Sent",
+    "error": "Needs attention",
+    "loading": "Sending",
+    "update": "Update",
+    "dismiss": "Dismiss notification"
+  },
   "footer": {
     "copyright": "All rights reserved.",
-    "socials_title": "Find me on"
+    "socials_title": "Find me on",
+    "credit": "Designed and developed by João Loureiro."
   }
 }
