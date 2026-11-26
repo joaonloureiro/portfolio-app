@@ -2,6 +2,12 @@
 **/.next
 **/node_modules
 **/out
+**/.data
+**/tests
+**/coverage
+**/*.md
+**/vitest.config.ts
+**/.eslintcache
 **/.env
 **/.env.*
 **/npm-debug.log*

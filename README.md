@@ -1,82 +1,60 @@
-Full-Stack Portfolio Website
+# João Loureiro Portfolio
 
-Welcome to my personal portfolio project! This repository contains the complete source code for my website, built as a full-stack application with a modern, decoupled architecture.
+Full-stack personal portfolio and blog, with a public bilingual site and a protected English Admin workspace.
 
 [![Portfolio](https://img.shields.io/badge/Live_Demo-joaoloureiro.dev.br-blue?style=for-the-badge&logo=icloud)](https://joaoloureiro.dev.br)
 
-![Deploy badge](https://gitea.joaoloureiro.dev.br/joaoloureiro/portfolio-app/actions/workflows/deploy.yml/badge.svg?branch=main)
+## Architecture
 
- ## 🏛️ Project Architecture
-The project is organized into two main components in a monorepo-style structure:
+- `frontend/`: Next.js 16, React 19, TypeScript, and `next-intl`.
+- `backend/`: ASP.NET Core `net8.0`, organized into API, Application, Domain, and Infrastructure projects.
+- `docker-compose.yml`: production runtime with Traefik routing and a private backend service.
 
-* **`/frontend`**: A responsive and feature-rich Next.js application that serves as the user-facing portfolio.
-* **`/backend`**: A lightweight Node.js and Express server that provides API services to the frontend, primarily for handling contact form submissions.
+## Admin OIDC contract
 
-## ✨ Core Features
-### Frontend
+The Admin panel uses Authentik OIDC Authorization Code + PKCE. Register these exact URLs in the confidential OIDC application:
 
-* **Modern Framework**: Built with **Next.js 15** and **React 19**.
-* **Internationalization (i18n)**: Fully translated in English and Portuguese using `next-intl`.
-* **Responsive Design**: Optimized for a seamless experience on all devices with **Tailwind CSS**.
-* **Interactive UI**: Features a theme switcher for dark/light modes and user-friendly toast notifications for form feedback.
+- Callback: `https://joaoloureiro.dev.br/api/auth/callback/authentik`
+- Post-logout redirect: `https://joaoloureiro.dev.br/`
+
+Better Auth stores encrypted provider tokens in a server-side SQLite database and gives the browser only an HttpOnly session cookie. Browser Admin calls use the same-origin `/admin/api/**` BFF, which forwards allowlisted requests to the internal backend with `Authorization: Bearer`. The backend accepts only standard Bearer tokens and validates issuer, audience, lifetime, signature, and signing algorithm before applying the `PortfolioAdmin` group policy.
+
+Configure these values through Komodo or local user secrets. Never commit the client secret or Better Auth secret:
+
+- Frontend: `BACKEND_INTERNAL_URL`, `PUBLIC_BASE_URL`, `BETTER_AUTH_URL`, `BETTER_AUTH_SECRET`, `AUTH_DATABASE_PATH`, `OIDC_ISSUER`, `OIDC_DISCOVERY_ADDRESS`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`, `OIDC_POST_LOGOUT_REDIRECT_URI`, and `OIDC_SCOPE`. Register `/api/auth/callback/authentik` as the OIDC callback path.
+- Backend: `Authentication__Oidc__Issuer`, `Authentication__Oidc__Audience`, `Authentication__Oidc__DiscoveryAddress`, `Authentication__Oidc__AdminClaimType`, and `Authentication__Oidc__AdminGroup`.
+
+The Authentik application must publish the configured admin claim (normally `groups`), use an asymmetric signing key, enable `openid profile email` and refresh-token support, and bind only the intended administrator group.
+
+## Local development
 
 ### Backend
-* **Robust API**: An Express.js server to handle business logic.
-* **Email Service**: Uses **Nodemailer** to securely send emails via an SMTP server.
-* **Structured Error Handling**: Sends clear error keys to the frontend for better UX and easier debugging.
-
-## 🚀 Getting Started: Running the Full Stack Locally
-
-To run the entire project locally, you will need to start both the frontend and backend servers concurrently.
-
-### 1. Set Up and Run the Backend
-
-First, get the API server running.
 
 ```bash
-# 1. Navigate to the backend directory
 cd backend
-
-# 2. Install dependencies
-npm install
-
-# 3. Create a .env file from the .env.example template
-#    and fill in your SMTP credentials:
-#    - SMTP_HOST: The SMTP server address (e.g., smtp.example.com)
-#    - SMTP_PORT: The port number for the SMTP server (e.g., 587)
-#    - SMTP_USER: Your SMTP username
-#    - SMTP_PASS: Your SMTP password
-# The server will be running on http://localhost:3001 (by default). 
-# Note: The port can be changed via the `.env` file or configuration settings.
-
-# 4. Start the backend server
-npm start
-# The server will be running on http://localhost:3001 (by default)
+dotnet restore JoaoLoureiro.Portfolio.slnx --locked-mode
+dotnet build JoaoLoureiro.Portfolio.slnx --no-restore
+dotnet run --project JoaoLoureiro.Portfolio.Api
 ```
 
-### 2. Set Up and Run the FrontEnd
+Configure SMTP and the `Authentication:Oidc` values through user secrets or environment variables before starting the API. The API fails fast when required OIDC settings are missing outside the controlled test environment.
+
+### Frontend
 
 ```bash
-# 1. Navigate to the frontend directory
 cd frontend
-
-# 2. Install dependencies
-npm install
-
-# 3. Create a .env.local file for the frontend
-echo "NEXT_PUBLIC_BACKEND_URL=http://localhost:3001" > .env.local
-
-# 4. Start the frontend development server
-npm run dev
-# The site will be available at http://localhost:3000
+npm ci
+npm run dev -- --port 3001
 ```
 
-### ⚙️ Deployment
+Copy `frontend/.env.example` to `.env.local` and replace the placeholders. The local configuration expects the backend at `http://localhost:3000` and the frontend at `http://localhost:3001`. Do not use `NEXT_PUBLIC_` for server-only values.
 
-This project is configured for automated deployment using Github Actions. A workflow file at `.gihub/workflows/deploy.yml` orchestrates the build and deployment process. 
+## Deployment
 
-On the server, PM2 is used as a process manager to keep both the frontend and backend applications online and to enable zero-downtime restarts.
+Production uses the root `docker-compose.yml`. The backend has no host port; Traefik exposes public backend routes while the public frontend host serves `/admin` and `/admin/api/**`. Komodo supplies the OIDC issuer, audience, discovery address, administrator group, client secret, Better Auth secret, and persistent auth database volume.
 
-### 📜 License
+Project content is stored in the backend SQLite database and managed through the protected Admin Projects module. Public pages read only published records from the localized `/api/projects` endpoints. The initial media policy accepts deployed files under `frontend/public/` by root-relative path or approved HTTPS image hosts; uploads and a media library are intentionally deferred. See [`backend/README.md`](backend/README.md) for migration, backup/restore, rollback, and asset-release procedures.
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.

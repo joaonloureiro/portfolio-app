@@ -1,4 +1,3 @@
-﻿
 using JoaoLoureiro.Portfolio.Infrastructure.Settings;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -7,25 +6,75 @@ using Microsoft.Extensions.Options;
 
 namespace JoaoLoureiro.Portfolio.Infrastructure.HealthCheck;
 
-public class SmtpHealthCheck(IOptions<SmtpSettings> smtpSettings) : IHealthCheck
+public sealed class SmtpHealthCheck(IOptions<SmtpTransportOptions> smtpOptions) : IHealthCheck
 {
-    private readonly SmtpSettings _smtpSettings = smtpSettings.Value;
+    private static readonly TimeSpan MinimumCheckInterval = TimeSpan.FromSeconds(30);
+    private readonly SmtpTransportOptions _smtpOptions = smtpOptions.Value;
+    private readonly SemaphoreSlim gate = new(1, 1);
+    private DateTimeOffset lastCheck = DateTimeOffset.MinValue;
+    private HealthCheckResult lastResult = HealthCheckResult.Healthy();
 
     public async Task<HealthCheckResult> CheckHealthAsync(
         HealthCheckContext context,
         CancellationToken cancellationToken = default)
     {
-        using var client = new SmtpClient();
+        if (DateTimeOffset.UtcNow - lastCheck < MinimumCheckInterval)
+        {
+            return lastResult;
+        }
+
+        await gate.WaitAsync(cancellationToken);
         try
         {
-            await client.ConnectAsync(_smtpSettings.Host, _smtpSettings.Port, SecureSocketOptions.StartTlsWhenAvailable, cancellationToken);
-            await client.AuthenticateAsync(_smtpSettings.User, _smtpSettings.Pass, cancellationToken);
-            await client.DisconnectAsync(true, cancellationToken);
-            return HealthCheckResult.Healthy("SMTP server is responding correctly.");
+            if (DateTimeOffset.UtcNow - lastCheck < MinimumCheckInterval)
+            {
+                return lastResult;
+            }
+
+            using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            timeout.CancelAfter(TimeSpan.FromSeconds(Math.Min(_smtpOptions.ConnectTimeoutSeconds, 10)));
+            using var client = new SmtpClient {Timeout = _smtpOptions.ConnectTimeoutSeconds * 1000};
+            try
+            {
+                await client.ConnectAsync(
+                    _smtpOptions.Host,
+                    _smtpOptions.Port,
+                    ParseSecurityMode(_smtpOptions.SecurityMode),
+                    timeout.Token);
+                if (_smtpOptions.AuthenticationRequired)
+                {
+                    await client.AuthenticateAsync(_smtpOptions.Username, _smtpOptions.Password, timeout.Token);
+                }
+
+                await client.DisconnectAsync(true, timeout.Token);
+                lastResult = HealthCheckResult.Healthy();
+            }
+            catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+            {
+                lastResult = HealthCheckResult.Unhealthy();
+            }
+            catch (Exception)
+            {
+                lastResult = HealthCheckResult.Unhealthy();
+            }
+
+            lastCheck = DateTimeOffset.UtcNow;
+            return lastResult;
         }
-        catch (Exception ex)
+        finally
         {
-            return HealthCheckResult.Unhealthy("Failed to connect or authenticate with SMTP server.", exception: ex);
+            gate.Release();
         }
+    }
+
+    private static SecureSocketOptions ParseSecurityMode(string value)
+    {
+        return value.ToUpperInvariant() switch
+        {
+            "NONE" => SecureSocketOptions.None,
+            "STARTTLS" => SecureSocketOptions.StartTls,
+            "SSLONCONNECT" => SecureSocketOptions.SslOnConnect,
+            _ => SecureSocketOptions.None
+        };
     }
 }

@@ -8,50 +8,52 @@ web
 
 ## Users
 
-The primary visitors are employers and recruiters evaluating João for software-engineering roles, and prospective freelance clients evaluating whether he can understand and deliver a technical project.
+Employers, hiring managers, recruiters, prospective freelance clients, and technical readers evaluating João Loureiro’s software engineering work—plus João himself maintaining projects, posts, locales, and email delivery through the authenticated Admin workspace.
 
 ## Product Purpose
 
-This portfolio demonstrates João Loureiro's engineering breadth across frontend, backend, automation, deployment, and self-hosted infrastructure. It should make the range of his practical interests easy to understand today and establish an identifiable publishing home for future technical posts.
-
-Success means a visitor can quickly understand what João works across, explore honest evidence of that breadth, remember his point of view, and either return for future writing or start a conversation.
+Present João Loureiro as an individual full-stack and systems-oriented software engineer—connecting web interfaces, .NET services, workflow automation, and self-hosted infrastructure through real project artifacts, engineering decisions, technical writing, and a direct contact flow. Success means a visitor quickly understands what João builds end to end, inspects real work with honest context, reads published field notes, and starts a hiring, freelance, or technical conversation.
 
 ## Positioning
 
-João presents software as a complete working system rather than an isolated interface: application code, backend services, deployment, automation, observability, and the infrastructure that keeps the result running.
+Software presented as complete, operating systems—bridging frontend applications, .NET services, automation, CI/CD, and self-hosted infrastructure—evidenced through real artifacts and engineering notes rather than agency pitch copy or isolated technology lists.
 
 ## Operating Context
 
-Visitors arrive on desktop or mobile, in Portuguese or English, and typically scan before deciding whether to read deeper. The public experience currently includes an introduction, selected projects, an overview of João's background and technical range, project-detail pages, and a contact form. A public Posts section is planned for future technical writing. A future Admin area will be a separate protected working surface rather than part of the public portfolio journey.
+Visitors arrive on desktop or mobile in Portuguese or English with light or dark theme preferences across three distinct surfaces: the public portfolio and project details (`/[locale]`, `/[locale]/project/[id]`), public technical writing (`/[locale]/posts`), and the separate English-only authenticated Admin workspace (`/admin`). Public USD contracting rates and the freelance engagement selector are removed in favor of a general contact flow.
 
 ## Capabilities and Constraints
 
-- The existing application is Next.js 15 with the App Router, React 19, strict TypeScript, `next-intl`, Tailwind CSS 4, and Framer Motion.
-- Portuguese and English must remain complete and synchronized.
-- The current projects are honest explorations and demonstrations; they must not be inflated into flagship commercial case studies or assigned invented outcomes, metrics, clients, or testimonials.
-- Existing contact, theme, localization, project-detail, and responsive behavior should remain functional unless deliberately improved.
-- Posts should have a credible insertion point without shipping fabricated articles or an empty public destination.
-- Admin should inherit future design-system foundations but remain a distinct authenticated Operate surface.
+- Public portfolio, project details, and posts are bilingual (`pt` and `en`) and powered by the ASP.NET Core 8 backend with SQLite persistence.
+- Projects and Posts are created, edited, ordered, and published in Admin; Admin Locales manages localized copy in both languages.
+- Public Posts routes (`/[locale]/posts`) are in scope and must present both an honest empty/ready state and published articles cleanly without placeholder filler.
+- The contact form validates input and submits to the existing backend SMTP delivery endpoint without public pricing or an engagement-type selector.
+- The Admin workspace (`/admin`) is protected by Authentik OIDC with server-enforced authorization and stays English-only, fast, and uncluttered.
+- Full keyboard access, visible focus, reduced motion, light/dark themes, and narrow mobile viewports are required.
 
 ## Brand Commitments
 
-The approved João Loureiro identity in `F:\Branding` is binding. It includes the linked monogram and wordmark, an interlocking pattern, and the palette `#2B304D`, `#636B97`, `#EEAA74`, `#EAE3DB`, `#161616`, and `#FFFFFF`. The brand attributes are security, excellence, balance, innovation, proximity, ethics, transparency, and empathy. The selected homepage direction is brand-led editorial.
+- Retain the existing João Loureiro (`JL`) monogram (`frontend/public/logo.png`).
+- Visual identity (palette, typography, imagery, and composition) is open for full replacement.
+- Never read like an agency or freelance sales funnel; maintain the voice of an individual systems engineer.
+- Keep project maturity and scope honest—do not fabricate commercial clients, testimonials, metrics, or placeholder posts.
 
 ## Evidence on Hand
 
-- Approved brand book and exported identity assets in `F:\Branding`.
-- Existing portfolio, homelab, and Happy project descriptions and imagery in `frontend/src/locales` and `frontend/public`.
-- Existing project-detail routes and a working contact flow.
-- No verified commercial outcomes, testimonials, audience statistics, project metrics, or published posts are currently available; future work must not fabricate them.
+- Published project records and screenshots: Portfolio (`frontend/public/Portfolio.png`), Homelab (`frontend/public/ProxmoxServer.png`), and Happy (`frontend/public/Happy.png`), with localized details, technology lists, and links from the backend.
+- Existing `JL` monogram (`frontend/public/logo.png`).
+- Verified technical background across `.NET`, React, Next.js, Angular, MariaDB, Redis, RabbitMQ, n8n, Docker, CI/CD, and self-hosted Proxmox infrastructure (`frontend/src/locales/en.json` and `pt.json`).
+- Working contact delivery endpoint and authenticated Admin workspace (Projects, Posts, Locales, Email Delivery).
+- Absences not to fabricate: no client logos, commercial testimonials, revenue benchmarks, or pre-existing published articles yet.
 
 ## Product Principles
 
-- Demonstrate breadth through concrete systems, decisions, and artifacts rather than long technology inventories.
-- Be candid about the maturity and context of personal work.
-- Make the identity recognizable without allowing decoration to obscure content.
-- Design public reading and exploration paths to grow gracefully as real posts and projects are added.
-- Keep the future Admin experience operationally clear and separate from the expressive public portfolio.
+- Let real engineering artifacts and technical decisions lead over marketing copy.
+- Show interface, backend services, automation, and infrastructure as one connected practice.
+- Keep personal explorations and homelab systems honest in their actual scope and maturity.
+- Tailor each surface to its job: showcase work on the portfolio, optimize comprehension in Posts, and prioritize operational clarity in Admin.
+- Preserve Portuguese/English parity, accessibility, and light/dark usability across every public route.
 
 ## Accessibility & Inclusion
 
-The public experience must meet WCAG AA expectations, remain fully keyboard usable, respect reduced-motion preferences, preserve useful contrast and focus visibility, and work across narrow mobile and wide desktop layouts in both supported languages.
+Bilingual Portuguese (`pt`) and English (`en`) public experience; semantic HTML, full keyboard navigation, visible focus states, WCAG-compliant contrast in light and dark themes, and `prefers-reduced-motion` support.

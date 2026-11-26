@@ -3,6 +3,7 @@ node_modules/
 .next/
 out/
 coverage/
+.data/
 .eslintcache
 *.tsbuildinfo
 *.log
@@ -21,6 +22,7 @@ yarn-error.log*
 # .NET build output and local state
 bin/
 obj/
+**/data/*.db*
 .vs/
 *.user
 *.suo
@@ -37,7 +39,10 @@ obj/
 Thumbs.db
 
 # Local tooling and scratch files
+.agent/
+.agents/
 .claude/
 .codex/
+.gemini/
 .impeccable/
 tmp/

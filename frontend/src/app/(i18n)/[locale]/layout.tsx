@@ -1,38 +1,18 @@
-import {Barlow, Oswald} from 'next/font/google';
+import {Barlow_Condensed, Atkinson_Hyperlegible_Next} from 'next/font/google';
+import {hasLocale, NextIntlClientProvider} from 'next-intl';
+import type {Locale} from 'next-intl';
+import {getTranslations, setRequestLocale} from 'next-intl/server';
+import {notFound} from 'next/navigation';
+import type {ReactNode} from 'react';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 import PortfolioToaster from '@/app/components/PortfolioToaster';
-import '@/app/globals.css';
-
-import {hasLocale, Locale, NextIntlClientProvider} from 'next-intl';
 import {ThemeProvider} from '@/configuration/ThemeContext';
-import {getTranslations, setRequestLocale} from 'next-intl/server';
-import {ReactNode} from 'react';
 import {routing} from '@/i18n/routing';
-import {notFound} from 'next/navigation';
+import '@/app/portfolio.css';
 
-const bodyFont = Barlow({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-body',
-  display: 'swap'
-});
-
-const displayFont = Oswald({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-display',
-  display: 'swap'
-});
-
-const directionContract = `
-THESIS: Engineering breadth is presented as one complete system; this surface refuses the generic card-grid portfolio.
-OWN-WORLD: Near-black identity rail, a responsive illustrated systems atlas, cream paper chapters, restrained apricot signals, and condensed editorial type.
-STORY: Visitors see end-to-end craft, inspect real work without inflated claims, discover the future field-notes space, and contact João.
-FIRST VIEWPORT: A 13rem identity rail anchors a full-bleed illustrated systems atlas with live localized copy and one clear project action.
-FORM: Living Atlas, first-ranked C-family direction, seed 5ad2562d.
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
-`.trim();
+const bodyFont = Atkinson_Hyperlegible_Next({subsets: ['latin'], variable: '--font-body', adjustFontFallback: false});
+const displayFont = Barlow_Condensed({subsets: ['latin'], weight: ['700', '800', '900'], variable: '--font-display'});
 
 type Props = {
   children: ReactNode;
@@ -43,37 +23,28 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
 }
 
-export async function generateMetadata(props: Omit<Props, 'children'>) {
-  const {locale} = await props.params;
-  const t = await getTranslations({locale, namespace: 'metadata'});
+export async function generateMetadata({params}: Omit<Props, 'children'>) {
+  const {locale} = await params;
+  const t = await getTranslations({locale, namespace: 'engagement'});
 
-  return {
-    title: t('home_title'),
-    description: t('home_description')
-  };
+  return {title: t('meta_title'), description: t('meta_description')};
 }
 
-export default async function RootLayout({children, params}: Props) {
+export default async function PublicLayout({children, params}: Props) {
   const {locale} = await params;
-  if (!hasLocale(routing.locales, locale)) {
-    notFound();
-  }
+  if (!hasLocale(routing.locales, locale)) notFound();
 
   setRequestLocale(locale);
-  const contractScript = `document.body.prepend(document.createComment(${JSON.stringify(directionContract)}));`;
+  const t = await getTranslations('engagement');
 
   return (
-    <html
-      lang={locale}
-      className={`${bodyFont.variable} ${displayFont.variable} scroll-smooth`}
-      suppressHydrationWarning
-    >
+    <html lang={locale} className={`${bodyFont.variable} ${displayFont.variable} contract-site`} suppressHydrationWarning>
       <body>
-        <script dangerouslySetInnerHTML={{__html: contractScript}} />
+        <a href="#main-content" className="contract-skip">{t('skip')}</a>
         <ThemeProvider>
           <NextIntlClientProvider locale={locale}>
             <Header />
-            <main className="site-main">{children}</main>
+            <main id="main-content" tabIndex={-1}>{children}</main>
             <Footer />
             <PortfolioToaster />
           </NextIntlClientProvider>

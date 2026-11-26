@@ -1,47 +1,84 @@
-version: '3.8'
-
 services:
   # Backend Service
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: JoaoLoureiro.Portfolio.Api/Dockerfile
     container_name: portfolio-backend
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ContentStore__Path=/var/lib/portfolio/portfolio.db
+      - SmtpTransport__Host=${SMTP_HOST:?SMTP_HOST must be set in Komodo}
+      - SmtpTransport__Port=${SMTP_PORT:-587}
+      - SmtpTransport__SecurityMode=${SMTP_SECURITY_MODE:-StartTls}
+      - SmtpTransport__AuthenticationRequired=${SMTP_AUTHENTICATION_REQUIRED:-true}
+      - SmtpTransport__Username=${SMTP_USERNAME:?SMTP_USERNAME must be set in Komodo}
+      - SmtpTransport__Password=${SMTP_PASSWORD:?SMTP_PASSWORD must be set in Komodo}
+      - SmtpTransport__FromAddress=${SMTP_FROM_ADDRESS:?SMTP_FROM_ADDRESS must be set in Komodo}
+      - SmtpTransport__ConnectTimeoutSeconds=${SMTP_CONNECT_TIMEOUT_SECONDS:-5}
+      - SmtpTransport__SendTimeoutSeconds=${SMTP_SEND_TIMEOUT_SECONDS:-15}
+      - SmtpTransport__DisconnectTimeoutSeconds=${SMTP_DISCONNECT_TIMEOUT_SECONDS:-5}
+      - EmailDelivery__InitialRecipientAddress=${EMAIL_DELIVERY_INITIAL_RECIPIENT:-me@joaoloureiro.dev.br}
+      - EmailDelivery__InitialSenderDisplayName=${EMAIL_DELIVERY_INITIAL_SENDER_NAME:-Portfolio contact}
+      - EmailDelivery__InitialSubjectPrefix=${EMAIL_DELIVERY_INITIAL_SUBJECT_PREFIX:-New Portfolio Contact}
+      - Authentication__Oidc__Issuer=${OIDC_ISSUER:?OIDC_ISSUER must be set in Komodo}
+      - Authentication__Oidc__Audience=${OIDC_AUDIENCE:?OIDC_AUDIENCE must be set in Komodo}
+      - Authentication__Oidc__DiscoveryAddress=${OIDC_DISCOVERY_ADDRESS:?OIDC_DISCOVERY_ADDRESS must be set in Komodo}
+      - Authentication__Oidc__AdminClaimType=${OIDC_ADMIN_CLAIM_TYPE:-groups}
+      - Authentication__Oidc__AdminGroup=${OIDC_ADMIN_GROUP:?OIDC_ADMIN_GROUP must be set in Komodo}
+    volumes:
+      - portfolio_content_data:/var/lib/portfolio
     networks:
       - traefik_network
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.portfolio-backend.rule=Host(`api.yourdomain.com`)"
+      - "traefik.http.routers.portfolio-backend.rule=Host(`api.joaoloureiro.dev.br`) && !PathPrefix(`/admin/api`)"
       - "traefik.http.routers.portfolio-backend.entrypoints=websecure"
-      - "traefik.http.services.portfolio-backend.loadbalancer.server.port=80"
+      - "traefik.http.services.portfolio-backend.loadbalancer.server.port=8080"
       - "traefik.docker.network=traefik_network"
       - "traefik.http.routers.portfolio-backend.tls.certresolver=le"
-      - "traefik.http.routers.portfolio-backend.middlewares=auth@docker"
 
   # Frontend Service
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_CONTACT_EMAIL: ${NEXT_PUBLIC_CONTACT_EMAIL:-me@joaoloureiro.dev.br}
     container_name: portfolio-frontend
     environment:
-      - NEXT_PUBLIC_API_URL=https://api.yourdomain.com
+      - BACKEND_INTERNAL_URL=http://portfolio-backend:8080
+      - PUBLIC_BASE_URL=https://joaoloureiro.dev.br
+      - BETTER_AUTH_URL=https://joaoloureiro.dev.br
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET:?BETTER_AUTH_SECRET must be set in Komodo}
+      - AUTH_DATABASE_PATH=/app/.data/auth.db
+      - OIDC_ISSUER=${OIDC_ISSUER:?OIDC_ISSUER must be set in Komodo}
+      - OIDC_DISCOVERY_ADDRESS=${OIDC_DISCOVERY_ADDRESS:?OIDC_DISCOVERY_ADDRESS must be set in Komodo}
+      - OIDC_CLIENT_ID=${OIDC_CLIENT_ID:?OIDC_CLIENT_ID must be set in Komodo}
+      - OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET:?OIDC_CLIENT_SECRET must be set in Komodo}
+      - OIDC_POST_LOGOUT_REDIRECT_URI=https://joaoloureiro.dev.br/
+      - OIDC_SCOPE=${OIDC_SCOPE:-openid profile email offline_access}
+    volumes:
+      - portfolio_auth_data:/app/.data
     networks:
       - traefik_network
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.portfolio-frontend.rule=Host(`yourdomain.com`, `www.yourdomain.com`)"
+      - "traefik.http.routers.portfolio-frontend.rule=Host(`joaoloureiro.dev.br`, `www.joaoloureiro.dev.br`)"
       - "traefik.http.routers.portfolio-frontend.entrypoints=websecure"
       - "traefik.http.services.portfolio-frontend.loadbalancer.server.port=3000"
       - "traefik.docker.network=traefik_network"
       - "traefik.http.routers.portfolio-frontend.tls.certresolver=le"
-      - "traefik.http.routers.portfolio-frontend.middlewares=auth@docker"
 
 networks:
   traefik_network:
     external: true  # Using your existing Traefik network
+
+volumes:
+  portfolio_content_data:
+    name: portfolio-content-data
+  portfolio_auth_data:
+    name: portfolio-auth-data

@@ -18,8 +18,8 @@ These instructions apply to the whole repository. Keep durable engineering guida
 ## Current architecture
 
 - `backend/` is ASP.NET Core targeting `net8.0`, organized into API, Application, Domain, and Infrastructure projects. `Program.cs` is the composition root and currently exposes minimal APIs.
-- `frontend/` is Next.js 15 App Router with React 19, strict TypeScript, `next-intl`, Tailwind CSS 4, and Framer Motion.
-- `.gitea/workflows/deploy.yml` is the deployment workflow. PM2 and the ecosystem files are part of the current runtime model.
+- `frontend/` is Next.js 16 App Router with React 19, strict TypeScript, `next-intl`, and Tailwind CSS 4.
+- `.github/workflows/publish-v1-container-images.yml` is the image-publishing workflow. PM2 and the ecosystem files are part of the current runtime model.
 - The root README contains older backend details. Do not infer the active stack from prose alone; verify manifests and source.
 - The current frontend is React/Next.js, not Angular. Do not introduce Angular packages or Angular-shaped patterns unless a task explicitly adds an Angular application. If Angular is added later, follow the Angular rules near the end of this file.
 
@@ -137,6 +137,7 @@ Run these from `backend/`. If the pinned SDK and target framework disagree, repo
 npm ci
 npm run lint
 npx tsc --noEmit
+npm test
 npm run build
 ```
 

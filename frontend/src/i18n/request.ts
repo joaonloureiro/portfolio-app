@@ -1,6 +1,7 @@
 import {hasLocale} from 'next-intl';
 import {getRequestConfig} from 'next-intl/server';
 import {routing} from './routing';
+import {getPublicLocaleMessages} from '@/lib/public-locale-api';
 
 export default getRequestConfig(async ({requestLocale}) => {
   const requested = await requestLocale;
@@ -10,7 +11,7 @@ export default getRequestConfig(async ({requestLocale}) => {
 
   return {
     locale: locale,
-    messages: (await import(`../locales/${locale}.json`)).default,
+    messages: await getPublicLocaleMessages(locale),
     // Set a default time zone if you plan to use time-related formatting.
     // timeZone: 'America/Sao_Paulo',
     // Set a default now value if you plan to use relative time formatting.

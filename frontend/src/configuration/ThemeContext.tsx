@@ -1,5 +1,6 @@
 'use client';
-import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import {createContext, useContext, useEffect, useState} from 'react';
+import type {ReactNode} from 'react';
 
 interface ThemeContextType {
   theme: string;
@@ -9,11 +10,13 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<string>('dark');
+  const [theme, setTheme] = useState<string>('light');
 
   useEffect(() => {
     const storedTheme = localStorage.getItem('theme');
     if (storedTheme === 'light' || storedTheme === 'dark') {
+      // Read the browser preference after hydration to keep the server-rendered default stable.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTheme(storedTheme);
     }
     document.documentElement.classList.toggle('dark', theme === 'dark');

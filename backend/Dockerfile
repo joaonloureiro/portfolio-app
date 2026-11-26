@@ -1,47 +1,56 @@
-# Build stage - using .NET SDK
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+# syntax=docker/dockerfile:1.7
+
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+ARG TARGETARCH
+ARG BUILD_CONFIGURATION=Release
+
 WORKDIR /src
 
-# Copy project files first for better layer caching
-COPY ["*.sln", "./"]
-COPY ["JoaoLoureiro.Portfolio.Api/*.csproj", "JoaoLoureiro.Portfolio.Api/"]
-COPY ["JoaoLoureiro.Portfolio.Application/*.csproj", "JoaoLoureiro.Portfolio.Application/"]
-COPY ["JoaoLoureiro.Portfolio.Domain/*.csproj", "JoaoLoureiro.Portfolio.Domain/"]
-COPY ["JoaoLoureiro.Portfolio.Infrastructure/*.csproj", "JoaoLoureiro.Portfolio.Infrastructure/"]
+# Copy project manifests and lock files first so dependency restore stays cacheable.
+COPY ["global.json", "."]
+COPY ["JoaoLoureiro.Portfolio.Api/JoaoLoureiro.Portfolio.Api.csproj", "JoaoLoureiro.Portfolio.Api/"]
+COPY ["JoaoLoureiro.Portfolio.Api/packages.lock.json", "JoaoLoureiro.Portfolio.Api/"]
+COPY ["JoaoLoureiro.Portfolio.Application/JoaoLoureiro.Portfolio.Core.csproj", "JoaoLoureiro.Portfolio.Application/"]
+COPY ["JoaoLoureiro.Portfolio.Application/packages.lock.json", "JoaoLoureiro.Portfolio.Application/"]
+COPY ["JoaoLoureiro.Portfolio.Domain/JoaoLoureiro.Portfolio.Domain.csproj", "JoaoLoureiro.Portfolio.Domain/"]
+COPY ["JoaoLoureiro.Portfolio.Domain/packages.lock.json", "JoaoLoureiro.Portfolio.Domain/"]
+COPY ["JoaoLoureiro.Portfolio.Infrastructure/JoaoLoureiro.Portfolio.Infrastructure.csproj", "JoaoLoureiro.Portfolio.Infrastructure/"]
+COPY ["JoaoLoureiro.Portfolio.Infrastructure/packages.lock.json", "JoaoLoureiro.Portfolio.Infrastructure/"]
 
-# Restore dependencies
-WORKDIR "/src/JoaoLoureiro.Portfolio.Api"
-RUN dotnet restore
+RUN dotnet restore "JoaoLoureiro.Portfolio.Api/JoaoLoureiro.Portfolio.Api.csproj" --locked-mode
 
-# Copy remaining source code
-WORKDIR "/src"
 COPY . .
 
-# Build and publish
-WORKDIR "/src/JoaoLoureiro.Portfolio.Api"
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish "JoaoLoureiro.Portfolio.Api/JoaoLoureiro.Portfolio.Api.csproj" \
+    --configuration "$BUILD_CONFIGURATION" \
+    --output /app/publish \
+    --no-restore \
+    -p:UseAppHost=false \
+    -p:DebugType=None \
+    -p:DebugSymbols=false \
+    && case "$TARGETARCH" in \
+         amd64) keep_rid="linux-x64" ;; \
+         arm64) keep_rid="linux-arm64" ;; \
+         *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+       esac \
+    && if [ -d /app/publish/runtimes ]; then \
+         find /app/publish/runtimes -mindepth 1 -maxdepth 1 ! -name "$keep_rid" ! -name "unix" -exec rm -rf {} + ; \
+       fi \
+    && mkdir -p /var/lib/portfolio
 
-# Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-noble-chiseled AS runtime
+
 WORKDIR /app
 
-# curl used by docker-compose healthcheck
-RUN apt-get update \
-    && apt-get install -y curl \
-    && rm -rf /var/lib/apt/lists/*
+ENV ASPNETCORE_HTTP_PORTS=8080 \
+    DOTNET_EnableDiagnostics=0
 
-# Configure logging to show in container logs
-ENV ASPNETCORE_ENVIRONMENT=Development
-ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
-ENV ASPNETCORE_URLS=http://+:3001
-ENV ASPNETCORE_HTTP_PORT=3001
-ENV ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+EXPOSE 8080
 
-# Expose the port
-EXPOSE 3001
-
-# Copy published app
+COPY --from=build --chown=$APP_UID:$APP_UID /var/lib/portfolio /var/lib/portfolio
 COPY --from=build /app/publish .
 
-# Entry point with enhanced logging
+# The chiseled .NET 8 runtime image runs as non-root app user (UID 1654) without a shell or package manager.
+USER $APP_UID
+
 ENTRYPOINT ["dotnet", "JoaoLoureiro.Portfolio.Api.dll"]

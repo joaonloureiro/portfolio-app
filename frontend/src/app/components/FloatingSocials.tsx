@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { HiOutlineMail } from 'react-icons/hi';
+import {contactEmail} from '@/lib/contact-config';
 
 const socialLinks = [
-    { href: 'mailto:me@joaoloureiro.dev.br', icon: <HiOutlineMail/>, label: 'Email' },
+    { href: `mailto:${contactEmail}`, icon: <HiOutlineMail/>, label: 'Email' },
     { href: process.env.NEXT_PUBLIC_GITHUB_URL || '#', icon: <FaGithub/>, label: 'GitHub' },
     { href: process.env.NEXT_PUBLIC_LINKEDIN_URL || '#', icon: <FaLinkedin/>, label: 'LinkedIn' },
 ];

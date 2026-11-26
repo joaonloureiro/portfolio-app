@@ -1,8 +1,11 @@
 'use client';
 
-import {FormEvent, useState} from 'react';
+import {useState} from 'react';
+import type {FormEvent} from 'react';
+import {ArrowUpRightIcon} from '@heroicons/react/24/outline';
 import {useTranslations} from 'next-intl';
 import toast from 'react-hot-toast';
+import {contactEmail} from '@/lib/contact-config';
 
 type FormData = {
   name: string;
@@ -13,12 +16,21 @@ type FormData = {
 type FieldErrors = Partial<Record<keyof FormData, string>>;
 
 const emptyForm: FormData = {name: '', email: '', message: ''};
+type Engagement = 'monthly' | 'task' | '';
 
-export default function Contact() {
+export default function Contact({initialEngagement}: {initialEngagement: Engagement}) {
   const t = useTranslations('contact');
+  const offer = useTranslations('engagement');
+  const [selection, setSelection] = useState({source: initialEngagement, value: initialEngagement});
+  if (selection.source !== initialEngagement) {
+    setSelection({source: initialEngagement, value: initialEngagement});
+  }
+  const engagement = selection.source === initialEngagement ? selection.value : initialEngagement;
   const [formData, setFormData] = useState<FormData>(emptyForm);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const prefix = engagement ? `${offer('form_engagement')}: ${offer(engagement)}\n\n` : '';
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const field = event.target.name as keyof FormData;
@@ -32,6 +44,7 @@ export default function Contact() {
     if (!formData.email.trim()) errors.email = t('field_required');
     else if (!/^\S+@\S+\.\S+$/.test(formData.email)) errors.email = t('status_error_invalid_email');
     if (!formData.message.trim()) errors.message = t('field_required');
+    else if (prefix.length + formData.message.length > 4000) errors.message = t('contact_payload_too_large');
     return errors;
   };
 
@@ -51,7 +64,7 @@ export default function Contact() {
         const response = await fetch('/api/email/send', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(formData)
+          body: JSON.stringify({...formData, message: prefix + formData.message})
         });
 
         if (!response.ok) {
@@ -84,72 +97,96 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="contact-section" aria-labelledby="contact-title">
-      <div className="contact-intro">
-        <h2 id="contact-title">{t('title')}</h2>
-        <p>{t('subtitle')}</p>
-        <a href="mailto:me@joaoloureiro.dev.br" className="direct-email">
-          <span>{t('direct_label')}</span>
-          me@joaoloureiro.dev.br
-        </a>
+    <section id="contact" className="contract-contact" aria-labelledby="contact-title">
+      <div className="contract-wrap contract-contact-grid">
+        <div className="contact-intro">
+          <h2 id="contact-title">{offer('contact_heading')}</h2>
+          <p>{offer('contact_intro')}</p>
+          <a href={`mailto:${contactEmail}`} className="direct-email">
+            <span>{t('direct_label')}</span>
+            {contactEmail}
+          </a>
+        </div>
+
+        <form onSubmit={handleSubmit} className="contract-form" noValidate>
+          <div className="form-field">
+            <label htmlFor="name">{t('form_name')}</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              required
+              autoComplete="name"
+              maxLength={120}
+              value={formData.name}
+              onChange={handleChange}
+              aria-invalid={Boolean(fieldErrors.name)}
+              aria-describedby={fieldErrors.name ? 'name-error' : undefined}
+            />
+            {fieldErrors.name && <p id="name-error" className="field-error">{fieldErrors.name}</p>}
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="email">{t('form_email')}</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              autoComplete="email"
+              maxLength={320}
+              value={formData.email}
+              onChange={handleChange}
+              aria-invalid={Boolean(fieldErrors.email)}
+              aria-describedby={fieldErrors.email ? 'email-error' : undefined}
+            />
+            {fieldErrors.email && <p id="email-error" className="field-error">{fieldErrors.email}</p>}
+          </div>
+
+          <div className="form-field form-field-wide">
+            <label htmlFor="engagement">{offer('form_engagement')}</label>
+            <select
+              id="engagement"
+              value={engagement}
+              onChange={(event) => {
+                const {value} = event.target;
+                setSelection({
+                  source: initialEngagement,
+                  value: value === 'monthly' || value === 'task' ? value : ''
+                });
+                setFieldErrors((current) => ({...current, message: undefined}));
+              }}
+            >
+              <option value="">{offer('form_unsure')}</option>
+              <option value="monthly">{offer('monthly')}</option>
+              <option value="task">{offer('task')}</option>
+            </select>
+          </div>
+          <div className="form-field form-field-wide">
+            <label htmlFor="message">{t('form_message')}</label>
+            <textarea
+              name="message"
+              id="message"
+              required
+              rows={5}
+              maxLength={4000 - prefix.length}
+              value={formData.message}
+              onChange={handleChange}
+              aria-invalid={Boolean(fieldErrors.message)}
+              aria-describedby={fieldErrors.message ? 'message-error' : undefined}
+            />
+            {fieldErrors.message && <p id="message-error" className="field-error">{fieldErrors.message}</p>}
+          </div>
+
+          <div className="contract-submit">
+            <p>{t('privacy_note')}</p>
+            <button className="contract-button" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? t('status_sending') : t('submit_button')}
+              <ArrowUpRightIcon aria-hidden="true" />
+            </button>
+          </div>
+        </form>
       </div>
-
-      <form onSubmit={handleSubmit} className="contact-form" noValidate>
-        <div className="form-field" data-invalid={Boolean(fieldErrors.name)}>
-          <label htmlFor="name">{t('form_name')}</label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            autoComplete="name"
-            maxLength={120}
-            value={formData.name}
-            onChange={handleChange}
-            aria-invalid={Boolean(fieldErrors.name)}
-            aria-describedby={fieldErrors.name ? 'name-error' : undefined}
-          />
-          {fieldErrors.name && <p id="name-error" className="field-error">{fieldErrors.name}</p>}
-        </div>
-
-        <div className="form-field" data-invalid={Boolean(fieldErrors.email)}>
-          <label htmlFor="email">{t('form_email')}</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            autoComplete="email"
-            maxLength={254}
-            value={formData.email}
-            onChange={handleChange}
-            aria-invalid={Boolean(fieldErrors.email)}
-            aria-describedby={fieldErrors.email ? 'email-error' : undefined}
-          />
-          {fieldErrors.email && <p id="email-error" className="field-error">{fieldErrors.email}</p>}
-        </div>
-
-        <div className="form-field form-field-message" data-invalid={Boolean(fieldErrors.message)}>
-          <label htmlFor="message">{t('form_message')}</label>
-          <textarea
-            name="message"
-            id="message"
-            rows={5}
-            maxLength={4000}
-            value={formData.message}
-            onChange={handleChange}
-            aria-invalid={Boolean(fieldErrors.message)}
-            aria-describedby={fieldErrors.message ? 'message-error' : undefined}
-          />
-          {fieldErrors.message && <p id="message-error" className="field-error">{fieldErrors.message}</p>}
-        </div>
-
-        <div className="form-submit-row">
-          <p>{t('privacy_note')}</p>
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? t('status_sending') : t('submit_button')}
-            <svg viewBox="0 0 24 16" aria-hidden="true"><path d="M 0 8 H 21 M 15 2 L 21 8 L 15 14" /></svg>
-          </button>
-        </div>
-      </form>
     </section>
   );
 }
