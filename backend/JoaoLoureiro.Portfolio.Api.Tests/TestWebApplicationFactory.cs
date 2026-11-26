@@ -27,37 +27,6 @@ public sealed class TestWebApplicationFactory : WebApplicationFactory<Program>
     public const string Audience = "portfolio-admin-tests";
     public const string AdministratorSubject = "administrator-test-subject";
 
-    private const string PrivateKeyPem = """
------BEGIN PRIVATE KEY-----
-MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCzx4JDwnFRyIHC
-uMQiCdOBbuGTSqnsVVT+RJr2rpn9PkZUxFl11STsLJ4zAPIo0Ajm7OSnjOEuFKQA
-QQKzodqZQYjhPdvoPuqNd37EdqY+twNx/inz1RLSJU7UL7qsSc62eJGDNwc7tD91
-nwT7u64rNLQes3IezTnbE/o+17fEqGrDJVdo3WlOGMb+2h07pR6FjoeKI8Tiq77m
-OVp3Yiqw5spQenoyOh+RHNqIVRXsyOMdsmfwwpy6X8/aJvdsywlH6FOIj+SkE7n6
-3QXEPSEUEBl/zmY9/bKE2hVWjugYh6QqFWL4INKK18STcS78ydCR57KSbh2D8Oxn
-jgU+BxofAgMBAAECggEALsfcDEDFFwhrR52nn8nZySTuutKja9V6k92LS2R8uoqh
-Z35eXwyTGoeztMbqvJcBsgFzsGu2zrRdRpmkF9UmmlmUwjPEDOeORjiRepL7SHd8
-BIYkKYhI6Pj/TbSLyTg9e3rdNn0zuyP4nWU/OTgJpsGEmzaLnBtAElNc+0xLy/at
-ULC+I95sGQw/pz0UKLJcx0axIybqm8SqWH2xLhEa6vSH9dKrgQTLI6BTP2bz9n6w
-tKy6MZfpNUhNzXBtOxt7iS2dEa2gCvOUlqjY4KZ0VYpTxr5ZSpQrWCjqvtW227JL
-J3vCe5k3aNM1ICbDhyjFsGDu5GPanN46+RHFlEQDBQKBgQDkND++0CDS3qdaKhjq
-Rq5vQEsS2BIG7t5662Yx4fZucRHGFtrqsSpFG44LjttUvRNMH/xuWrqPudcaSL+f
-xzMkfB3JYN9p2bfoBUUZEn+xU7o2jJbD1S87zA9Tt0DKzPSlFgqTr4ZsytdT6b0V
-IVNODN0K7nLbCrkAWAVGiIHTawKBgQDJrU1Mct54IoiVwLnK2PG1bFi6gmBvsbd7
-ZnfgzED9d1xW9MNhe7p1JbJfcUuHS4QX9w/MeLCS4zGWmG7kAS7sUH+yGp5uso5T
-de2tfPJgBtmX5/bZ9fnbG1qopZDJFOJ+EnW1KmOqRQ4b30JNksW4ga9IZQybAivk
-iQ6Go+c1HQKBgAIPtsOyfZlqCXj3CGKVYN4AZq005nTJk5jop3Or5t34h4CSlEeq
-cgdNyGqyT6jkTFhTsaQNjcHem+LQ5Wo8Emox9NLs3RfHr7GY2pbvY9fmObhkbLg4
-JMUVgs3uydcLIuqa2F2dKEmzS16mrd6S/n2mABkpLkBsSF+IbAPHF+UhAoGBAJeu
-Gbbnpd5gyq0mmBWx+Ihkho8vw2v+E2th88NEm5SGkxJrYA8PSXsV8QPLZ+zHpP+J
-N36nPtYavY7v8mbVZP8ixAel8YZ8EINA7JNQp9IFFN4k/gmL8HEUL6krbKtvY7FC
-HPk2emLzMNtRnMJPIxnTn4spRMPIbE6jriMhXqEZAoGBALXZ+uiGpyszAWW97b9f
-Ul6kMq9/+ibeEAa0hQrmCIZcJDQnyWnlcMzhIamdG+Yl4xiPVztcNB7sVi0SOle3
-OoMuuAkssVGcBQ8hgOMfN/LoGSyb6UhV7CY50oUtKAqj0Z1wn6M2yNB5EAzL/KeJ
-rzimz4jovG1Q0c9EoxvTtV3c
------END PRIVATE KEY-----
-""";
-
     private static readonly RSA SigningRsa = CreateSigningRsa();
     private readonly SqliteConnection contentStoreConnection = new("Data Source=:memory:");
 
@@ -200,12 +169,7 @@ rzimz4jovG1Q0c9EoxvTtV3c
         return new JwtSecurityTokenHandler().CreateEncodedJwt(descriptor);
     }
 
-    private static RSA CreateSigningRsa()
-    {
-        var rsa = RSA.Create();
-        rsa.ImportFromPem(PrivateKeyPem);
-        return rsa;
-    }
+    private static RSA CreateSigningRsa() => RSA.Create(2048);
 
     private static IEnumerable<System.Security.Claims.Claim> CreateClaims(string subject)
     {
