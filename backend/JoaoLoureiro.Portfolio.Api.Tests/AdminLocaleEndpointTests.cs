@@ -51,7 +51,7 @@ public sealed class AdminLocaleEndpointTests(TestWebApplicationFactory factory)
         Assert.Contains("public", publicResponse.Headers.CacheControl?.ToString());
         Assert.NotNull(publicResponse.Headers.ETag);
         using var document = JsonDocument.Parse(await publicResponse.Content.ReadAsStreamAsync());
-        Assert.Equal("João Loureiro | Full Stack Developer", document.RootElement.GetProperty("messages").GetProperty("metadata").GetProperty("home_title").GetString());
+        Assert.Equal("João Loureiro | Full-Stack Developer", document.RootElement.GetProperty("messages").GetProperty("metadata").GetProperty("home_title").GetString());
         Assert.Equal(3, document.RootElement.GetProperty("messages").GetProperty("about").GetProperty("principles").GetArrayLength());
     }
 
