@@ -1,4 +1,3 @@
-import {JetBrains_Mono, Manrope, Sora} from 'next/font/google';
 import {hasLocale, NextIntlClientProvider} from 'next-intl';
 import type {Locale} from 'next-intl';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
@@ -7,30 +6,10 @@ import type {ReactNode} from 'react';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 import PortfolioToaster from '@/app/components/PortfolioToaster';
+import {bodyFont, displayFont, monoFont} from '@/app/fonts';
 import {ThemeProvider} from '@/configuration/ThemeContext';
 import {routing} from '@/i18n/routing';
 import '@/app/portfolio.css';
-
-const displayFont = Sora({
-  subsets: ['latin'],
-  weight: ['600', '700', '800'],
-  variable: '--font-display',
-  adjustFontFallback: false
-});
-
-const bodyFont = Manrope({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-body',
-  adjustFontFallback: false
-});
-
-const monoFont = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-mono',
-  adjustFontFallback: false
-});
 
 type Props = {
   children: ReactNode;
