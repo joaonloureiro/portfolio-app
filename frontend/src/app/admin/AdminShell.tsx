@@ -28,7 +28,10 @@ function AuthenticatedDashboard({subject}: {subject: string}) {
   return (
     <main className="admin-main">
       <section className="admin-intro" aria-labelledby="admin-title">
-        <h1 id="admin-title">Admin workspace</h1>
+        <div>
+          <span className="admin-kicker">CONTROL PLANE</span>
+          <h1 id="admin-title">Admin workspace</h1>
+        </div>
         <p>A protected place to operate João Loureiro’s portfolio.</p>
       </section>
 
@@ -41,13 +44,14 @@ function AuthenticatedDashboard({subject}: {subject: string}) {
       </section>
 
       <section className="admin-empty-state" aria-labelledby="empty-title">
-        <div className="admin-empty-mark" aria-hidden="true"><span /></div>
+        <span className="admin-kicker">OPERATIONS</span>
         <h2 id="empty-title">Portfolio operations</h2>
         <p>Operate the portfolio’s bilingual content without exposing drafts, tokens, or deployment details to the public surface.</p>
-        <div className="admin-form-actions">
+        <div className="admin-ops-grid">
           <Link href="/admin/projects" className="admin-button admin-button-accent">Open Projects</Link>
           <Link href="/admin/posts" className="admin-button admin-button-quiet">Open Posts</Link>
           <Link href="/admin/locales" className="admin-button admin-button-quiet">Open Locales</Link>
+          <Link href="/admin/email-delivery" className="admin-button admin-button-quiet">Email delivery</Link>
         </div>
       </section>
     </main>

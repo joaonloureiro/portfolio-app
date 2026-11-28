@@ -1,8 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import {useState} from 'react';
-import type {FormEvent} from 'react';
+import type {ChangeEvent, FormEvent} from 'react';
 import {ArrowUpRightIcon} from '@heroicons/react/24/outline';
+import {FaGithub, FaLinkedin} from 'react-icons/fa';
 import {useTranslations} from 'next-intl';
 import toast from 'react-hot-toast';
 import {contactEmail} from '@/lib/contact-config';
@@ -16,23 +18,18 @@ type FormData = {
 type FieldErrors = Partial<Record<keyof FormData, string>>;
 
 const emptyForm: FormData = {name: '', email: '', message: ''};
-type Engagement = 'monthly' | 'task' | '';
 
-export default function Contact({initialEngagement}: {initialEngagement: Engagement}) {
+export default function Contact() {
   const t = useTranslations('contact');
-  const offer = useTranslations('engagement');
-  const [selection, setSelection] = useState({source: initialEngagement, value: initialEngagement});
-  if (selection.source !== initialEngagement) {
-    setSelection({source: initialEngagement, value: initialEngagement});
-  }
-  const engagement = selection.source === initialEngagement ? selection.value : initialEngagement;
+  const footerT = useTranslations('footer');
   const [formData, setFormData] = useState<FormData>(emptyForm);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const prefix = engagement ? `${offer('form_engagement')}: ${offer(engagement)}\n\n` : '';
+  const githubUrl = process.env.NEXT_PUBLIC_GITHUB_URL;
+  const linkedinUrl = process.env.NEXT_PUBLIC_LINKEDIN_URL;
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const field = event.target.name as keyof FormData;
     setFormData((current) => ({...current, [field]: event.target.value}));
     setFieldErrors((current) => ({...current, [field]: undefined}));
@@ -44,7 +41,7 @@ export default function Contact({initialEngagement}: {initialEngagement: Engagem
     if (!formData.email.trim()) errors.email = t('field_required');
     else if (!/^\S+@\S+\.\S+$/.test(formData.email)) errors.email = t('status_error_invalid_email');
     if (!formData.message.trim()) errors.message = t('field_required');
-    else if (prefix.length + formData.message.length > 4000) errors.message = t('contact_payload_too_large');
+    else if (formData.message.length > 4000) errors.message = t('contact_payload_too_large');
     return errors;
   };
 
@@ -64,7 +61,7 @@ export default function Contact({initialEngagement}: {initialEngagement: Engagem
         const response = await fetch('/api/email/send', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({...formData, message: prefix + formData.message})
+          body: JSON.stringify(formData)
         });
 
         if (!response.ok) {
@@ -97,91 +94,107 @@ export default function Contact({initialEngagement}: {initialEngagement: Engagem
   };
 
   return (
-    <section id="contact" className="contract-contact" aria-labelledby="contact-title">
-      <div className="contract-wrap contract-contact-grid">
-        <div className="contact-intro">
-          <h2 id="contact-title">{offer('contact_heading')}</h2>
-          <p>{offer('contact_intro')}</p>
-          <a href={`mailto:${contactEmail}`} className="direct-email">
-            <span>{t('direct_label')}</span>
-            {contactEmail}
-          </a>
+    <section id="contact" className="signal-contact" aria-labelledby="contact-title">
+      <div className="signal-wrap signal-contact-grid">
+        <div className="signal-contact-intro">
+          <h2 id="contact-title">{t('title')}</h2>
+          <p>{t('subtitle')}</p>
+
+          <div className="signal-contact-channels">
+            <span className="signal-contact-kicker">{t('direct_label')}</span>
+            <a href={`mailto:${contactEmail}`} className="signal-email-inline">
+              <span>{contactEmail}</span>
+              <ArrowUpRightIcon aria-hidden="true" />
+            </a>
+
+            {(githubUrl || linkedinUrl) && (
+              <div className="signal-social-icons" aria-label={footerT('socials_title')}>
+                {githubUrl && (
+                  <Link
+                    href={githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="signal-icon-btn"
+                    aria-label="GitHub"
+                    title="GitHub"
+                  >
+                    <FaGithub aria-hidden="true" />
+                  </Link>
+                )}
+                {linkedinUrl && (
+                  <Link
+                    href={linkedinUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="signal-icon-btn"
+                    aria-label="LinkedIn"
+                    title="LinkedIn"
+                  >
+                    <FaLinkedin aria-hidden="true" />
+                  </Link>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="contract-form" noValidate>
-          <div className="form-field">
-            <label htmlFor="name">{t('form_name')}</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              required
-              autoComplete="name"
-              maxLength={120}
-              value={formData.name}
-              onChange={handleChange}
-              aria-invalid={Boolean(fieldErrors.name)}
-              aria-describedby={fieldErrors.name ? 'name-error' : undefined}
-            />
-            {fieldErrors.name && <p id="name-error" className="field-error">{fieldErrors.name}</p>}
+        <form onSubmit={handleSubmit} className="signal-form" noValidate>
+          <div className="signal-form-row">
+            <div className="signal-field">
+              <label htmlFor="name">{t('form_name')}</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                required
+                autoComplete="name"
+                maxLength={120}
+                value={formData.name}
+                onChange={handleChange}
+                aria-invalid={Boolean(fieldErrors.name)}
+                aria-describedby={fieldErrors.name ? 'name-error' : undefined}
+              />
+              {fieldErrors.name && <p id="name-error" className="signal-field-error">{fieldErrors.name}</p>}
+            </div>
+
+            <div className="signal-field">
+              <label htmlFor="email">{t('form_email')}</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                required
+                autoComplete="email"
+                maxLength={320}
+                value={formData.email}
+                onChange={handleChange}
+                aria-invalid={Boolean(fieldErrors.email)}
+                aria-describedby={fieldErrors.email ? 'email-error' : undefined}
+              />
+              {fieldErrors.email && <p id="email-error" className="signal-field-error">{fieldErrors.email}</p>}
+            </div>
           </div>
 
-          <div className="form-field">
-            <label htmlFor="email">{t('form_email')}</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              required
-              autoComplete="email"
-              maxLength={320}
-              value={formData.email}
-              onChange={handleChange}
-              aria-invalid={Boolean(fieldErrors.email)}
-              aria-describedby={fieldErrors.email ? 'email-error' : undefined}
-            />
-            {fieldErrors.email && <p id="email-error" className="field-error">{fieldErrors.email}</p>}
-          </div>
-
-          <div className="form-field form-field-wide">
-            <label htmlFor="engagement">{offer('form_engagement')}</label>
-            <select
-              id="engagement"
-              value={engagement}
-              onChange={(event) => {
-                const {value} = event.target;
-                setSelection({
-                  source: initialEngagement,
-                  value: value === 'monthly' || value === 'task' ? value : ''
-                });
-                setFieldErrors((current) => ({...current, message: undefined}));
-              }}
-            >
-              <option value="">{offer('form_unsure')}</option>
-              <option value="monthly">{offer('monthly')}</option>
-              <option value="task">{offer('task')}</option>
-            </select>
-          </div>
-          <div className="form-field form-field-wide">
+          <div className="signal-field">
             <label htmlFor="message">{t('form_message')}</label>
             <textarea
               name="message"
               id="message"
               required
               rows={5}
-              maxLength={4000 - prefix.length}
+              maxLength={4000}
               value={formData.message}
               onChange={handleChange}
               aria-invalid={Boolean(fieldErrors.message)}
               aria-describedby={fieldErrors.message ? 'message-error' : undefined}
             />
-            {fieldErrors.message && <p id="message-error" className="field-error">{fieldErrors.message}</p>}
+            {fieldErrors.message && <p id="message-error" className="signal-field-error">{fieldErrors.message}</p>}
           </div>
 
-          <div className="contract-submit">
+          <div className="signal-submit-row">
             <p>{t('privacy_note')}</p>
-            <button className="contract-button" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? t('status_sending') : t('submit_button')}
+            <button className="signal-btn-primary" type="submit" disabled={isSubmitting}>
+              <span>{isSubmitting ? t('status_sending') : t('submit_button')}</span>
               <ArrowUpRightIcon aria-hidden="true" />
             </button>
           </div>

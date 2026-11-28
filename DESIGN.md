@@ -1,93 +1,101 @@
 ---
 name: João Loureiro
-description: Public identity for independent software engineering engagements
+description: Personal portfolio in the V4 Signal Terrain Obsidian design system
 colors:
-  cobalt: "#0822EC"
-  yellow: "#E8FF52"
-  black: "#111216"
-  white: "#FFFFFF"
-  dark-page: "#18191F"
-  field: "#F3F4F8"
-  field-line: "#BFC1CA"
+  bg-obsidian: "#06080D"
+  surface: "#0D121C"
+  surface-elevated: "#141B29"
+  ink: "#F3F5F8"
+  muted: "#98A3B5"
+  emerald: "#10B981"
+  emerald-ink: "#34D399"
+  emerald-on: "#04150E"
+  ice: "#38BDF8"
+  light-bg: "#F3F5F8"
+  light-surface: "#FFFFFF"
+  light-ink: "#0B111D"
+  light-muted: "#465368"
+  light-emerald: "#047857"
+  light-ice: "#0369A1"
 typography:
   display:
-    fontFamily: "Barlow Condensed, sans-serif"
-    fontSize: "clamp(4.25rem, 8.45vw, 8.1rem)"
-    fontWeight: 900
-    lineHeight: 0.82
-    letterSpacing: "-0.022em"
-  section:
-    fontFamily: "Barlow Condensed, sans-serif"
-    fontSize: "clamp(3.35rem, 7.1vw, 7rem)"
+    fontFamily: "Sora, sans-serif"
+    fontSize: "clamp(2.65rem, 5.6vw, 4.9rem)"
     fontWeight: 800
-    lineHeight: 0.95
-    letterSpacing: "-0.022em"
+    lineHeight: 1.02
+    letterSpacing: "-0.035em"
+  section:
+    fontFamily: "Sora, sans-serif"
+    fontSize: "clamp(1.9rem, 3.3vw, 2.75rem)"
+    fontWeight: 700
+    lineHeight: 1.08
+    letterSpacing: "-0.028em"
   body:
-    fontFamily: "Atkinson Hyperlegible Next, sans-serif"
-    fontSize: "1.04rem"
+    fontFamily: "Manrope, sans-serif"
+    fontSize: "1.02rem"
     fontWeight: 400
-    lineHeight: 1.55
+    lineHeight: 1.6
+  mono:
+    fontFamily: "JetBrains Mono, monospace"
+    fontSize: "0.82rem"
+    fontWeight: 500
+    lineHeight: 1.4
 rounded:
-  square: "0"
+  pill: "999px"
+  frame: "20px"
+  control: "10px"
 spacing:
-  field-gap: "1.1rem"
-  action-gap: "1.15rem"
+  section-y: "88px"
+  spine-gap: "88px"
+  chapter-gap: "46px"
 components:
-  contact-action:
-    backgroundColor: "{colors.yellow}"
-    textColor: "{colors.black}"
-    rounded: "{rounded.square}"
-    padding: "0.65rem 1rem"
-    height: "3.15rem"
-  price-band:
-    backgroundColor: "{colors.yellow}"
-    textColor: "{colors.black}"
-    rounded: "{rounded.square}"
+  primary-action:
+    backgroundColor: "{colors.emerald}"
+    textColor: "{colors.emerald-on}"
+    rounded: "{rounded.control}"
+    padding: "12px 22px"
+    height: "48px"
+  hud-pill:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.pill}"
+    padding: "8px 16px"
+    height: "44px"
   intake-field:
-    backgroundColor: "{colors.field}"
-    textColor: "{colors.black}"
-    rounded: "{rounded.square}"
-    padding: "0.6rem 0.8rem"
-    height: "3.1rem"
+    backgroundColor: "#0B1019"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.control}"
+    padding: "12px 14px"
+    height: "48px"
 ---
 
 # João Loureiro
 
 ## Overview
 
-The hiring page opens like an industrial campaign poster. The existing JL monogram sits above a condensed headline and a braided cable rendered in cobalt and acid yellow. A dedicated price band leads into a charcoal gallery of published work.
+The portfolio uses a dark-first **Signal Terrain** design system (`Sora`, `Manrope`, `JetBrains Mono`) built on an Obsidian canvas (`#06080D`) with Emerald (`#10B981` / `#34D399`) and Ice (`#38BDF8`) signal accents. A full-viewport interactive 3D perspective terrain canvas with flowing signal pulses sits behind Admin-configured intro copy, leading into an alternating Vertical Signal Spine populated dynamically from `/admin/projects` and ending with a direct contact form and icon-only profile links.
 
 ## Colors
 
-Cobalt fills the masthead, opening, and services. Acid yellow identifies the main action, the second headline line, and the entire rate band. Charcoal carries the project gallery, project title bands, and footer. The contact surface uses white by default and charcoal in dark mode.
+- **Dark (default):** Canvas `#06080D`, card/pill surface `#0D121C`, elevated surface `#141B29`, primary ink `#F3F5F8`, muted ink `#98A3B5`, primary emerald `#10B981` (paired with `#04150E` text), emerald label ink `#34D399`, ice secondary `#38BDF8`.
+- **Light toggle:** Canvas `#F3F5F8`, surface `#FFFFFF`, elevated `#E6EBF2`, primary ink `#0B111D`, muted `#465368`, accessible emerald `#047857` (paired with `#FFFFFF` text), accessible ice `#0369A1`.
 
 ## Typography
 
-Barlow Condensed sets the poster headline, section titles, and prices. Atkinson Hyperlegible Next supports service copy, navigation controls, and form fields. The compact display face gives long monthly amounts room for their cadence labels.
+- `Sora` handles display headlines (`clamp(2.65rem, 5.6vw, 4.9rem)`) and chapter headings.
+- `Manrope` carries readable body copy, form labels, and navigation controls.
+- `JetBrains Mono` sets index tags (`01 // PROJECT`), technology pills, language/theme HUD triggers, and metadata labels (`>= 12.5px`).
 
 ## Layout
 
-The opening spans the viewport with type at left and the cable artwork at right. The price band aligns its heading and both linked offers side by side. Published work pairs a wide lead project with a two-column gallery below. Services use rows, with expertise and supporting technologies beside each service description. The intake uses two columns on wide screens.
-
-At 720px and below, the artwork sits between the headline and supporting copy. Rates, projects, and intake stack. At 390px and below, the two contact input fields also stack.
-
-## Elevation & Depth
-
-Full-width color fields and thin rules separate sections. The cable artwork supplies the depth in the opening. Rate arrows and project images have restrained hover motion with reduced-motion support.
-
-## Shapes
-
-The rate band, links, images, and fields use square edges. Thin outlines indicate keyboard focus on every color field.
-
-## Components
-
-- **Rates.** Both offers show the amount, cadence, and scope. Each link preselects its engagement in the contact form.
-- **Work.** Each published project provides its original imagery or current screenshot, translated summary, technologies, and available links.
-- **Intake.** Visible field labels and a native selector support the brief. Visitors can also use the direct email link.
-- **Opening artwork.** The site ships `frontend/public/cobalt-cable.webp`, an AI-generated image designed for the cobalt opening. Its generation prompt is recorded in `.impeccable/assets/cobalt-cable.webp.json`. The image is decorative and carries no text or project claims.
+- **Floating Corner HUD:** Persistent top-left identity pill (`JL` monogram SVG + `João Loureiro`) and top-right utility pills (`PT/EN` language switcher, theme icon toggle, `Contact` action).
+- **Hero Terrain:** Full-viewport (`92vh`) 3D perspective mesh canvas responding to pointer tilt, paused cleanly under `prefers-reduced-motion`.
+- **Vertical Signal Spine:** Scroll-linked runner advancing down a left rail beside alternating 2-column project chapters and 3D mouse-tilt screenshot frames, collapsing to a clean single column below `920px`.
+- **Contact & Icon-Only Footer:** Two-column contact intro + direct email + SMTP form (`Name`, `Email`, `Message`), followed by a compact footer with icon-only GitHub, LinkedIn, and Email links (`44px x 44px` hit targets, `aria-label` + `title`).
 
 ## Do's and Don'ts
 
-- Keep both prices easy to scan and their respective scopes explicit.
-- Use the original JL monogram on a high-contrast surface.
-- Give project evidence enough space to read on desktop and mobile.
+- Keep all public copy and project items (including images) driven by `/admin/locales` and `/admin/projects`.
+- Preserve the existing geometric `JL` monogram SVG verbatim.
+- Keep profile links strictly as accessible icons (no visible link text).
+- Avoid colored `box-shadow` glow on dark cards, gradient text, and infinite pulsing dots.

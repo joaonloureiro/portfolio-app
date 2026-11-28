@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "home_title": "João Loureiro | Full Stack Developer",
-    "home_description": "João Loureiro's portfolio: interfaces, services, automation, and infrastructure brought together as complete systems.",
+    "home_title": "João Loureiro | Full-Stack Developer",
+    "home_description": "Full-stack developer building web applications and backend systems with .NET, relational databases, RabbitMQ, Angular, and React.",
     "projects_title": "Projects | João Loureiro",
     "projects_description": "Explore a selection of projects built by João Loureiro, showcasing skills in front-end and back-end development.",
     "about_title": "About Me | João Loureiro",
@@ -68,13 +68,13 @@
   "hero": {
     "greeting": "Hello, I'm",
     "title": "Software Developer & Web Enthusiast",
-    "subtitle": "I build modern, responsive, and user-friendly web applications from front-end to back-end.",
+    "subtitle": "Software developer focused on .NET, relational databases, RabbitMQ, Angular, and React—currently building with AI agents and self-hosting services in my homelab.",
     "role": "Full Stack Developer",
     "rail_intro": "I build complete systems — from interface to infrastructure.",
     "manifesto_label": "Manifesto",
-    "headline": "I build complete systems — from interface to infrastructure.",
+    "headline": "João Loureiro",
     "manifesto": "Clarity in code. Discipline in process. Confidence in the result.",
-    "cta_button": "Explore the work"
+    "cta_button": "View projects"
   },
   "atlas": {
     "interfaces": {
@@ -134,8 +134,8 @@
     "cloud": "Cloud & DevOps"
   },
   "projects": {
-    "title": "Selected explorations",
-    "intro": "Work presented with context, decisions, and lessons — without turning experiments into outcomes they have not earned.",
+    "title": "Projects",
+    "intro": "Applications, APIs, and infrastructure experiments I've built.",
     "entry_label": "Project",
     "tech_used": "Technologies Used",
     "page_link": "See Details",
@@ -147,15 +147,15 @@
     "unavailable": "Projects are temporarily unavailable. Please try again shortly."
   },
   "contact": {
-    "title": "Let's build something whole.",
-    "subtitle": "If you need someone who connects product, code, and operations, tell me what you need to solve.",
-    "direct_label": "Direct contact",
-    "form_name": "Your Name",
-    "form_email": "Your Email",
-    "form_message": "Your Message",
+    "title": "Get in touch",
+    "subtitle": "Have a role, technical challenge, or project in mind? Send a message and I'll get back to you by email.",
+    "direct_label": "Direct email",
+    "form_name": "Name",
+    "form_email": "Email",
+    "form_message": "Message",
     "field_required": "This field is required.",
     "privacy_note": "Your details will only be used to reply to this message.",
-    "submit_button": "Send Message",
+    "submit_button": "Send message",
     "status_sending": "Sending your message...",
     "status_success": "Message sent successfully. Thank you!",
     "status_error_failed": "Failed to send message. Please try again.",

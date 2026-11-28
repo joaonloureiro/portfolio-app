@@ -1,20 +1,27 @@
-import {Barlow, Oswald} from 'next/font/google';
+import {JetBrains_Mono, Manrope, Sora} from 'next/font/google';
 import type {Metadata} from 'next';
 import type {ReactNode} from 'react';
 import {ADMIN_DOCUMENT_LANGUAGE} from './admin-constants';
 
-const bodyFont = Barlow({
+const bodyFont = Manrope({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-body',
-  display: 'swap'
+  adjustFontFallback: false
 });
 
-const displayFont = Oswald({
+const displayFont = Sora({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
+  weight: ['600', '700', '800'],
   variable: '--font-display',
-  display: 'swap'
+  adjustFontFallback: false
+});
+
+const monoFont = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-mono',
+  adjustFontFallback: false
 });
 
 export const metadata: Metadata = {
@@ -27,7 +34,10 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({children}: {children: ReactNode}) {
   return (
-    <html lang={ADMIN_DOCUMENT_LANGUAGE} className={`${bodyFont.variable} ${displayFont.variable} admin-document`}>
+    <html
+      lang={ADMIN_DOCUMENT_LANGUAGE}
+      className={`${bodyFont.variable} ${displayFont.variable} ${monoFont.variable} admin-document`}
+    >
       <body>{children}</body>
     </html>
   );

@@ -13,8 +13,8 @@ public static class LocaleCatalogSeedData
     private const string EnglishJson = """
 {
   "metadata": {
-    "home_title": "João Loureiro | Full Stack Developer",
-    "home_description": "João Loureiro's portfolio: interfaces, services, automation, and infrastructure brought together as complete systems.",
+    "home_title": "João Loureiro | Full-Stack Developer",
+    "home_description": "Full-stack developer building web applications and backend systems with .NET, relational databases, RabbitMQ, Angular, and React.",
     "projects_title": "Projects | João Loureiro",
     "projects_description": "Explore a selection of projects built by João Loureiro, showcasing skills in front-end and back-end development.",
     "about_title": "About Me | João Loureiro",
@@ -81,13 +81,13 @@ public static class LocaleCatalogSeedData
   "hero": {
     "greeting": "Hello, I'm",
     "title": "Software Developer & Web Enthusiast",
-    "subtitle": "I build modern, responsive, and user-friendly web applications from front-end to back-end.",
+    "subtitle": "Software developer focused on .NET, relational databases, RabbitMQ, Angular, and React—currently building with AI agents and self-hosting services in my homelab.",
     "role": "Full Stack Developer",
     "rail_intro": "I build complete systems — from interface to infrastructure.",
     "manifesto_label": "Manifesto",
-    "headline": "I build complete systems — from interface to infrastructure.",
+    "headline": "João Loureiro",
     "manifesto": "Clarity in code. Discipline in process. Confidence in the result.",
-    "cta_button": "Explore the work"
+    "cta_button": "View projects"
   },
   "atlas": {
     "interfaces": {
@@ -147,8 +147,8 @@ public static class LocaleCatalogSeedData
     "cloud": "Cloud & DevOps"
   },
   "projects": {
-    "title": "Selected explorations",
-    "intro": "Work presented with context, decisions, and lessons — without turning experiments into outcomes they have not earned.",
+    "title": "Projects",
+    "intro": "Applications, APIs, and infrastructure experiments I've built.",
     "entry_label": "Project",
     "tech_used": "Technologies Used",
     "page_link": "See Details",
@@ -160,15 +160,15 @@ public static class LocaleCatalogSeedData
     "unavailable": "Projects are temporarily unavailable. Please try again shortly."
   },
   "contact": {
-    "title": "Let's build something whole.",
-    "subtitle": "If you need someone who connects product, code, and operations, tell me what you need to solve.",
-    "direct_label": "Direct contact",
-    "form_name": "Your Name",
-    "form_email": "Your Email",
-    "form_message": "Your Message",
+    "title": "Get in touch",
+    "subtitle": "Have a role, technical challenge, or project in mind? Send a message and I'll get back to you by email.",
+    "direct_label": "Direct email",
+    "form_name": "Name",
+    "form_email": "Email",
+    "form_message": "Message",
     "field_required": "This field is required.",
     "privacy_note": "Your details will only be used to reply to this message.",
-    "submit_button": "Send Message",
+    "submit_button": "Send message",
     "status_sending": "Sending your message...",
     "status_success": "Message sent successfully. Thank you!",
     "status_error_failed": "Failed to send message. Please try again.",
@@ -206,8 +206,8 @@ public static class LocaleCatalogSeedData
     private const string PortugueseJson = """
 {
   "metadata": {
-    "home_title": "João Loureiro | Desenvolvedor Full Stack",
-    "home_description": "Portfólio de João Loureiro: interfaces, serviços, automação e infraestrutura reunidos em sistemas completos.",
+    "home_title": "João Loureiro | Desenvolvedor Full-Stack",
+    "home_description": "Desenvolvedor full-stack focado em aplicações web e back-end com .NET, bancos relacionais, RabbitMQ, Angular e React.",
     "projects_title": "Projetos | João Loureiro",
     "projects_description": "Explore uma seleção de projetos construídos por João Loureiro, demonstrando habilidades em desenvolvimento front-end e back-end.",
     "about_title": "Sobre Mim | João Loureiro",
@@ -274,13 +274,13 @@ public static class LocaleCatalogSeedData
   "hero": {
     "greeting": "Olá, eu sou o",
     "title": "Desenvolvedor de Software & Entusiasta Web",
-    "subtitle": "Eu construo aplicações web modernas, responsivas e fáceis de usar, do front-end ao back-end.",
+    "subtitle": "Desenvolvedor de software com foco em .NET, bancos relacionais, RabbitMQ, Angular e React — hoje explorando agentes de IA e serviços auto-hospedados no meu homelab.",
     "role": "Desenvolvedor Full Stack",
     "rail_intro": "Construo sistemas completos — da interface à infraestrutura.",
     "manifesto_label": "Manifesto",
-    "headline": "Eu construo sistemas completos — da interface à infraestrutura.",
+    "headline": "João Loureiro",
     "manifesto": "Clareza no código. Disciplina nos processos. Confiança no resultado.",
-    "cta_button": "Explorar o trabalho"
+    "cta_button": "Ver projetos"
   },
   "atlas": {
     "interfaces": {
@@ -340,8 +340,8 @@ public static class LocaleCatalogSeedData
     "cloud": "Cloud & DevOps"
   },
   "projects": {
-    "title": "Explorações selecionadas",
-    "intro": "Trabalhos apresentados com contexto, decisões e aprendizados — sem transformar experimentos em resultados que ainda não são.",
+    "title": "Projetos",
+    "intro": "Aplicações, APIs e experimentos de infraestrutura que desenvolvi.",
     "entry_label": "Projeto",
     "tech_used": "Tecnologias Utilizadas",
     "page_link": "Ver Detalhes",
@@ -353,15 +353,15 @@ public static class LocaleCatalogSeedData
     "unavailable": "Os projetos estão temporariamente indisponíveis. Tente novamente em instantes."
   },
   "contact": {
-    "title": "Vamos construir algo inteiro.",
-    "subtitle": "Se você procura alguém que conecte produto, código e operação, conte o que precisa resolver.",
-    "direct_label": "Contato direto",
-    "form_name": "Seu Nome",
-    "form_email": "Seu Email",
-    "form_message": "Sua Mensagem",
+    "title": "Fale comigo",
+    "subtitle": "Tem uma oportunidade, desafio técnico ou projeto em mente? Envie uma mensagem e respondo por e-mail.",
+    "direct_label": "E-mail direto",
+    "form_name": "Nome",
+    "form_email": "E-mail",
+    "form_message": "Mensagem",
     "field_required": "Este campo é obrigatório.",
     "privacy_note": "Seus dados serão usados apenas para responder a esta mensagem.",
-    "submit_button": "Enviar Mensagem",
+    "submit_button": "Enviar mensagem",
     "status_sending": "Enviando sua mensagem...",
     "status_success": "Mensagem enviada com sucesso. Obrigado!",
     "status_error_failed": "Falha ao enviar a mensagem. Por favor, tente novamente.",

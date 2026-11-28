@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "home_title": "João Loureiro | Desenvolvedor Full Stack",
-    "home_description": "Portfólio de João Loureiro: interfaces, serviços, automação e infraestrutura reunidos em sistemas completos.",
+    "home_title": "João Loureiro | Desenvolvedor Full-Stack",
+    "home_description": "Desenvolvedor full-stack focado em aplicações web e back-end com .NET, bancos relacionais, RabbitMQ, Angular e React.",
     "projects_title": "Projetos | João Loureiro",
     "projects_description": "Explore uma seleção de projetos construídos por João Loureiro, demonstrando habilidades em desenvolvimento front-end e back-end.",
     "about_title": "Sobre Mim | João Loureiro",
@@ -68,13 +68,13 @@
   "hero": {
     "greeting": "Olá, eu sou o",
     "title": "Desenvolvedor de Software & Entusiasta Web",
-    "subtitle": "Eu construo aplicações web modernas, responsivas e fáceis de usar, do front-end ao back-end.",
+    "subtitle": "Desenvolvedor de software com foco em .NET, bancos relacionais, RabbitMQ, Angular e React — hoje explorando agentes de IA e serviços auto-hospedados no meu homelab.",
     "role": "Desenvolvedor Full Stack",
     "rail_intro": "Construo sistemas completos — da interface à infraestrutura.",
     "manifesto_label": "Manifesto",
-    "headline": "Eu construo sistemas completos — da interface à infraestrutura.",
+    "headline": "João Loureiro",
     "manifesto": "Clareza no código. Disciplina nos processos. Confiança no resultado.",
-    "cta_button": "Explorar o trabalho"
+    "cta_button": "Ver projetos"
   },
   "atlas": {
     "interfaces": {
@@ -134,8 +134,8 @@
     "cloud": "Cloud & DevOps"
   },
   "projects": {
-    "title": "Explorações selecionadas",
-    "intro": "Trabalhos apresentados com contexto, decisões e aprendizados — sem transformar experimentos em resultados que ainda não são.",
+    "title": "Projetos",
+    "intro": "Aplicações, APIs e experimentos de infraestrutura que desenvolvi.",
     "entry_label": "Projeto",
     "tech_used": "Tecnologias Utilizadas",
     "page_link": "Ver Detalhes",
@@ -147,15 +147,15 @@
     "unavailable": "Os projetos estão temporariamente indisponíveis. Tente novamente em instantes."
   },
   "contact": {
-    "title": "Vamos construir algo inteiro.",
-    "subtitle": "Se você procura alguém que conecte produto, código e operação, conte o que precisa resolver.",
-    "direct_label": "Contato direto",
-    "form_name": "Seu Nome",
-    "form_email": "Seu Email",
-    "form_message": "Sua Mensagem",
+    "title": "Fale comigo",
+    "subtitle": "Tem uma oportunidade, desafio técnico ou projeto em mente? Envie uma mensagem e respondo por e-mail.",
+    "direct_label": "E-mail direto",
+    "form_name": "Nome",
+    "form_email": "E-mail",
+    "form_message": "Mensagem",
     "field_required": "Este campo é obrigatório.",
     "privacy_note": "Seus dados serão usados apenas para responder a esta mensagem.",
-    "submit_button": "Enviar Mensagem",
+    "submit_button": "Enviar mensagem",
     "status_sending": "Enviando sua mensagem...",
     "status_success": "Mensagem enviada com sucesso. Obrigado!",
     "status_error_failed": "Falha ao enviar a mensagem. Por favor, tente novamente.",

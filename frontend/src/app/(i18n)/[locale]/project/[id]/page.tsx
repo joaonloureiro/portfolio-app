@@ -1,8 +1,9 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import {Fragment} from 'react';
-import {ArrowLeftIcon, ArrowUpRightIcon} from '@heroicons/react/24/outline';
+import {ArrowLeftIcon, ArrowTopRightOnSquareIcon, ArrowUpRightIcon} from '@heroicons/react/24/outline';
+import {FaGithub} from 'react-icons/fa';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
+import ProjectImage from '@/components/ProjectImage';
 import {getPublicProject} from '@/lib/public-project-api';
 
 function formatFeature(feature: string) {
@@ -19,7 +20,7 @@ export default async function ProjectPage({params}: Props) {
   const {locale, id} = await params;
   setRequestLocale(locale);
   const t = await getTranslations({locale, namespace: 'projects'});
-  const engagement = await getTranslations({locale, namespace: 'engagement'});
+  const nav = await getTranslations({locale, namespace: 'navigation'});
   const projectId = /^\d+$/.test(id) ? Number(id) : NaN;
   const result = Number.isSafeInteger(projectId)
     ? await getPublicProject(locale, projectId)
@@ -27,16 +28,17 @@ export default async function ProjectPage({params}: Props) {
   const project = result.status === 'success' ? result.data : null;
   const backHref = `/${locale}#projects`;
   const backLink = (
-    <Link href={backHref} className="contract-text-link">
-      <ArrowLeftIcon aria-hidden="true" />{t('back_to_projects')}
+    <Link href={backHref} className="signal-back-link">
+      <ArrowLeftIcon aria-hidden="true" />
+      <span>{t('back_to_projects')}</span>
     </Link>
   );
 
   if (!project) {
     return (
-      <section className="contract-detail">
-        <div className="contract-detail-hero">
-          <div className="contract-wrap">
+      <section className="signal-detail">
+        <div className="signal-detail-hero">
+          <div className="signal-wrap">
             {backLink}
             <h1>{result.status === 'not-found' ? t('not_found') : t('unavailable')}</h1>
           </div>
@@ -46,28 +48,27 @@ export default async function ProjectPage({params}: Props) {
   }
 
   return (
-    <article className="contract-detail">
-      <header className="contract-detail-hero">
-        <div className="contract-wrap">
+    <article className="signal-detail">
+      <header className="signal-detail-hero">
+        <div className="signal-wrap">
           {backLink}
           <h1>{project.title}</h1>
           <p>{project.summary}</p>
         </div>
       </header>
 
-      <div className="contract-wrap">
-        <div className="contract-detail-image">
-          <Image
+      <div className="signal-wrap">
+        <div className="signal-detail-frame">
+          <ProjectImage
             src={project.imageReference}
             alt={project.title}
-            fill
-            preload
-            sizes="(min-width: 1200px) 1200px, 100vw"
+            priority
+            sizes="(min-width: 1200px) 1180px, 100vw"
           />
         </div>
 
-        <div className="contract-detail-body">
-          <div>
+        <div className="signal-detail-body">
+          <div className="signal-detail-main">
             <section>
               <h2>{t('about_project')}</h2>
               <p>{project.details}</p>
@@ -81,15 +82,45 @@ export default async function ProjectPage({params}: Props) {
               </ul>
             </section>
           </div>
-          <aside>
+
+          <aside className="signal-detail-aside">
             <h2>{t('tech_used')}</h2>
-            <p className="contract-tech">{project.technologies.join(' · ')}</p>
-            <div className="contract-project-links">
-              {project.liveUrl && <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">{t('live_link')}</Link>}
-              {project.repositoryUrl && <Link href={project.repositoryUrl} target="_blank" rel="noopener noreferrer">{t('repo_link')}</Link>}
-            </div>
-            <Link href={`/${locale}#contact`} className="contract-button">
-              {engagement('start')}<ArrowUpRightIcon aria-hidden="true" />
+            <ul className="signal-tags" aria-label={t('tech_used')}>
+              {project.technologies.map((tech) => (
+                <li className="signal-tag" key={tech}>{tech}</li>
+              ))}
+            </ul>
+            {(project.liveUrl || project.repositoryUrl) && (
+              <div className="signal-detail-links">
+                {project.liveUrl && (
+                  <Link
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="signal-icon-btn"
+                    aria-label={`${t('live_link')} — ${project.title}`}
+                    title={t('live_link')}
+                  >
+                    <ArrowTopRightOnSquareIcon aria-hidden="true" />
+                  </Link>
+                )}
+                {project.repositoryUrl && (
+                  <Link
+                    href={project.repositoryUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="signal-icon-btn"
+                    aria-label={`${t('repo_link')} — ${project.title}`}
+                    title={t('repo_link')}
+                  >
+                    <FaGithub aria-hidden="true" />
+                  </Link>
+                )}
+              </div>
+            )}
+            <Link href={`/${locale}#contact`} className="signal-btn-primary">
+              <span>{nav('contact')}</span>
+              <ArrowUpRightIcon aria-hidden="true" />
             </Link>
           </aside>
         </div>

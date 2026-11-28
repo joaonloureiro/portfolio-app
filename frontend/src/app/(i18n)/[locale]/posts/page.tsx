@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import {ArrowLeftIcon} from '@heroicons/react/24/outline';
 import type {Locale} from 'next-intl';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import PostCoverImage from '@/components/PostCoverImage';
@@ -29,11 +30,16 @@ export default async function PostsPage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
   const t = await getTranslations({locale, namespace: 'posts'});
+  const nav = await getTranslations({locale, namespace: 'navigation'});
   const result = await getPublicPostList(locale as 'en' | 'pt');
 
   return (
     <div className="post-page">
       <header className="post-page-heading">
+        <Link href={`/${locale}`} className="signal-back-link">
+          <ArrowLeftIcon aria-hidden="true" />
+          <span>{nav('home')}</span>
+        </Link>
         <h1>{t('title')}</h1>
         <p>{t('description')}</p>
       </header>
